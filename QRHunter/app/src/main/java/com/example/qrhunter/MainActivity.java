@@ -14,6 +14,7 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +28,14 @@ public class MainActivity extends AppCompatActivity {
         collectionReference
                 .document(testUser.getUsername())
                 .set(data);
+        Button btn=(Button)findViewById(R.id.btnQRScanner);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this,ScanQRCodeActivity.class));
+            }
+        });
     }
 
 
