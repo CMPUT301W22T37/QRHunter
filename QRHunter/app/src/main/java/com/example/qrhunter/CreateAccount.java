@@ -3,6 +3,7 @@ package com.example.qrhunter;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -16,12 +17,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.HashMap;
 
 public class CreateAccount extends AppCompatActivity {
+    private User user;
     private EditText userName;
     private EditText email;
     private FirebaseFirestore db;
     private String givenUserName;
     private String givenEmail;
-    private String ERROR_MESSAGE = "Must Enter Email and Username Dipshit";
+    private String ERROR_MESSAGE = "Must Enter Email and Username";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,16 @@ public class CreateAccount extends AppCompatActivity {
         //Checking that usernames are actually entered
         if (!(givenUserName.equals("") || givenEmail.equals(""))){
             addToDatabase(givenUserName);
+            if (user != null){
+                Intent intent =new Intent(this, MainMenu.class);
+                intent.putExtra("User", user);
+                startActivity(intent);
+            }
+            else {
+                int duration = Toast.LENGTH_LONG;
+                Toast toast = Toast.makeText(this,"User Was Null",duration);
+                toast.show();
+            }
         }
         else {
             int duration = Toast.LENGTH_LONG;
@@ -49,9 +61,6 @@ public class CreateAccount extends AppCompatActivity {
 
     public void addToDatabase(String givenUserName){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        // Create a reference to the cities collection
-        CollectionReference colRef = db.collection("Users");
 
         db.collection("Users")
                 .whereEqualTo("User Name", givenUserName)
@@ -83,7 +92,7 @@ public class CreateAccount extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference colRef = db.collection("Users");
 
-        User user = new User(givenUserName, givenEmail);
+        user = new User(givenUserName, givenEmail);
         HashMap<String, Object> data = new HashMap<>();
         data.put("User Name", user.getUsername());
         data.put("Email", user.getEmail());
