@@ -3,6 +3,7 @@ package com.example.qrhunter;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -21,7 +22,7 @@ public class CreateAccount extends AppCompatActivity {
     private FirebaseFirestore db;
     private String givenUserName;
     private String givenEmail;
-    private String ERROR_MESSAGE = "Must Enter Email and Username Dipshit";
+    private String ERROR_MESSAGE = "Must Enter Email and Username";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class CreateAccount extends AppCompatActivity {
         //Checking that usernames are actually entered
         if (!(givenUserName.equals("") || givenEmail.equals(""))){
             addToDatabase(givenUserName);
+//
         }
         else {
             int duration = Toast.LENGTH_LONG;
@@ -49,9 +51,6 @@ public class CreateAccount extends AppCompatActivity {
 
     public void addToDatabase(String givenUserName){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        // Create a reference to the cities collection
-        CollectionReference colRef = db.collection("Users");
 
         db.collection("Users")
                 .whereEqualTo("User Name", givenUserName)
@@ -91,5 +90,8 @@ public class CreateAccount extends AppCompatActivity {
         colRef
                 .document(user.getUsername())
                 .set(data);
+        Intent intent =new Intent(this, MainMenu.class);
+        intent.putExtra("User",user);
+        startActivity(intent);
     }
 }
