@@ -3,9 +3,10 @@ package com.example.qrhunter;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class DataManagement {
+public class DataManagement  {
     private User user;
     private FirebaseFirestore db;
     private CollectionReference userRef;

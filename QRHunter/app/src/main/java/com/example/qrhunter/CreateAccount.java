@@ -17,7 +17,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.HashMap;
 
 public class CreateAccount extends AppCompatActivity {
-    private User user;
     private EditText userName;
     private EditText email;
     private FirebaseFirestore db;
@@ -41,16 +40,7 @@ public class CreateAccount extends AppCompatActivity {
         //Checking that usernames are actually entered
         if (!(givenUserName.equals("") || givenEmail.equals(""))){
             addToDatabase(givenUserName);
-            if (user != null){
-                Intent intent =new Intent(this, MainMenu.class);
-                intent.putExtra("User", user);
-                startActivity(intent);
-            }
-            else {
-                int duration = Toast.LENGTH_LONG;
-                Toast toast = Toast.makeText(this,"User Was Null",duration);
-                toast.show();
-            }
+//
         }
         else {
             int duration = Toast.LENGTH_LONG;
@@ -92,7 +82,7 @@ public class CreateAccount extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference colRef = db.collection("Users");
 
-        user = new User(givenUserName, givenEmail);
+        User user = new User(givenUserName, givenEmail);
         HashMap<String, Object> data = new HashMap<>();
         data.put("User Name", user.getUsername());
         data.put("Email", user.getEmail());
@@ -100,5 +90,8 @@ public class CreateAccount extends AppCompatActivity {
         colRef
                 .document(user.getUsername())
                 .set(data);
+        Intent intent =new Intent(this, MainMenu.class);
+        intent.putExtra("User",user);
+        startActivity(intent);
     }
 }

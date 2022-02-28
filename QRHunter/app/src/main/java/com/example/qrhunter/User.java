@@ -4,18 +4,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class User implements Serializable {
+public class User implements Serializable{
     private String name;
     private String username;
     private String email;
     private ArrayList<QRCode> allCodes;
-    private DataManagement dataManager;
+//    private DataManagement dataManager;
 
     public User(String username, String email){
         this.username = username;
         this.email = email;
         this.allCodes = new ArrayList<>();
-        this.dataManager = new DataManagement(this);
+//        this.dataManager = new DataManagement(this);
 
         //Testing Purposes only
         addCode(new QRCode("ABCDEFG"));
@@ -37,12 +37,12 @@ public class User implements Serializable {
     public void addCode(QRCode code){
         this.allCodes.add(code);
         Collections.sort(this.allCodes, new QRCodeComparator());
-        dataManager.updateData();
+//        dataManager.updateData();
     }
 
     public void removeQRCode(QRCode code){
         this.allCodes.remove(code);
-        dataManager.updateData();
+//        dataManager.updateData();
     }
 
     public ArrayList<String> getCodesStrings(){
