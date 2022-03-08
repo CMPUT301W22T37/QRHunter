@@ -15,7 +15,6 @@ public class User implements Serializable{
         this.username = username;
         this.email = email;
         this.allCodes = new ArrayList<>();
-//        this.dataManager = new DataManagement(this);
 
         //Testing Purposes only
         addCode(new QRCode("ABCDEFG"));
@@ -37,12 +36,11 @@ public class User implements Serializable{
     public void addCode(QRCode code){
         this.allCodes.add(code);
         Collections.sort(this.allCodes, new QRCodeComparator());
-//        dataManager.updateData();
+
     }
 
     public void removeQRCode(QRCode code){
         this.allCodes.remove(code);
-//        dataManager.updateData();
     }
 
     public ArrayList<String> getCodesStrings(){
@@ -51,6 +49,17 @@ public class User implements Serializable{
             codeStrings.add(this.allCodes.get(i).getCode());
         }
         return codeStrings;
+    }
+    public QRCode getCode(int index){
+        return this.allCodes.get(index);
+    }
+
+    public int getTotalScore(){
+        int score = 0;
+        for(int i=0;i<this.allCodes.size();i++){
+            score += this.allCodes.get(i).getScore();
+        }
+        return score;
     }
 
 }

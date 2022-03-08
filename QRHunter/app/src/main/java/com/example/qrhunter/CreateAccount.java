@@ -50,8 +50,10 @@ public class CreateAccount extends AppCompatActivity {
     }
 
     public void addToDatabase(String givenUserName){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final User user = new User(givenUserName, givenEmail);
+        final DataManagement manager = new DataManagement(user,db);
         db.collection("Users")
                 .whereEqualTo("User Name", givenUserName)
                 .get()
@@ -67,31 +69,17 @@ public class CreateAccount extends AppCompatActivity {
                                 toast.show();
                                 return;//Return if not valid
                             }
-                            createUser();//Call createUser if valid
+
+//                            manager.createUser();//Call createUser if valid
+                            manager.updateData();
+                            Intent intent =new Intent(context, MainMenu.class);
+                            intent.putExtra("User",user);
+                            startActivity(intent);
 
                         }
                     }
                 });
     }
 
-    public void createUser(){
-        int duration = Toast.LENGTH_LONG;
-        Toast toast = Toast.makeText(this,"User Name is Valid",duration);
-        toast.show();
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference colRef = db.collection("Users");
-
-        User user = new User(givenUserName, givenEmail);
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("User Name", user.getUsername());
-        data.put("Email", user.getEmail());
-        data.put("QRCodes", user.getAllCodes());
-        colRef
-                .document(user.getUsername())
-                .set(data);
-        Intent intent =new Intent(this, MainMenu.class);
-        intent.putExtra("User",user);
-        startActivity(intent);
-    }
 }
