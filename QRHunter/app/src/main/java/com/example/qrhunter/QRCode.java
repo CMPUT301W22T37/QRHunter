@@ -1,9 +1,9 @@
 package com.example.qrhunter;
 
-import org.apache.commons.codec.digest.DigestUtils;
-
 import java.io.Serializable;
-import java.util.Random;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class QRCode implements Serializable{
     private String code;
@@ -18,19 +18,43 @@ public class QRCode implements Serializable{
         return score;
     }
 
+    public String getHash(String code){
+        code = code + "\n";
+        //For getting a SHA-256 hash of QRCode contents
+        //Website:https://www.baeldung.com/sha-256-hashing-java
+        //User:https://www.baeldung.com/author/baeldung/
+        MessageDigest digest = null;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        byte[] encodedHash = digest.digest(code.getBytes(StandardCharsets.UTF_8));
+
+        StringBuilder hexString = new StringBuilder(2 * encodedHash.length);
+        for (int i = 0; i < encodedHash.length; i++) {
+            String hex = Integer.toHexString(0xff & encodedHash[i]);
+            if(hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();//Returns this
+    }
+
     public int calculateScore(String str){
-        String sha256hex = DigestUtils.sha256Hex(str);
+        String sha256hex = getHash(str);
+
         int score=0;
-        for (int i = 0; i < str.length(); i++) {
+        for (int i = 0; i < sha256hex.length(); i++) {
             // Counting occurrences of s[i]
             int count = 1;
-            while (i + 1 < str.length() && str.charAt(i) == str.charAt(i + 1)) {
+            while (i + 1 < sha256hex.length() && sha256hex.charAt(i) == sha256hex.charAt(i + 1)) {
                 i++;
                 count++;
             }
             if(count>1) {
                 int a=Character.getNumericValue(sha256hex.charAt(i));
-//                System.out.println(Integer.parseInt(String.valueOf(sha256hex.charAt(i)),16)+ "=" + count + " ");
                 score=score+power(a,count-1);
             }
         }

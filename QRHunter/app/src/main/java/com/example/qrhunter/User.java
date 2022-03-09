@@ -18,7 +18,7 @@ public class User implements Serializable{
 //        this.dataManager = new DataManagement(this);
 
         //Testing Purposes only
-        addCode(new QRCode("ABCDEFG"));
+        addCode(new QRCode("BFG5DGW54"));
         addCode(new QRCode("DCFJFJFJ"));
     }
 
