@@ -61,25 +61,31 @@ public class MainMenu extends AppCompatActivity {
         codesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> myAdapter, View myView, int i, long l) {
                 String selected =(String) (codesListView.getItemAtPosition(i));
-                try{
-                    QRCode qrCode = user.getCode(user.getCodesStrings().indexOf(selected));
-
-//                dataManager.removeCode(qrCode);
-                    dataManager.removeCode(qrCode, new CallBack() {
-                        @Override
-                        public void onCall(User user) {
-                            Log.d("TAG", "length of qr = "+Integer.toString(user.getCodesStrings().size()));
-                            int duration = Toast.LENGTH_LONG;
-                            Context context = getApplicationContext();
-                            Toast toast = Toast.makeText(context,"length of qr = "+Integer.toString(user.getCodesStrings().size()),duration);
-                            toast.show();
-                            setUser(user);
-                        }
-                    });
-                    codesAdapter.notifyDataSetChanged();
-                } catch(Exception e){
-                    Log.d("TAG", "QR DNE");
-                }
+                QRCode qrCode = user.getCode(user.getCodesStrings().indexOf(selected));
+                Context context = getApplicationContext();
+                Intent intent =new Intent(context, QrCodePage.class);
+                intent.putExtra("QRCode",qrCode);
+                intent.putExtra("User",user);
+                startActivity(intent);
+//                try{
+//                    QRCode qrCode = user.getCode(user.getCodesStrings().indexOf(selected));
+//
+////                dataManager.removeCode(qrCode);
+//                    dataManager.removeCode(qrCode, new CallBack() {
+//                        @Override
+//                        public void onCall(User user) {
+//                            Log.d("TAG", "length of qr = "+Integer.toString(user.getCodesStrings().size()));
+//                            int duration = Toast.LENGTH_LONG;
+//                            Context context = getApplicationContext();
+//                            Toast toast = Toast.makeText(context,"length of qr = "+Integer.toString(user.getCodesStrings().size()),duration);
+//                            toast.show();
+//                            setUser(user);
+//                        }
+//                    });
+//                    codesAdapter.notifyDataSetChanged();
+//                } catch(Exception e){
+//                    Log.d("TAG", "QR DNE");
+//                }
             }
         });
 
@@ -97,6 +103,7 @@ public class MainMenu extends AppCompatActivity {
         codesAdapter.notifyDataSetChanged();
         Log.d("TAG", "New user length"+Integer.toString(user.getCodesStrings().size()));
     }
+
     public void onScan(View view){
         startActivity(new Intent(this,ScanQRCodeActivity.class));
     }

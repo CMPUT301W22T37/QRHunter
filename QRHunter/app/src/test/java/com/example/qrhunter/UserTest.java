@@ -30,23 +30,27 @@ public class UserTest {
 //        User user = new User("testingMock","mock@gmail.com");
 //        DataManagement manager = new DataManagement(user,mockFirestore);
 
-//        FirebaseFirestore db;
-//        db = FirebaseFirestore.getInstance();
-//        FirebaseFirestore db = getDatabase();
-//        User testUser = new User("test","test123@gmail.com");
-//        HashMap<String, String> data = new HashMap<>();
-//        data.put(testUser.getUsername(), testUser.getEmail());
-//        final CollectionReference colRef = db.collection("Users");
-//        colRef
-//                .document(testUser.getUsername())
-//                .set(data);
         assertTrue(true);
 
-//        Query query = colRef.whereEqualTo("Users", true);
-//        colRef.whereArrayContains("test", null);
-//        DocumentReference docIdRef = db.collection("Users").document("test");
-//        assertEquals(null,docIdRef);
 
+    }
+    @Test
+    void testAddQR(){
+        User user = new User("testUser","test123#gmail.com");
+        assertTrue(user.addCode(new QRCode("BFG5DGW54")));
+        assertEquals(3,user.getAllCodes().size()); //currently we init user with 2 qr codes already for testing, hence why now three total
+        assertFalse(user.addCode(new QRCode("BFG5DGW54")));
+
+
+    }
+    @Test
+    void testRemoveQR(){
+        User user = new User("testUser","test123#gmail.com");
+        QRCode qr = new QRCode("BFG5DGW54");
+        assertTrue(user.addCode(qr));
+        assertEquals(3,user.getAllCodes().size()); //currently we init user with 2 qr codes already for testing, hence why now three total
+        assertTrue(user.removeQRCode(qr));
+        assertEquals(2,user.getAllCodes().size()); //currently we init user with 2 qr codes already for testing, hence why now two total
     }
 
 }

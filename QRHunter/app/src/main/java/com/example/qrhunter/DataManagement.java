@@ -2,6 +2,7 @@ package com.example.qrhunter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,11 +41,14 @@ public class DataManagement  {
 //                        Context context = getApplicationContext();
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("TAG", "Delete QR Code"+ qrCodeFinal.getCode());
                                 user.removeQRCode(qrCodeFinal);
+                                Log.d("TAG", "In data management: length is "+ user.getAllCodes().size());
                                 updateData();
                                 myCallFinal.onCall(user);
                                 return;
                             }
+                            Log.d("TAG", "Failed: QR not present");
                             myCallFinal.onCall(null); //if DNE
 
                         }
