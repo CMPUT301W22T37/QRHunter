@@ -19,7 +19,7 @@ public class User implements Serializable{
         this.allCodes = new ArrayList<>();
 
         //Testing Purposes only
-        addCode(new QRCode("ABCDEFG"));
+        addCode(new QRCode("BFG5DGW54"));
         addCode(new QRCode("DCFJFJFJ"));
     }
 
