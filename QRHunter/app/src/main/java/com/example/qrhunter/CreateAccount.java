@@ -65,7 +65,7 @@ public class CreateAccount extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 //Toast that User name is not valid
                                 int duration = Toast.LENGTH_LONG;
-                                Toast toast = Toast.makeText(context,"User Name is Not Valid",duration);
+                                Toast toast = Toast.makeText(context,"Username is not valid, please select another",duration);
                                 toast.show();
                                 return;//Return if not valid
                             }

@@ -36,6 +36,7 @@ dependencies {
     implementation 'com.github.yuriy-budiyev:code-scanner:2.1.1'
     implementation 'com.google.android.material:material:1.5.0'
     androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation 'com.android.support:multidex:1.0.3'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.0.1'
@@ -43,8 +44,7 @@ dependencies {
 
     compile 'commons-codec:commons-codec:1.11'
 
-    testImplementation 'org.mockito:mockito-core:1.+'
-    // required if you want to use Mockito for Android tests
-    androidTestImplementation 'org.mockito:mockito-android:1.+'
+    androidTestImplementation 'com.jayway.android.robotium:robotium-solo:5.3.1'
+
 
 }
