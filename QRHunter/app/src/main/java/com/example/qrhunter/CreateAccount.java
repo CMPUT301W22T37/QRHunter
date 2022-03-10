@@ -16,6 +16,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import java.util.HashMap;
 
+
+
 public class CreateAccount extends AppCompatActivity {
     private EditText userName;
     private EditText email;
