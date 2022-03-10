@@ -2,24 +2,17 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
         multiDexEnabled true
         applicationId "com.example.qrhunter"
         minSdkVersion 19
-        targetSdkVersion 32
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
-    testOptions{
-        unitTests.all{
-            useJUnitPlatform()
-        }
-    }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -34,17 +27,10 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.google.firebase:firebase-firestore:22.1.2'
     implementation 'com.github.yuriy-budiyev:code-scanner:2.1.1'
-    implementation 'com.google.android.material:material:1.5.0'
+    testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation 'com.android.support:multidex:1.0.3'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.0.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.0.1'
-
-    compile 'commons-codec:commons-codec:1.11'
-
-    testImplementation 'org.mockito:mockito-core:1.+'
-    // required if you want to use Mockito for Android tests
-    androidTestImplementation 'org.mockito:mockito-android:1.+'
-
 }
