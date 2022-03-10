@@ -104,7 +104,11 @@ public class MainMenu extends AppCompatActivity {
         Log.d("TAG", "New user length"+Integer.toString(user.getCodesStrings().size()));
     }
 
+
+
     public void onScan(View view){
-        startActivity(new Intent(this,ScanQRCodeActivity.class));
+        Intent intent = new Intent(this, ScanQRCodeActivity.class);
+        intent.putExtra("User", user);
+        startActivity(intent);
     }
 }
