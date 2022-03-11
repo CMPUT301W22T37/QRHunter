@@ -8,6 +8,7 @@ import java.security.NoSuchAlgorithmException;
 public class QRCode implements Serializable{
     private String code;
     private int score;
+    private int IDBadge; //Not implemented yet
 
     public QRCode(String code){
         this.code = code;
