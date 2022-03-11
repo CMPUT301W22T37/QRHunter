@@ -1,22 +1,14 @@
 package com.example.qrhunter;
 
-import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import java.io.Serializable;
 import java.util.HashMap;
-import java.util.concurrent.CountDownLatch;
 
 /**
  * This class is the interface between the database and the app
@@ -116,6 +108,7 @@ public class DataManagement  {
         data.put("User Name", user.getUsername());
         data.put("Email", user.getEmail());
         data.put("QRCodes", user.getAllCodes());
+        data.put("ID's" ,user.getIDs());
         userRef
                 .document(user.getUsername())
                 .set(data);

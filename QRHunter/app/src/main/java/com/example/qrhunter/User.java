@@ -1,20 +1,19 @@
 package com.example.qrhunter;
 
-import android.util.Log;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 /**
  * This class represents a user
  */
 public class User implements Serializable{
-    private String name;
     private String username;
     private String email;
     private ArrayList<QRCode> allCodes;
-//    private DataManagement dataManager;
+    private ArrayList<String> IDs;
+    private String test;
 
     /**
      * Constructor for the user class
@@ -27,6 +26,8 @@ public class User implements Serializable{
         this.username = username;
         this.email = email;
         this.allCodes = new ArrayList<>();
+        this.IDs = new ArrayList<>();
+        addID(ID);
 
         //Testing Purposes only
         addCode(new QRCode("BFG5DGW54"));
@@ -38,6 +39,25 @@ public class User implements Serializable{
      * @return
      *      returns the user's email
      */
+    public User(HashMap<String, Object> data){
+        this.email = (String)data.get("Email");
+        this.username = (String)data.get("User Name");
+        this.IDs = (ArrayList<String>)data.get("IDs");
+        this.allCodes = hashToQRCode((ArrayList<HashMap>)data.get("QRCodes"));
+    }
+
+    private ArrayList<QRCode> hashToQRCode(ArrayList<HashMap> maps){
+        ArrayList<QRCode> codes = new ArrayList<>();
+        for (HashMap code: maps) {
+            codes.add(new QRCode((String)code.get("code")));
+        }
+        return codes;
+    }
+
+    public void addID(String ID){
+        this.IDs.add(ID);
+    }
+
     public String getEmail() {
         return email;
     }
@@ -60,6 +80,10 @@ public class User implements Serializable{
         return allCodes;
     }
 
+    public ArrayList<String> getIDs(){
+        return this.IDs;
+    }
+  
     /**
      * adds a QR code to the users profile
      * @param
@@ -68,7 +92,6 @@ public class User implements Serializable{
      *      whether or not the operation was successful
      */
     public boolean addCode(QRCode code){
-
         boolean success = true;
         for(int i=0;i<this.allCodes.size();i++){
             if(allCodes.get(i).getCode().equals(code.getCode())){
@@ -81,8 +104,6 @@ public class User implements Serializable{
             Collections.sort(this.allCodes, new QRCodeComparator());
         }
         return success;
-
-
     }
 
     /**
@@ -101,7 +122,6 @@ public class User implements Serializable{
                 break;
             }
         }
-
         return success;
     }
 
