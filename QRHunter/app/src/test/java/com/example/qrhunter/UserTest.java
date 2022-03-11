@@ -30,12 +30,12 @@ public class UserTest {
     }
     @Test
     void testGetTotalScore(){
-        User user = new User("testUser","test123#gmail.com"); //initializes qr code with two qr codes of value 111 and 134
+        User user = new User("testUser","test123#gmail.com", "Fake ID"); //initializes qr code with two qr codes of value 111 and 134
         assertEquals(245,user.getTotalScore());
     }
     @Test
     void testNumCodes(){
-        User user = new User("testUser","test123#gmail.com");
+        User user = new User("testUser","test123#gmail.com", "Fake ID");
         assertEquals(user.getNumCodes(),user.getAllCodes().size());
     }
 

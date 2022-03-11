@@ -22,7 +22,7 @@ public class User implements Serializable{
      * @param email
      *      the email for the user
      */
-    public User(String username, String email){
+    public User(String username, String email, String ID){
         this.username = username;
         this.email = email;
         this.allCodes = new ArrayList<>();
