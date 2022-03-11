@@ -21,6 +21,8 @@ public class User implements Serializable{
      *      the username for the user
      * @param email
      *      the email for the user
+     * @param ID
+     *      the ID of the device signed in
      */
     public User(String username, String email, String ID){
         this.username = username;
@@ -169,6 +171,10 @@ public class User implements Serializable{
      */
     public int getNumCodes(){
         return this.allCodes.size();
+    }
+
+    public void updateCode(int i,QRCode qrCode){
+        this.allCodes.set(i,qrCode);
     }
 
 }

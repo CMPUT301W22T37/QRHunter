@@ -48,8 +48,9 @@ public class ScanQRCodeActivity extends AppCompatActivity {
 
                                     Context context = getApplicationContext();
 
-                                    Intent intent =new Intent(context, MainMenu.class);
+                                    Intent intent =new Intent(context, ScanConfirmationPage.class);
                                     intent.putExtra("User",user);
+                                    intent.putExtra("QRCode",qrCode);
                                     startActivity(intent);
                                 }
                             });

@@ -1,5 +1,7 @@
 package com.example.qrhunter;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -75,4 +77,5 @@ public class QRCode implements Serializable{
         //returns power
         return power;
     }
+
 }
