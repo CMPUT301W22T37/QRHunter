@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+/**
+ * This class represents a user
+ */
 public class User implements Serializable{
     private String username;
     private String email;
@@ -12,7 +15,14 @@ public class User implements Serializable{
     private ArrayList<String> IDs;
     private String test;
 
-    public User(String username, String email, String ID){
+    /**
+     * Constructor for the user class
+     * @param username
+     *      the username for the user
+     * @param email
+     *      the email for the user
+     */
+    public User(String username, String email){
         this.username = username;
         this.email = email;
         this.allCodes = new ArrayList<>();
@@ -24,6 +34,11 @@ public class User implements Serializable{
         addCode(new QRCode("DCFJFJFJ"));
     }
 
+    /**
+     * Getter for the user email
+     * @return
+     *      returns the user's email
+     */
     public User(HashMap<String, Object> data){
         this.email = (String)data.get("Email");
         this.username = (String)data.get("User Name");
@@ -47,10 +62,20 @@ public class User implements Serializable{
         return email;
     }
 
+    /**
+     * Getter for the username
+     * @return
+     *      the user's username
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Gets the list of QR codes the user has scanned
+     * @return
+     *      an arraylist containing the codes
+     */
     public ArrayList<QRCode> getAllCodes() {
         return allCodes;
     }
@@ -58,12 +83,19 @@ public class User implements Serializable{
     public ArrayList<String> getIDs(){
         return this.IDs;
     }
-
+  
+    /**
+     * adds a QR code to the users profile
+     * @param
+     *      code to be added
+     * @return
+     *      whether or not the operation was successful
+     */
     public boolean addCode(QRCode code){
         boolean success = true;
         for(int i=0;i<this.allCodes.size();i++){
             if(allCodes.get(i).getCode().equals(code.getCode())){
-                success = false;
+                success = false; //already exists, do not add it again
                 break;
             }
         }
@@ -74,11 +106,18 @@ public class User implements Serializable{
         return success;
     }
 
+    /**
+     * removes a QR code from the user's profile
+     * @param code
+     *      the code to be removed
+     * @return
+     *      whether or not the code was successfully removed
+     */
     public boolean removeQRCode(QRCode code){
         boolean success = false;
         for(int i=0;i<this.allCodes.size();i++){
             if(allCodes.get(i).getCode().equals(code.getCode())){
-                this.allCodes.remove(i);
+                this.allCodes.remove(i); //found the code so it can be removed
                 success = true;
                 break;
             }
@@ -86,6 +125,11 @@ public class User implements Serializable{
         return success;
     }
 
+    /**
+     * obtains a string representation of the list of codes
+     * @return
+     *      an array of strings with the QR code identifiers
+     */
     public ArrayList<String> getCodesStrings(){
         ArrayList<String> codeStrings = new ArrayList<>();
         for (int i = 0; i < this.allCodes.size(); i++) {
@@ -93,16 +137,38 @@ public class User implements Serializable{
         }
         return codeStrings;
     }
+
+    /**
+     * get a code from the user given the index
+     * @param index
+     *      the position of code to grab
+     * @return
+     *      the QR code in that position
+     */
     public QRCode getCode(int index){
-        return this.allCodes.get(index);
+        return this.allCodes.get(index); //only used internally in positions that are known to exist
     }
 
+    /**
+     * gets the total score of all codes
+     * @return
+     *      the total score
+     */
     public int getTotalScore(){
         int score = 0;
         for(int i=0;i<this.allCodes.size();i++){
             score += this.allCodes.get(i).getScore();
         }
         return score;
+    }
+
+    /**
+     * returns the total number of QR codes scanned
+     * @return
+     *      the number of codes scanned by the user
+     */
+    public int getNumCodes(){
+        return this.allCodes.size();
     }
 
 }

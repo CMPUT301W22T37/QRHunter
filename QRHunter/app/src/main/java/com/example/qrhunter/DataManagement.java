@@ -10,16 +10,35 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import java.util.HashMap;
 
-public class DataManagement{
+/**
+ * This class is the interface between the database and the app
+ */
+public class DataManagement  {
     private User user;
     private FirebaseFirestore db;
     private CollectionReference userRef;
 
+
+    /**
+     * The constructor for the class
+     * @param user
+     *      the current user of the app
+     * @param fireStore
+     *      the Firestore database to reference
+     */
     public DataManagement(User user, FirebaseFirestore fireStore){
         this.user = user;
         this.db = fireStore;
         this.userRef = db.collection("Users");
     }
+
+    /**
+     * This removes a qr code from the database
+     * @param qrCode
+     *      the qrCode to be removed
+     * @param myCall
+     *      a reference to an interface that will allow the calling function to update the user
+     */
     public void removeCode(QRCode qrCode, CallBack myCall){
         final QRCode qrCodeFinal = qrCode;
         final CallBack myCallFinal = myCall;
@@ -47,6 +66,14 @@ public class DataManagement{
                     }
                 });
     }
+
+    /**
+     * Add a qr code to the database
+     * @param qrCode
+     *      the code to be added
+     * @param myCall
+     *      a reference to an interface that will allow the calling function to update the user
+     */
     public void addCode(QRCode qrCode, CallBack myCall){
         final QRCode qrCodeFinal = qrCode;
         final CallBack myCallFinal = myCall;
@@ -73,7 +100,9 @@ public class DataManagement{
                 });
     }
 
-
+    /**
+     * updates the user on the database
+     */
     public void updateData(){
         HashMap<String, Object> data = new HashMap<>();
         data.put("User Name", user.getUsername());

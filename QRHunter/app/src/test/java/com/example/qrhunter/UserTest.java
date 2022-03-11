@@ -1,37 +1,20 @@
 package com.example.qrhunter;
 import org.junit.jupiter.api.Test;
+
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
 public class UserTest {
 
-    @Test
-    void testAddUser(){
-//        FirebaseFirestore mockFirestore = Mockito.mock(FirebaseFirestore.class);
-//        Mockito.when(removeCode(qrCode, new CallBack() {
-//            @Override
-//            public void onCall(User user) {
-//                Log.d("TAG", "length of qr = "+Integer.toString(user.getCodesStrings().size()));
-//                int duration = Toast.LENGTH_LONG;
-//                Context context = getApplicationContext();
-//                Toast toast = Toast.makeText(context,"length of qr = "+Integer.toString(user.getCodesStrings().size()),duration);
-//                toast.show();
-//                setUser(user);
-//            }
-//        })).thenReturn(something);
-//        User user = new User("testingMock","mock@gmail.com");
-//        DataManagement manager = new DataManagement(user,mockFirestore);
 
-        assertTrue(true);
-
-
-    }
     @Test
     void testAddQR(){
         User user = new User("testUser","test123#gmail.com", "FAKE ID");
         assertTrue(user.addCode(new QRCode("BFG5DGW54")));
+
         assertEquals(3,user.getAllCodes().size()); //currently we init user with 2 qr codes already for testing, hence why now three total
-        assertFalse(user.addCode(new QRCode("BFG5DGW54")));
+        assertFalse(user.addCode(new QRCode("ABC5DGW54")));
 
 
     }
@@ -39,10 +22,21 @@ public class UserTest {
     void testRemoveQR(){
         User user = new User("testUser","test123#gmail.com", "FAKE ID");
         QRCode qr = new QRCode("BFG5DGW54");
+
         assertTrue(user.addCode(qr));
         assertEquals(3,user.getAllCodes().size()); //currently we init user with 2 qr codes already for testing, hence why now three total
         assertTrue(user.removeQRCode(qr));
         assertEquals(2,user.getAllCodes().size()); //currently we init user with 2 qr codes already for testing, hence why now two total
+    }
+    @Test
+    void testGetTotalScore(){
+        User user = new User("testUser","test123#gmail.com"); //initializes qr code with two qr codes of value 111 and 134
+        assertEquals(245,user.getTotalScore());
+    }
+    @Test
+    void testNumCodes(){
+        User user = new User("testUser","test123#gmail.com");
+        assertEquals(user.getNumCodes(),user.getAllCodes().size());
     }
 
 }

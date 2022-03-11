@@ -16,6 +16,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import java.util.HashMap;
 
+
+/**
+ * Activity to create an account
+ */
 public class CreateAccount extends AppCompatActivity {
     private EditText userName;
     private EditText email;
@@ -25,6 +29,11 @@ public class CreateAccount extends AppCompatActivity {
     final String ERROR_MESSAGE = "Must Enter Email and Username";
     private String deviceID;
 
+    /**
+     * called when created
+     * @param savedInstanceState
+     *      the instance bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +49,11 @@ public class CreateAccount extends AppCompatActivity {
 
     }
 
-
+    /**
+     * called when create account button is pressed
+     * @param view
+     *      the current view for the page
+     */
     public void createAccount(View view){
         //Getting text from Edit_text fields
         givenUserName = userName.getText().toString();
@@ -57,6 +70,12 @@ public class CreateAccount extends AppCompatActivity {
         }
     }
 
+    /**
+     * interacts with the database manager to add the user to the database
+     * upon success, sign into the account
+     * @param givenUserName
+     *      the desired username
+     */
     public void addToDatabase(String givenUserName){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final User user = new User(givenUserName, givenEmail, deviceID);
@@ -81,7 +100,7 @@ public class CreateAccount extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 //Toast that User name is not valid
                                 int duration = Toast.LENGTH_LONG;
-                                Toast toast = Toast.makeText(context,"User Name is Not Valid",duration);
+                                Toast toast = Toast.makeText(context,"Username is not valid, please select another",duration);
                                 toast.show();
                                 return;//Return if not valid
                             }

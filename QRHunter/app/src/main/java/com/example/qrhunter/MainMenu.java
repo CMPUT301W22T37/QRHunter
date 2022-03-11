@@ -23,6 +23,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 
+/**
+ * The main menu activity. This is page the user sees first when they are signed in
+ */
 public class MainMenu extends AppCompatActivity {
     private ArrayAdapter<String> codesAdapter;
     private ListView codesListView;
@@ -33,7 +36,11 @@ public class MainMenu extends AppCompatActivity {
     private TextView totalScanned;
 
 
-
+    /**
+     * called when creating the activity
+     * @param savedInstanceState
+     *      the instance bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +96,12 @@ public class MainMenu extends AppCompatActivity {
 
 
     }
+
+    /**
+     * sets the user of the main menu
+     * @param user
+     *      the user to be changed to
+     */
     public void setUser(User user){
         if(user==null){
             Log.d("TAG", "User DNE");

@@ -12,12 +12,20 @@ import android.widget.Toast;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * the activity called when a QR code on the user page is selected
+ */
 public class QrCodePage extends AppCompatActivity {
     private QRCode qrCode;
     private User user;
     private DataManagement dataManager;
     private TextView codeName;
 
+    /**
+     * called when activity created
+     * @param savedInstanceState
+     *      the instance bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +40,11 @@ public class QrCodePage extends AppCompatActivity {
         codeName.setText(qrCode.getCode());
     }
 
+    /**
+     * Called when delete button hit, used to delete QR code from user's list
+     * @param view
+     *      the current view of the page
+     */
     public void onDelete(View view){
         try{
 
