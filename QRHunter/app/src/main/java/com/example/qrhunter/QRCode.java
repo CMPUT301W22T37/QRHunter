@@ -13,6 +13,7 @@ public class QRCode implements Serializable{
     private int IDBadge; //Not implemented yet
     private double latitude;
     private double longitude;
+    private String image;
 
     public QRCode(String code){
         this.code = code;
@@ -93,6 +94,13 @@ public class QRCode implements Serializable{
             power = power * base;
         //returns power
         return power;
+    }
+
+    public String getImage(){
+        return this.image;
+    }
+    public void setImage(String image){
+        this.image = image;
     }
 
 

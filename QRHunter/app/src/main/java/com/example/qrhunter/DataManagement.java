@@ -1,6 +1,7 @@
 package com.example.qrhunter;
 
 import android.graphics.Bitmap;
+import android.util.Base64;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -11,7 +12,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-//import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class DataManagement  {
         final CallBack myCallFinal = myCall;
         db.collection("Users")
                 .whereEqualTo("User Name", user.getUsername())
-                .whereArrayContains("QRCodes",qrCode)
+                .whereArrayContains("QRIdentifiers",qrCode.getCode())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -90,7 +90,7 @@ public class DataManagement  {
         final CallBack myCallFinal = myCall;
         db.collection("Users")
                 .whereEqualTo("User Name", user.getUsername())
-                .whereArrayContains("QRCodes",qrCode)
+                .whereArrayContains("QRIdentifiers",qrCode.getCode())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -111,27 +111,6 @@ public class DataManagement  {
                 });
     }
 
-//    public void addImage(QRCode qrCode,Bitmap bitmap, CallBack myCall){
-//        final QRCode qrCodeFinal = qrCode;
-//        final CallBack myCallFinal = myCall;
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-//        byte[] data = baos.toByteArray();
-//
-////        UploadTask uploadTask = mountainsRef.putBytes(data);
-////        uploadTask.addOnFailureListener(new OnFailureListener() {
-////            @Override
-////            public void onFailure(@NonNull Exception exception) {
-////                // Handle unsuccessful uploads
-////            }
-////        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-////            @Override
-////            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-////                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-////                // ...
-////            }
-////        });
-//    }
 
     /**
      * updates the user on the database
@@ -141,6 +120,7 @@ public class DataManagement  {
         data.put("User Name", user.getUsername());
         data.put("Email", user.getEmail());
         data.put("QRCodes", user.getAllCodes());
+        data.put("QRIdentifiers",user.getCodesStrings());
         data.put("ID's" ,user.getIDs());
         userRef
                 .document(user.getUsername())

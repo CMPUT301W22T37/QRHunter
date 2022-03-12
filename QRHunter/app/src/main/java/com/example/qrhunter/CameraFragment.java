@@ -1,37 +1,31 @@
 package com.example.qrhunter;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.DatePicker;
+
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
+
 import androidx.fragment.app.Fragment;
 
+/**
+ * The camera fragment for the QRCode
+ */
 public class CameraFragment extends Fragment {
     private static final int RESULT_OK = -1; //-1 if yes
     private static final int RESULT_CANCELED = 0; //0 if no
-    private Button takeButton;
     private ImageView img;
     private Bitmap bitmap;
     static final int REQUEST_IMAGE_CAPTURE = 1;
-
-
 
     @NonNull
     @Override
@@ -52,15 +46,13 @@ public class CameraFragment extends Fragment {
             if (resultCode == RESULT_OK) {
                 bitmap = (Bitmap) data.getExtras().get("data");
                 img.setImageBitmap(bitmap);
+                ((ScanConfirmationPage)getActivity()).setBitmap(bitmap);
 
             } else if (resultCode == RESULT_CANCELED) {
                 Log.d("CAMERA", "cancelled");
 //                Toast.makeText(CameraFragment.this, "cancelled", Toast.LENGTH_SHORT).show();
             }
         }
-    }
-    public Bitmap getImage(){
-        return bitmap;
     }
 
 }

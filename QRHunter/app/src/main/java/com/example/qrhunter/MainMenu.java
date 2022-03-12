@@ -46,6 +46,7 @@ public class MainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
+        new PermissionChecker(MainMenu.this);
         //Getting user
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("User");
@@ -72,25 +73,7 @@ public class MainMenu extends AppCompatActivity {
                 intent.putExtra("QRCode",qrCode);
                 intent.putExtra("User",user);
                 startActivity(intent);
-//                try{
-//                    QRCode qrCode = user.getCode(user.getCodesStrings().indexOf(selected));
-//
-////                dataManager.removeCode(qrCode);
-//                    dataManager.removeCode(qrCode, new CallBack() {
-//                        @Override
-//                        public void onCall(User user) {
-//                            Log.d("TAG", "length of qr = "+Integer.toString(user.getCodesStrings().size()));
-//                            int duration = Toast.LENGTH_LONG;
-//                            Context context = getApplicationContext();
-//                            Toast toast = Toast.makeText(context,"length of qr = "+Integer.toString(user.getCodesStrings().size()),duration);
-//                            toast.show();
-//                            setUser(user);
-//                        }
-//                    });
-//                    codesAdapter.notifyDataSetChanged();
-//                } catch(Exception e){
-//                    Log.d("TAG", "QR DNE");
-//                }
+
             }
         });
 

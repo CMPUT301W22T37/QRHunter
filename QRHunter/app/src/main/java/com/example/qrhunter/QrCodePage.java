@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +23,9 @@ public class QrCodePage extends AppCompatActivity {
     private User user;
     private DataManagement dataManager;
     private TextView codeName;
+    private ImageView locationImage;
+
+
 
     /**
      * called when activity created
@@ -38,6 +44,16 @@ public class QrCodePage extends AppCompatActivity {
 
         codeName = findViewById(R.id.code_name_text);
         codeName.setText(qrCode.getCode());
+
+        locationImage = findViewById(R.id.image_location);
+
+        Bitmap bitmap = LocationImage.decodeImage(qrCode.getImage());
+        if(bitmap==null){
+            locationImage.setImageResource(android.R.color.transparent);
+        }else{
+            locationImage.setImageBitmap(bitmap);
+        }
+
     }
 
     /**
