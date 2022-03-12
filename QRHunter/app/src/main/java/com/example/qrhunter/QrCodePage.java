@@ -37,7 +37,7 @@ public class QrCodePage extends AppCompatActivity {
         dataManager = new DataManagement(user,db);
 
         codeName = findViewById(R.id.code_name_text);
-        codeName.setText(qrCode.getCode());
+        codeName.setText("QR Code#" + qrCode.getID());
     }
 
     /**
@@ -51,7 +51,7 @@ public class QrCodePage extends AppCompatActivity {
             dataManager.removeCode(qrCode, new CallBack() {
                 @Override
                 public void onCall(User user) {
-                    Log.d("TAG", "Delete QR Code"+ qrCode.getCode());
+                    Log.d("TAG", "Delete QR Code"+ qrCode.getID());
 
                     Context context = getApplicationContext();
                     int duration = Toast.LENGTH_LONG;

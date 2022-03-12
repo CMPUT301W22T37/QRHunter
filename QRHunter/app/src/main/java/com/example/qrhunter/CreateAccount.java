@@ -78,7 +78,7 @@ public class CreateAccount extends AppCompatActivity {
      */
     public void addToDatabase(String givenUserName){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final User user = new User(givenUserName, givenEmail, deviceID);
+        final User user = new User(givenUserName, givenEmail);
         final DataManagement manager = new DataManagement(user,db);
         //Adding the ID into ID's
         HashMap<String, String> ID = new HashMap<>();

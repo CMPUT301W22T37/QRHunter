@@ -52,7 +52,7 @@ public class DataManagement  {
 //                        Context context = getApplicationContext();
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("TAG", "Delete QR Code"+ qrCodeFinal.getCode());
+                                Log.d("TAG", "Delete QR Code"+ qrCodeFinal.getID());
                                 user.removeQRCode(qrCodeFinal);
                                 Log.d("TAG", "In data management: length is "+ user.getAllCodes().size());
                                 updateData();
@@ -108,7 +108,6 @@ public class DataManagement  {
         data.put("User Name", user.getUsername());
         data.put("Email", user.getEmail());
         data.put("QRCodes", user.getAllCodes());
-        data.put("ID's" ,user.getIDs());
         userRef
                 .document(user.getUsername())
                 .set(data);

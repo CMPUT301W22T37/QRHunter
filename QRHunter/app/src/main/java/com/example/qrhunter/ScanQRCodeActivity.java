@@ -37,14 +37,13 @@ public class ScanQRCodeActivity extends AppCompatActivity {
                     public void run() {
                         Toast.makeText(ScanQRCodeActivity.this, result.getText(), Toast.LENGTH_SHORT).show();
 
-                        final QRCode qrCode = new QRCode(result.getText());
+                        final QRCode qrCode = new QRCode(result.getText(),user.getNextID());
 
                         try{
-
                             dataManager.addCode(qrCode, new CallBack() {
                                 @Override
                                 public void onCall(User user) {
-                                    Log.d("TAG", "Delete QR Code"+ qrCode.getCode());
+                                    Log.d("TAG", "Delete QR Code"+ qrCode.getID());
 
                                     Context context = getApplicationContext();
 

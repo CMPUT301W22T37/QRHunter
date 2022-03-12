@@ -12,26 +12,49 @@ public class User implements Serializable{
     private String username;
     private String email;
     private ArrayList<QRCode> allCodes;
-    private ArrayList<String> IDs;
-    private String test;
 
     /**
-     * Constructor for the user class
+     * Main constructor for the user class
      * @param username
      *      the username for the user
      * @param email
      *      the email for the user
      */
-    public User(String username, String email, String ID){
+    public User(String username, String email){//Take out ID
         this.username = username;
         this.email = email;
         this.allCodes = new ArrayList<>();
-        this.IDs = new ArrayList<>();
-        addID(ID);
 
         //Testing Purposes only
-        addCode(new QRCode("BFG5DGW54"));
-        addCode(new QRCode("DCFJFJFJ"));
+        addCode(new QRCode("BFG5DGW54",getNextID()));
+        addCode(new QRCode("DCFJFJFJ", getNextID()));
+    }
+
+    /**
+     * Alternate constructor for User class, used for auto sign-in
+     * @param data
+     *      Hashmap retrieved from firebase containing a user
+     */
+    public User(HashMap<String, Object> data){
+        this.email = (String)data.get("Email");
+        this.username = (String)data.get("User Name");
+        this.allCodes = hashToQRCode((ArrayList<HashMap>)data.get("QRCodes"));
+    }
+
+    /**
+     * Converts a hashmap of QRCode contents into an Arraylist of QRCodes
+     * @param maps
+     *      Hashmap of QRCode contents to be converted
+     * @return
+     *      ArrayList of QRCodes
+     */
+    private ArrayList<QRCode> hashToQRCode(ArrayList<HashMap> maps){
+        ArrayList<QRCode> codes = new ArrayList<>();
+        for (HashMap code: maps) {
+            String ID = (String)code.get("id");
+            codes.add(new QRCode((String)code.get("code"), Integer.parseInt(ID)));
+        }
+        return codes;
     }
 
     /**
@@ -39,25 +62,6 @@ public class User implements Serializable{
      * @return
      *      returns the user's email
      */
-    public User(HashMap<String, Object> data){
-        this.email = (String)data.get("Email");
-        this.username = (String)data.get("User Name");
-        this.IDs = (ArrayList<String>)data.get("IDs");
-        this.allCodes = hashToQRCode((ArrayList<HashMap>)data.get("QRCodes"));
-    }
-
-    private ArrayList<QRCode> hashToQRCode(ArrayList<HashMap> maps){
-        ArrayList<QRCode> codes = new ArrayList<>();
-        for (HashMap code: maps) {
-            codes.add(new QRCode((String)code.get("code")));
-        }
-        return codes;
-    }
-
-    public void addID(String ID){
-        this.IDs.add(ID);
-    }
-
     public String getEmail() {
         return email;
     }
@@ -79,14 +83,10 @@ public class User implements Serializable{
     public ArrayList<QRCode> getAllCodes() {
         return allCodes;
     }
-
-    public ArrayList<String> getIDs(){
-        return this.IDs;
-    }
   
     /**
      * adds a QR code to the users profile
-     * @param
+     * @param code
      *      code to be added
      * @return
      *      whether or not the operation was successful
@@ -94,7 +94,7 @@ public class User implements Serializable{
     public boolean addCode(QRCode code){
         boolean success = true;
         for(int i=0;i<this.allCodes.size();i++){
-            if(allCodes.get(i).getCode().equals(code.getCode())){
+            if(allCodes.get(i).getID().equals(code.getID())){
                 success = false; //already exists, do not add it again
                 break;
             }
@@ -116,7 +116,7 @@ public class User implements Serializable{
     public boolean removeQRCode(QRCode code){
         boolean success = false;
         for(int i=0;i<this.allCodes.size();i++){
-            if(allCodes.get(i).getCode().equals(code.getCode())){
+            if(allCodes.get(i).getID().equals(code.getID())){
                 this.allCodes.remove(i); //found the code so it can be removed
                 success = true;
                 break;
@@ -133,7 +133,7 @@ public class User implements Serializable{
     public ArrayList<String> getCodesStrings(){
         ArrayList<String> codeStrings = new ArrayList<>();
         for (int i = 0; i < this.allCodes.size(); i++) {
-            codeStrings.add(this.allCodes.get(i).getCode());
+            codeStrings.add("QR Code #" + this.allCodes.get(i).getID());
         }
         return codeStrings;
     }
@@ -170,5 +170,24 @@ public class User implements Serializable{
     public int getNumCodes(){
         return this.allCodes.size();
     }
+
+    /**
+     * returns the ID badge to be used for the next QRCode being added
+     * @return
+     *      ID badge for the next code
+     */
+    public int getNextID(){
+        int size = allCodes.size();
+        if (size == 0){
+            return 1;//First QRCode gets a 1 ID
+        }
+        int max = 1;
+        for (QRCode code:getAllCodes()) {
+            if (Integer.parseInt(code.getID()) > max){
+                max = Integer.parseInt(code.getID());
+            }
+        }
+        return max + 1;//Else, return 1 more than the highest QRCode ID
+    }                  //No two stored QRCodes can have the same ID
 
 }
