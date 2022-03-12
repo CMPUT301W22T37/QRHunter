@@ -15,17 +15,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:context=".PlayScreen">
+
         <Button
             android:id="@+id/profile_button"
             android:layout_width="0dp"
-            android:layout_weight = "1"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"
-            android:textSize="16dp"
-            android:textColor="@color/black"
+            android:layout_weight="1"
+            android:onClick="onProfileClick"
+            android:text="PROFILE"
 
-            android:text="PROFILE" />
+            android:textColor="@color/black"
+            android:textSize="16dp" />
 
         <Button
             android:id="@+id/stats_button"

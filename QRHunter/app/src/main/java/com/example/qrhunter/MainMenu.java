@@ -104,4 +104,15 @@ public class MainMenu extends AppCompatActivity {
         intent.putExtra("User", user);
         startActivity(intent);
     }
+
+    /**
+     * Called when the Profile button is clicked
+     * @param view
+     *      View for the button clicked
+     */
+    public void onProfileClick(View view){
+        Intent intent = new Intent(this, ProfilePage.class);
+        intent.putExtra("User", user);
+        startActivity(intent);
+    }
 }
