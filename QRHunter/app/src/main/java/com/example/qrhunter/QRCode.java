@@ -12,7 +12,7 @@ import java.security.NoSuchAlgorithmException;
  */
 
 public class QRCode implements Serializable{
-    private int score;
+    private Integer score;
     private Integer ID;
 
     /**
@@ -25,6 +25,18 @@ public class QRCode implements Serializable{
     public QRCode(String code, Integer ID){
         this.ID = ID;
         this.score = calculateScore(code);
+    }
+
+    /**
+     * Alternate constructor used to pass the score directly in from hashmap reconstruction
+     * @param score
+     *      score of the QRCode
+     * @param ID
+     *      Unique ID of the QRCode
+     */
+    public QRCode(Integer score, Integer ID){
+        this.score = score;
+        this.ID = ID;
     }
 
     /**

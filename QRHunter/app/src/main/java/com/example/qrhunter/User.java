@@ -52,7 +52,8 @@ public class User implements Serializable{
         ArrayList<QRCode> codes = new ArrayList<>();
         for (HashMap code: maps) {
             String ID = (String)code.get("id");
-            codes.add(new QRCode((String)code.get("code"), Integer.parseInt(ID)));
+            Long longScore = (Long)code.get("score");
+            codes.add(new QRCode(longScore.intValue(), Integer.parseInt(ID)));
         }
         return codes;
     }
@@ -189,5 +190,27 @@ public class User implements Serializable{
         }
         return max + 1;//Else, return 1 more than the highest QRCode ID
     }                  //No two stored QRCodes can have the same ID
+
+    /**
+     * Returns highest score of a stored QRCode
+     * @return
+     *      Integer representing the score of the highest scoring QRCode
+     */
+    public Integer getHighest(){
+        int size = getAllCodes().size();
+        QRCode highest = getAllCodes().get(size - 1);//Last QRCode is the highest
+        return highest.getScore();
+    }
+
+    /**
+     * Returns lowest score of a store QRCode
+     * @return
+     *      Integer representing the score of the lowest scoring QRCode
+     */
+    public Integer getLowest(){
+        int size = getAllCodes().size();
+        QRCode lowest = getAllCodes().get(0);//First QRCode is the lowest
+        return lowest.getScore();
+    }
 
 }

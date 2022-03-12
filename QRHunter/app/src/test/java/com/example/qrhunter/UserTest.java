@@ -50,4 +50,18 @@ public class UserTest {
         assertEquals(user.getNextID(), 3);
     }
 
+    @Test
+    void testGetHighest(){
+        User user = new User("testUser","test123#gmail.com");
+        int highest = user.getHighest();
+        assertEquals(134, highest);
+    }
+
+    @Test
+    void testGetLowest(){
+        User user = new User("testUser","test123#gmail.com");
+        int lowest = user.getLowest();
+        assertEquals(111, lowest);
+    }
+
 }

@@ -63,8 +63,6 @@ public class MainMenu extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
 
     /**
@@ -91,6 +89,17 @@ public class MainMenu extends AppCompatActivity {
      */
     public void onScan(View view){
         Intent intent = new Intent(this, ScanQRCodeActivity.class);
+        intent.putExtra("User", user);
+        startActivity(intent);
+    }
+
+    /**
+     * Called when stats button is clicked
+     * @param view
+     *      View for the button clicked
+     */
+    public void onStatsCLick(View view){
+        Intent intent = new Intent(this, StatsPage.class);
         intent.putExtra("User", user);
         startActivity(intent);
     }
