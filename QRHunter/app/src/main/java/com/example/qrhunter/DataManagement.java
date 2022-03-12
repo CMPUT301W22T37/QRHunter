@@ -8,6 +8,9 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -79,25 +82,44 @@ public class DataManagement  {
         final CallBack myCallFinal = myCall;
         db.collection("Users")
                 .whereEqualTo("User Name", user.getUsername())
-                .whereArrayContains("QRCodes",qrCode)
+//                .whereArrayContains("QRCodes",qrCode)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        Context context = getApplicationContext();
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                myCallFinal.onCall(null); //null if already exists
-                                return; //already exists
-
+                                //Manually checking if QRCode already exists
+                                HashMap<String, Object> data = (HashMap<String, Object>) document.getData();
+                                if (compareQRCodes((ArrayList<HashMap>)data.get("QRCodes"))){
+                                    myCallFinal.onCall(null); //null if already exists
+                                    return; //already exists
+                                }
                             }
                             user.addCode(qrCodeFinal);
                             updateData();
                             myCallFinal.onCall(user);
-
                         }
                     }
                 });
+    }
+
+    /**
+     * Returns whether the given codeMaps contains a hash that is also present with the user
+     * @param codeMaps
+     *      HashMap Arraylist containing the HashMaps that are being searched
+     * @return
+     *      Boolean whether or not a code is shared between the codeMaps and the user
+     */
+    public boolean compareQRCodes(ArrayList<HashMap> codeMaps){
+        ArrayList<String> userHashes = user.getAllHashes();
+        for (HashMap code:codeMaps) {
+            String hash = (String)code.get("hash");
+            if (userHashes.contains(hash)){
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

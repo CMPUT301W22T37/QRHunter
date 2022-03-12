@@ -84,8 +84,9 @@ public class MainMenu extends AppCompatActivity {
     }
 
     /**
-     * To be completed
+     * Called when code is scanned
      * @param view
+     *      View for the button clicked
      */
     public void onScan(View view){
         Intent intent = new Intent(this, ScanQRCodeActivity.class);

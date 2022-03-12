@@ -53,9 +53,22 @@ public class User implements Serializable{
         for (HashMap code: maps) {
             String ID = (String)code.get("id");
             Long longScore = (Long)code.get("score");
-            codes.add(new QRCode(longScore.intValue(), Integer.parseInt(ID)));
+            codes.add(new QRCode(longScore.intValue(), Integer.parseInt(ID), (String)code.get("hash")));
         }
         return codes;
+    }
+
+    /**
+     * Returns an ArrayList of all SHA-256 Hashes currently stored
+     * @return
+     *      ArrayList of hashes
+     */
+    public ArrayList<String> getAllHashes(){
+        ArrayList<String> hashes = new ArrayList<>();
+        for (QRCode code:getAllCodes()) {
+            hashes.add(code.getUniqueHash());
+        }
+        return hashes;
     }
 
     /**

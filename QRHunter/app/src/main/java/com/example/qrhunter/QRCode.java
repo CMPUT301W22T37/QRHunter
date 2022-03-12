@@ -6,14 +6,13 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Class to represent QR Codes as objects
- * Currently: stores a score, and an  ID
- * Needed: Lat/Lon(Some form of geo-location)
+ * Class to represent QR Codes as objects, using the hash as the unique identifier for QRCodes
  */
 
 public class QRCode implements Serializable{
     private Integer score;
     private Integer ID;
+    private String hash;
 
     /**
      * Constructor for QRCode object
@@ -24,7 +23,8 @@ public class QRCode implements Serializable{
      */
     public QRCode(String code, Integer ID){
         this.ID = ID;
-        this.score = calculateScore(code);
+        this.hash = getHash(code);
+        this.score = calculateScore(this.hash);
     }
 
     /**
@@ -34,7 +34,8 @@ public class QRCode implements Serializable{
      * @param ID
      *      Unique ID of the QRCode
      */
-    public QRCode(Integer score, Integer ID){
+    public QRCode(Integer score, Integer ID, String hash){
+        this.hash = hash;
         this.score = score;
         this.ID = ID;
     }
@@ -81,13 +82,12 @@ public class QRCode implements Serializable{
 
     /**
      * Calculates score of a code scanned in from a QRCode
-     * @param str
+     * @param sha256hex
      *      Code obtained from a QR Code
      * @return
      *      int representing the score of the QRCode
      */
-    public int calculateScore(String str){
-        String sha256hex = getHash(str);
+    public int calculateScore(String sha256hex){
         int score=0;
         for (int i = 0; i < sha256hex.length(); i++) {
             // Counting occurrences of s[i]
@@ -126,9 +126,17 @@ public class QRCode implements Serializable{
     /**
      * Getter for the ID of a QRCode
      * @return
-     *      String representation of the ID badge of a QRCode
+     *      String representation of the chronological ID badge of a QRCode
      */
     public String getID(){
         return this.ID.toString();
+    }
+
+    /**
+     * Gets the hash of the QRCode to be used as the unique identifier
+     * @return
+     */
+    public String getUniqueHash(){
+        return this.hash;
     }
 }

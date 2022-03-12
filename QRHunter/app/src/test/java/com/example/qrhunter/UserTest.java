@@ -63,5 +63,4 @@ public class UserTest {
         int lowest = user.getLowest();
         assertEquals(111, lowest);
     }
-
 }
