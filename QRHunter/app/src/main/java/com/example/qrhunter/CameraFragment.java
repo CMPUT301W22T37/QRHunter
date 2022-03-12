@@ -47,14 +47,14 @@ public class CameraFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("DEBUG", "in activity"+requestCode+" Result code: "+resultCode);
+        Log.d("CAMERA", "in activity "+requestCode+" Result code: "+resultCode);
         if (requestCode == REQUEST_IMAGE_CAPTURE) {
             if (resultCode == RESULT_OK) {
                 bitmap = (Bitmap) data.getExtras().get("data");
                 img.setImageBitmap(bitmap);
-                Log.d("DEBUG", "set bitmap");
+
             } else if (resultCode == RESULT_CANCELED) {
-                Log.d("DEBUG", "cancelled");
+                Log.d("CAMERA", "cancelled");
 //                Toast.makeText(CameraFragment.this, "cancelled", Toast.LENGTH_SHORT).show();
             }
         }

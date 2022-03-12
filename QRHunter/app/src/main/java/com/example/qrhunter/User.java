@@ -1,5 +1,7 @@
 package com.example.qrhunter;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -174,6 +176,7 @@ public class User implements Serializable{
     }
 
     public void updateCode(int i,QRCode qrCode){
+        Log.d("DEBUG","Current i: "+ i + " current code: "+ this.allCodes.get(i).getCode() + " new code: " + qrCode.getCode());
         this.allCodes.set(i,qrCode);
     }
 

@@ -1,13 +1,20 @@
 package com.example.qrhunter;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+//import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -52,7 +59,7 @@ public class DataManagement  {
 //                        Context context = getApplicationContext();
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("TAG", "Delete QR Code"+ qrCodeFinal.getCode());
+                                Log.d("TAG", "Delete QR Code "+ qrCodeFinal.getCode());
                                 user.removeQRCode(qrCodeFinal);
                                 Log.d("TAG", "In data management: length is "+ user.getAllCodes().size());
                                 updateData();
@@ -60,7 +67,11 @@ public class DataManagement  {
                                 return;
                             }
                             Log.d("TAG", "Failed: QR not present");
-                            myCallFinal.onCall(null); //if DNE
+                            ArrayList<String> allcodes = user.getCodesStrings();
+                            for(int i = 0;i<allcodes.size();i++){
+                                Log.d("TAG", "QRCode: "+ allcodes.get(i));
+                            }
+//                            myCallFinal.onCall(null); //if DNE
 
                         }
                     }
@@ -99,6 +110,28 @@ public class DataManagement  {
                     }
                 });
     }
+
+//    public void addImage(QRCode qrCode,Bitmap bitmap, CallBack myCall){
+//        final QRCode qrCodeFinal = qrCode;
+//        final CallBack myCallFinal = myCall;
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//        byte[] data = baos.toByteArray();
+//
+////        UploadTask uploadTask = mountainsRef.putBytes(data);
+////        uploadTask.addOnFailureListener(new OnFailureListener() {
+////            @Override
+////            public void onFailure(@NonNull Exception exception) {
+////                // Handle unsuccessful uploads
+////            }
+////        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+////            @Override
+////            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+////                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+////                // ...
+////            }
+////        });
+//    }
 
     /**
      * updates the user on the database

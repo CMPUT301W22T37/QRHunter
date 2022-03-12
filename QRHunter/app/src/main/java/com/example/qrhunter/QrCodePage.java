@@ -47,7 +47,7 @@ public class QrCodePage extends AppCompatActivity {
      */
     public void onDelete(View view){
         try{
-
+            final User oldUser = this.user;
             dataManager.removeCode(qrCode, new CallBack() {
                 @Override
                 public void onCall(User user) {
@@ -58,6 +58,10 @@ public class QrCodePage extends AppCompatActivity {
 
                     Toast toast = Toast.makeText(context,"length of qr = "+Integer.toString(user.getCodesStrings().size()),duration);
                     toast.show();
+                    if(user==null){
+                        Log.d("DEBUG","user is null in QrCodePage");
+                        user = oldUser;
+                    }
                     Intent intent =new Intent(context, MainMenu.class);
                     intent.putExtra("User",user);
                     startActivity(intent);

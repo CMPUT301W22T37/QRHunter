@@ -11,11 +11,17 @@ public class QRCode implements Serializable{
     private String code;
     private int score;
     private int IDBadge; //Not implemented yet
+    private double latitude;
+    private double longitude;
 
     public QRCode(String code){
         this.code = code;
         this.score = calculateScore(code);
+        this.latitude = 0;
+        this.longitude = 0;
+
     }
+
 
     public int getScore(){
         return score;
@@ -68,6 +74,17 @@ public class QRCode implements Serializable{
         return code;
     }
 
+    public void setGeolocation(double latitude, double longitude){
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+    public double getLatitude(){
+        return this.latitude;
+    }
+    public double getLongitude(){
+        return this.longitude;
+    }
+
     static int power(int base, int exponent) {
         int power = 1;
         //increment the value of i after each iteration until the condition becomes false
@@ -77,5 +94,7 @@ public class QRCode implements Serializable{
         //returns power
         return power;
     }
+
+
 
 }
