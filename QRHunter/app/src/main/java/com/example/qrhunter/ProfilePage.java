@@ -6,11 +6,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
+/**
+ * Class to represent a user's profile
+ */
 public class ProfilePage extends AppCompatActivity {
     User user;
     TextView userNameTextView;
     TextView emailTextView;
 
+    /**
+     * Called when the page is created
+     * @param savedInstanceState
+     *      Bundle representing the saved instance state
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

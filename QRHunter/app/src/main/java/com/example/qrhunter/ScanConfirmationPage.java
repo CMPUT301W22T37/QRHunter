@@ -143,7 +143,6 @@ public class ScanConfirmationPage extends AppCompatActivity {
                 isChecked = geoLocationSwitch.isChecked();
             }
         }
-
         if(isChecked){
             int index = user.getAllHashes().indexOf(qrCode.getUniqueHash());
             qrCode.setGeolocation(geolocation.getLatitude(),geolocation.getLongitude());

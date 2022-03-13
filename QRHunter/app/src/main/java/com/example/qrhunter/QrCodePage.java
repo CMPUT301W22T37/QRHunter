@@ -54,7 +54,6 @@ public class QrCodePage extends AppCompatActivity {
 
         Bitmap bitmap = LocationImage.decodeImage(qrCode.getImage());
         if(bitmap==null){
-            Log.d("DEBUG","No image recorded");
             locationImage.setImageResource(android.R.color.transparent);
         }else{
             locationImage.setImageBitmap(bitmap);
@@ -76,12 +75,7 @@ public class QrCodePage extends AppCompatActivity {
                     Log.d("TAG", "Delete QR Code"+ qrCode.getID());
 
                     Context context = getApplicationContext();
-                    int duration = Toast.LENGTH_LONG;
-
-                    Toast toast = Toast.makeText(context,"length of qr = "+Integer.toString(user.getCodesStrings().size()),duration);
-                    toast.show();
                     if(user==null){
-                        Log.d("DEBUG","user is null in QrCodePage");
                         user = oldUser;
                     }
                     Intent intent =new Intent(context, MainMenu.class);

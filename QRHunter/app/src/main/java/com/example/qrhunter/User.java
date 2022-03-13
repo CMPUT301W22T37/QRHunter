@@ -254,5 +254,4 @@ public class User implements Serializable{
     public void updateCode(int i,QRCode qrCode){
         this.allCodes.set(i,qrCode);
     }
-
 }
