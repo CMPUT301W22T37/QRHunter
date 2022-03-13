@@ -1,8 +1,6 @@
 package com.example.qrhunter;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,17 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
 import java.util.ArrayList;
-import java.util.concurrent.CountDownLatch;
-
 /**
  * The main menu activity. This is page the user sees first when they are signed in
  */
@@ -57,7 +46,7 @@ public class MainMenu extends AppCompatActivity {
         totalScanned = findViewById(R.id.num_scanned_text);
         totalScore = findViewById(R.id.total_score_text);
         totalScanned.setText("Codes Scanned: " + Integer.toString(user.getAllCodes().size()));
-        totalScore.setText("Total Score: "+Integer.toString(user.getTotalScore()));
+        totalScore.setText("Total Score: "+ Integer.toString(user.getTotalScore()));
 
         //Creating Listview for rolls
         codesDisplay = user.getCodesStrings();
@@ -76,8 +65,6 @@ public class MainMenu extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     /**
@@ -98,10 +85,35 @@ public class MainMenu extends AppCompatActivity {
         Log.d("TAG", "New user length"+Integer.toString(user.getCodesStrings().size()));
     }
 
-
-
+    /**
+     * Called when code is scanned
+     * @param view
+     *      View for the button clicked
+     */
     public void onScan(View view){
         Intent intent = new Intent(this, ScanQRCodeActivity.class);
+        intent.putExtra("User", user);
+        startActivity(intent);
+    }
+
+    /**
+     * Called when stats button is clicked
+     * @param view
+     *      View for the button clicked
+     */
+    public void onStatsCLick(View view){
+        Intent intent = new Intent(this, StatsPage.class);
+        intent.putExtra("User", user);
+        startActivity(intent);
+    }
+
+    /**
+     * Called when the Profile button is clicked
+     * @param view
+     *      View for the button clicked
+     */
+    public void onProfileClick(View view){
+        Intent intent = new Intent(this, ProfilePage.class);
         intent.putExtra("User", user);
         startActivity(intent);
     }

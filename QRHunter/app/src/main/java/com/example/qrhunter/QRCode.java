@@ -7,28 +7,76 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * Class to represent QR Codes as objects, using the hash as the unique identifier for QRCodes
+ */
+
 public class QRCode implements Serializable{
-    private String code;
-    private int score;
-    private int IDBadge; //Not implemented yet
-    private double latitude;
-    private double longitude;
+
+    private Integer score;
+    private Integer ID;
+    private String hash;
     private String image;
+    private double lat;
+    private double lon;
 
-    public QRCode(String code,double latitude,double longitude,String image){
-        this.code = code;
-        this.score = calculateScore(code);
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.image = image;
-
+    /**
+     * Constructor for QRCode object
+     * @param code
+     *      Code scanned from QR Code, used to calculate score
+     * @param ID
+     *      Unique Identifier for a QRCode
+     */
+    public QRCode(String code, Integer ID){
+        this.ID = ID;
+        this.hash = getHash(code);
+        this.score = calculateScore(this.hash);
+        this.lat = 0;
+        this.lon = 0;
+        this.image = "";
     }
+
+    /**
+     * constructor including lat,lon, and image
+
+     * @param ID
+     *      the ID of the code
+     * @param hash
+     *      the hash code to be passed
+     * @param lat
+     *      the latitude of the QRCode
+     * @param lon
+     *      the longitude of the QRCode
+     * @param image
+     *      the string representation of the image
+     */
+    public QRCode(Integer ID, String hash, double lat, double lon, String image){
+        this.hash = hash;
+        this.score = calculateScore(this.hash);
+        this.ID = ID;
+        this.lat = lat;
+        this.lon = lon;
+        this.image = image;
+    }
+
+    /**
+     * Gets the score of a particular QRCode
+     * @return
+     *      Score of the particular QRCode
+     */
 
 
     public int getScore(){
         return score;
     }
 
+    /**
+     * Gets the SHA-256 Hash of the given code
+     * @param code
+     *      Code scanned from QR Code
+     * @return
+     *      String representing the SHA-256 hash of the code
+     */
     public String getHash(String code){
         code = code + "\n";
         //For getting a SHA-256 hash of QRCode contents
@@ -53,9 +101,14 @@ public class QRCode implements Serializable{
         return hexString.toString();//Returns this
     }
 
-    public int calculateScore(String str){
-        String sha256hex = getHash(str);
-
+    /**
+     * Calculates score of a code scanned in from a QRCode
+     * @param sha256hex
+     *      Code obtained from a QR Code
+     * @return
+     *      int representing the score of the QRCode
+     */
+    public int calculateScore(String sha256hex){
         int score=0;
         for (int i = 0; i < sha256hex.length(); i++) {
             // Counting occurrences of s[i]
@@ -72,21 +125,27 @@ public class QRCode implements Serializable{
         return score;
     }
 
-    public String getCode(){
-        return code;
-    }
 
     public void setGeolocation(double latitude, double longitude){
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.lat = latitude;
+        this.lon = longitude;
     }
     public double getLatitude(){
-        return this.latitude;
+        return this.lat;
     }
     public double getLongitude(){
-        return this.longitude;
+        return this.lon;
     }
 
+    /**
+     * Mathematical function to calculate exponents, used for score
+     * @param base
+     *      Base of the exponent
+     * @param exponent
+     *      Exponent being applied on base
+     * @return
+     *      Result of the exponentiation of the base to the given exponent
+     */
     static int power(int base, int exponent) {
         int power = 1;
         //increment the value of i after each iteration until the condition becomes false
@@ -97,13 +156,32 @@ public class QRCode implements Serializable{
         return power;
     }
 
+    /**
+     * Getter for the ID of a QRCode
+     * @return
+     *      String representation of the chronological ID badge of a QRCode
+     */
+    public String getID(){
+        return this.ID.toString();
+    }
+
+    /**
+     * Gets the hash of the QRCode to be used as the unique identifier
+     * @return
+     */
+    public String getUniqueHash(){
+        return this.hash;
+    }
+    /**
+     * Get the image of the QRCode
+     * @return
+     *      String representing the QRCode's image
+     */
     public String getImage(){
         return this.image;
     }
     public void setImage(String image){
         this.image = image;
     }
-
-
 
 }

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".StatsPage">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_gravity="center_horizontal"
+        android:text="High Scores"
+        android:textSize="30dp">
+    </TextView>
+
+    <ListView
+        android:id="@+id/all_highscores_listview"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"
+        >
+    </ListView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center_horizontal"
+        android:text="Personal Ranking"
+        android:textSize="40dp">
+    </TextView>
+
+    <TextView
+        android:id="@+id/highest_score_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:text="Highest Ranking Individual Score"
+        android:textSize="20dp">
+    </TextView>
+
+    <TextView
+        android:id="@+id/lowest_score_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:text="Lowest Ranking Individual Score"
+        android:textSize="20dp">
+    </TextView>
+
+    <TextView
+        android:id="@+id/total_ranking_number_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:text="Ranking For Total Number"
+        android:textSize="20dp">
+    </TextView>
+
+    <TextView
+        android:id="@+id/total_ranking_score_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:text="Ranking For Total Score"
+        android:textSize="20dp">
+    </TextView>
+
+</LinearLayout>

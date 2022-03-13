@@ -116,7 +116,7 @@ public class ScanConfirmationPage extends AppCompatActivity {
             return; //error
         }
 
-        int index = user.getCodesStrings().indexOf(qrCode.getCode());
+        int index = user.getAllHashes().indexOf(qrCode.getUniqueHash());
         qrCode.setImage(imageB64);
         user.updateCode(index,qrCode);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -145,7 +145,7 @@ public class ScanConfirmationPage extends AppCompatActivity {
         }
 
         if(isChecked){
-            int index = user.getCodesStrings().indexOf(qrCode.getCode());
+            int index = user.getAllHashes().indexOf(qrCode.getUniqueHash());
             qrCode.setGeolocation(geolocation.getLatitude(),geolocation.getLongitude());
             user.updateCode(index,qrCode);
             Log.d("DEBUG","lat: "+ user.getCode(index).getLatitude() + " lon: " + user.getCode(index).getLongitude());

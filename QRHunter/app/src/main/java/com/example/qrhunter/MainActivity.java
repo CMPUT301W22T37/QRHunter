@@ -21,6 +21,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
+/**
+ * Activity that displays the sign in options screen of the app
+ */
 public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private Button createAccountBtn;
@@ -28,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
     private String deviceID;
     private String userName = "Test";
 
+    /**
+     * Called when created
+     * @param savedInstanceState
+     *      The instance bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -52,10 +61,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Called when Create Account button is selected
+     * @param view
+     *      View given from the button press
+     */
+
     public void onCreateAccount(View view){
         startActivity(new Intent(MainActivity.this,CreateAccount.class));
     }
 
+    /**
+     * Searches the ID's collection for the ID of the device that has just booted up the app
+     */
     public void queryIDs(){
         //Searching ID's for deviceID
         db = FirebaseFirestore.getInstance();
@@ -75,6 +93,12 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Called if device ID is already contained within ID's collection
+     * Finds user name associated with ID and auto-signs them in
+     * @param userName
+     *      User name associated with the found ID
+     */
     public void findUserAndSignIn(final String userName){
         //Search for user in Users and start new activity with that user
         db.collection("Users")
@@ -98,7 +122,5 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
-
-
 
 }

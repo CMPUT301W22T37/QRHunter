@@ -44,13 +44,14 @@ public class QrCodePage extends AppCompatActivity {
         dataManager = new DataManagement(user,db);
 
         codeName = findViewById(R.id.code_name_text);
-        codeName.setText(qrCode.getCode());
+
+        codeName.setText("QR Code#" + qrCode.getID());
+
         scoreText = findViewById(R.id.score_text);
         scoreText.setText("Score: "+qrCode.getScore());
 
         locationImage = findViewById(R.id.image_location);
-        Log.d("DEBUG","Image: "+qrCode.getImage());
-        Log.d("DEBUG","Lat: "+qrCode.getLatitude()+" Lon: "+ qrCode.getLongitude());
+
         Bitmap bitmap = LocationImage.decodeImage(qrCode.getImage());
         if(bitmap==null){
             Log.d("DEBUG","No image recorded");
@@ -72,7 +73,7 @@ public class QrCodePage extends AppCompatActivity {
             dataManager.removeCode(qrCode, new CallBack() {
                 @Override
                 public void onCall(User user) {
-                    Log.d("TAG", "Delete QR Code"+ qrCode.getCode());
+                    Log.d("TAG", "Delete QR Code"+ qrCode.getID());
 
                     Context context = getApplicationContext();
                     int duration = Toast.LENGTH_LONG;

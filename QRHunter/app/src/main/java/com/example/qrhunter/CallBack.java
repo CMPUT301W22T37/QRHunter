@@ -1,7 +1,5 @@
 package com.example.qrhunter;
 
-import java.util.ArrayList;
-
 /**
  * a helper interface used for interacting with the database
  */
