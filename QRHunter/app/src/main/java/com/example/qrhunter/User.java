@@ -1,7 +1,5 @@
 package com.example.qrhunter;
 
-import android.util.Log;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,7 +44,7 @@ public class User implements Serializable{
     }
 
     /**
-     * Clears all codes that a user is storing
+     * Clears all codes that a user has stored
      */
     public void clearCodes(){
         this.allCodes.clear();
@@ -224,6 +222,9 @@ public class User implements Serializable{
      */
     public Integer getHighest(){
         int size = getAllCodes().size();
+        if(size==0){
+            return 0;
+        }
         QRCode highest = getAllCodes().get(size - 1);//Last QRCode is the highest
         return highest.getScore();
     }
@@ -234,6 +235,10 @@ public class User implements Serializable{
      *      Integer representing the score of the lowest scoring QRCode
      */
     public Integer getLowest() {
+        int size = getAllCodes().size();
+        if(size==0){
+            return 0;
+        }
         QRCode lowest = getAllCodes().get(0);//First QRCode is the lowest
         return lowest.getScore();
     }

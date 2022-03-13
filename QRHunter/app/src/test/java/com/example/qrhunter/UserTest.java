@@ -55,7 +55,10 @@ public class UserTest {
         int highest = user.getHighest();
         assertEquals(134, highest);
 
-
+        //testing when there are no stored codes
+        user.clearCodes();
+        highest = user.getHighest();
+        assertEquals(0, highest);
     }
 
     @Test
@@ -63,6 +66,11 @@ public class UserTest {
         User user = new User("testUser","test123#gmail.com");
         int lowest = user.getLowest();
         assertEquals(111, lowest);
+
+        //testing when there are no stored codes
+        user.clearCodes();
+        lowest = user.getHighest();
+        assertEquals(0, lowest);
     }
 
     @Test

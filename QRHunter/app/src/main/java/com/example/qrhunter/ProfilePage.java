@@ -22,6 +22,8 @@ public class ProfilePage extends AppCompatActivity {
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("User");
         setText();
+
+
     }
 
     /**
