@@ -46,6 +46,13 @@ public class User implements Serializable{
     }
 
     /**
+     * Clears all codes that a user is storing
+     */
+    public void clearCodes(){
+        this.allCodes.clear();
+    }
+
+    /**
      * Converts a hashmap of QRCode contents into an Arraylist of QRCodes
      * @param maps
      *      Hashmap of QRCode contents to be converted
@@ -227,14 +234,20 @@ public class User implements Serializable{
      *      Integer representing the score of the lowest scoring QRCode
      */
     public Integer getLowest() {
-        int size = getAllCodes().size();
         QRCode lowest = getAllCodes().get(0);//First QRCode is the lowest
         return lowest.getScore();
     }
 
+    /**
+     * Updates the QRCode at a given index in the user's array of QRCodes
+     * Note: Doesn't maintain sorted order, meant to be used with same code but different lat/lon/image
+     * @param i
+     *      The index at which to update
+     * @param qrCode
+     *      The new QRCode to update the existing one to be
+     */
     public void updateCode(int i,QRCode qrCode){
         this.allCodes.set(i,qrCode);
-
     }
 
 }

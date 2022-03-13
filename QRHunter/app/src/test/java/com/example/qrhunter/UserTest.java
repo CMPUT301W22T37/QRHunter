@@ -1,7 +1,6 @@
 package com.example.qrhunter;
+
 import org.junit.jupiter.api.Test;
-
-
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -55,6 +54,8 @@ public class UserTest {
         User user = new User("testUser","test123#gmail.com");
         int highest = user.getHighest();
         assertEquals(134, highest);
+
+
     }
 
     @Test
@@ -62,5 +63,14 @@ public class UserTest {
         User user = new User("testUser","test123#gmail.com");
         int lowest = user.getLowest();
         assertEquals(111, lowest);
+    }
+
+    @Test
+    void updateQRCode(){
+        User user = new User("testUser", "test123@gmail.com");
+        QRCode code = new QRCode(user.getNextID(), "f4ccd05b3271c386ee55d9876c7450012a3b361e5065c09dc22075e38b3cc35c", 0, 0, "");
+        user.updateCode(1, code);
+        int number = user.getHighest();//Should return updated QRCode since there is no re-sorting
+        assertEquals(45, number);
     }
 }

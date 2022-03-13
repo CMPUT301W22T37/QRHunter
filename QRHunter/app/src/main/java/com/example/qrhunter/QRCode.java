@@ -1,7 +1,5 @@
 package com.example.qrhunter;
 
-import android.graphics.Bitmap;
-
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -38,7 +36,6 @@ public class QRCode implements Serializable{
 
     /**
      * constructor including lat,lon, and image
-
      * @param ID
      *      the ID of the code
      * @param hash
@@ -64,8 +61,6 @@ public class QRCode implements Serializable{
      * @return
      *      Score of the particular QRCode
      */
-
-
     public int getScore(){
         return score;
     }
@@ -125,14 +120,32 @@ public class QRCode implements Serializable{
         return score;
     }
 
-
+    /**
+     * Sets the latitude and longitude of a QRCode
+     * @param latitude
+     *      double, latitude of the QRCode
+     * @param longitude
+     *      double, longitude of the QRCode
+     */
     public void setGeolocation(double latitude, double longitude){
         this.lat = latitude;
         this.lon = longitude;
     }
+
+    /**
+     * Returns the latitude of the QRCode
+     * @return
+     *      Double representing the latitude of the QRCode
+     */
     public double getLatitude(){
         return this.lat;
     }
+
+    /**
+     * Returns the longitude of the QRCode
+     * @return
+     *      Returns a double, representing the longitude of the QRCode
+     */
     public double getLongitude(){
         return this.lon;
     }
@@ -180,6 +193,12 @@ public class QRCode implements Serializable{
     public String getImage(){
         return this.image;
     }
+
+    /**
+     * Sets the image, as a string, for the QRCode
+     * @param image
+     *      String, representing the image
+     */
     public void setImage(String image){
         this.image = image;
     }
