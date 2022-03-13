@@ -217,6 +217,9 @@ public class User implements Serializable{
      */
     public Integer getHighest(){
         int size = getAllCodes().size();
+        if(size==0){
+            return 0;
+        }
         QRCode highest = getAllCodes().get(size - 1);//Last QRCode is the highest
         return highest.getScore();
     }
@@ -228,6 +231,9 @@ public class User implements Serializable{
      */
     public Integer getLowest() {
         int size = getAllCodes().size();
+        if(size==0){
+            return 0;
+        }
         QRCode lowest = getAllCodes().get(0);//First QRCode is the lowest
         return lowest.getScore();
     }

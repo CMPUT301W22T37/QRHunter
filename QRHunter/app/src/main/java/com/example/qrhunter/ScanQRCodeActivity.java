@@ -36,25 +36,25 @@ public class ScanQRCodeActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(ScanQRCodeActivity.this, result.getText(), Toast.LENGTH_SHORT).show();
-
 
                         final QRCode qrCode = new QRCode(result.getText(),user.getNextID());
-
+                        final User oldUser = user;
                         try{
                             dataManager.addCode(qrCode, new CallBack() {
                                 @Override
                                 public void onCall(User user) {
-
-                                    Log.d("TAG", "Delete QR Code"+ qrCode.getID());
-
-
                                     Context context = getApplicationContext();
-
-                                    Intent intent =new Intent(context, ScanConfirmationPage.class);
-                                    intent.putExtra("User",user);
-                                    intent.putExtra("QRCode",qrCode);
-                                    startActivity(intent);
+                                   if(user==null){
+                                       Toast.makeText(ScanQRCodeActivity.this, "Error: already scanned this code", Toast.LENGTH_LONG).show();
+                                       Intent intent =new Intent(context,MainMenu.class);
+                                       intent.putExtra("User",oldUser);
+                                       startActivity(intent);
+                                   }else {
+                                       Intent intent = new Intent(context, ScanConfirmationPage.class);
+                                       intent.putExtra("User", user);
+                                       intent.putExtra("QRCode", qrCode);
+                                       startActivity(intent);
+                                   }
                                 }
                             });
 

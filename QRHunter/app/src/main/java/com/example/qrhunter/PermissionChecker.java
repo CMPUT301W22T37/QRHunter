@@ -19,6 +19,7 @@ public class PermissionChecker extends AppCompatActivity {
     private Context context;
     private static final int LOCATION_COURSE_CODE = 100;
     private static final int LOCATION_FINE_CODE = 101;
+    private static final int CAMERA_CODE = 102;
 
     /**
      * Constructor
@@ -31,6 +32,12 @@ public class PermissionChecker extends AppCompatActivity {
 
             checkLocationPermission(Manifest.permission.ACCESS_COARSE_LOCATION, LOCATION_COURSE_CODE);
             checkLocationPermission(Manifest.permission.ACCESS_FINE_LOCATION, LOCATION_FINE_CODE);
+            Log.d("DEBUG", "PERMISSION PROBLEMS");
+
+        }
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+
+            checkLocationPermission(Manifest.permission.CAMERA, CAMERA_CODE);
             Log.d("DEBUG", "PERMISSION PROBLEMS");
 
         }

@@ -17,7 +17,7 @@ import org.junit.Test;
 
 import java.util.Random;
 
-public class CreateAccountText {
+public class CreateAccountTest {
     private Solo solo;
     @Rule
     public ActivityTestRule<CreateAccount> rule =

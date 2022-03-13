@@ -37,6 +37,8 @@ public class StatsPage extends AppCompatActivity {
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("User");
         setText();
+
+
     }
 
     /**
