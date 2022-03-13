@@ -69,8 +69,10 @@ public class ScanLoginCodeActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         Context context = getApplicationContext();//Context for intent
                         if (task.isSuccessful()) {
+                            boolean found = false;
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 //Get all Elements of the user
+                                found = true;
                                 HashMap<String, Object> data = (HashMap<String, Object>) document.getData();
                                 User user = new User(data);
                                 //Start Activity with User
@@ -78,9 +80,12 @@ public class ScanLoginCodeActivity extends AppCompatActivity {
                                 intent.putExtra("User",user);
                                 startActivity(intent);
                             }
-                            Toast toast = Toast.makeText(context, "User not found", Toast.LENGTH_LONG);
-                            toast.show();
-                            finish();
+                            if(!found){
+                                Toast toast = Toast.makeText(context, "User not found", Toast.LENGTH_LONG);
+                                toast.show();
+                                finish();
+                            }
+
                         }
                     }
                 });
