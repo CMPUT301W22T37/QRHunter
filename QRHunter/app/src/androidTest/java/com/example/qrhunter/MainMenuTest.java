@@ -56,6 +56,8 @@ public class MainMenuTest {
     public void deleteQR() {
         addUser();
         // currently, we are initializing user with two qr codes
+        assertTrue(solo.waitForText("Codes Scanned: 2"));
+        assertTrue(solo.waitForText("Total Score: 245"));
         String text = solo.clickInList(0).get(0).getText().toString();
         solo.assertCurrentActivity("Wrong Activity",QrCodePage.class);
 
@@ -65,6 +67,7 @@ public class MainMenuTest {
             Log.d("DEBUG", "Text on the screen: " + textView.getText().toString());
         }
         assertTrue(solo.waitForText("Codes Scanned: 1"));
+        assertTrue(solo.waitForText("Total Score: 134"));
         assertFalse(text.equals(solo.clickInList(0).get(0).getText().toString())); //check that it has been removed from the list
     }
 

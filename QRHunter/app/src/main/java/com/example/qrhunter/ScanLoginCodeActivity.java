@@ -16,7 +16,7 @@ public class ScanLoginCodeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scan_qr_code);
+        setContentView(R.layout.activity_scan_login_code);
         CodeScannerView scannerView = findViewById(R.id.login_scanner_view);
         mCodeScanner = new CodeScanner(this, scannerView);
         mCodeScanner.setDecodeCallback(new DecodeCallback() {
@@ -26,9 +26,6 @@ public class ScanLoginCodeActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Toast.makeText(ScanLoginCodeActivity.this, result.getText(), Toast.LENGTH_SHORT).show();
-
-
-
                     }
                 });
             }
