@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 /**
@@ -40,5 +41,10 @@ public class ProfilePage extends AppCompatActivity {
     public void setText(){
         userNameTextView.setText(user.getUsername());
         emailTextView.setText(user.getEmail());
+    }
+
+    public void onClickGenerate(View view){
+        Intent intent = new Intent(this, CreateQRCode.class);
+        startActivity(intent);
     }
 }
