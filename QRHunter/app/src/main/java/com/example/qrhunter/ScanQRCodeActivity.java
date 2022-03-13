@@ -1,13 +1,16 @@
 package com.example.qrhunter;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
@@ -27,6 +30,10 @@ public class ScanQRCodeActivity extends AppCompatActivity {
         user = (User)intent.getSerializableExtra("User");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         dataManager = new DataManagement(user,db);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ) {
+            new PermissionChecker(ScanQRCodeActivity.this);
+        }
         setContentView(R.layout.activity_scan_qr_code);
         CodeScannerView scannerView = findViewById(R.id.scanner_view);
         mCodeScanner = new CodeScanner(this, scannerView);
