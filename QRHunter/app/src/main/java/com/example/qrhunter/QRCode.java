@@ -1,5 +1,7 @@
 package com.example.qrhunter;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -9,11 +11,19 @@ public class QRCode implements Serializable{
     private String code;
     private int score;
     private int IDBadge; //Not implemented yet
+    private double latitude;
+    private double longitude;
+    private String image;
 
-    public QRCode(String code){
+    public QRCode(String code,double latitude,double longitude,String image){
         this.code = code;
         this.score = calculateScore(code);
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.image = image;
+
     }
+
 
     public int getScore(){
         return score;
@@ -66,6 +76,17 @@ public class QRCode implements Serializable{
         return code;
     }
 
+    public void setGeolocation(double latitude, double longitude){
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+    public double getLatitude(){
+        return this.latitude;
+    }
+    public double getLongitude(){
+        return this.longitude;
+    }
+
     static int power(int base, int exponent) {
         int power = 1;
         //increment the value of i after each iteration until the condition becomes false
@@ -75,4 +96,14 @@ public class QRCode implements Serializable{
         //returns power
         return power;
     }
+
+    public String getImage(){
+        return this.image;
+    }
+    public void setImage(String image){
+        this.image = image;
+    }
+
+
+
 }

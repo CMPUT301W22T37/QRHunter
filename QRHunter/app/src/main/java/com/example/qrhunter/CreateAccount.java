@@ -2,6 +2,7 @@ package com.example.qrhunter;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,7 +21,7 @@ import java.util.HashMap;
 /**
  * Activity to create an account
  */
-public class CreateAccount extends AppCompatActivity {
+public class CreateAccount extends AppCompatActivity{
     private EditText userName;
     private EditText email;
     private FirebaseFirestore db;

@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btn=(Button)findViewById(R.id.btnQRScanner);
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         queryIDs();
         //Username is not accurately set here
     }
+
 
     public void onCreateAccount(View view){
         startActivity(new Intent(MainActivity.this,CreateAccount.class));

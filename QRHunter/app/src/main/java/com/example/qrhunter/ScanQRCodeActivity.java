@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
@@ -37,19 +38,20 @@ public class ScanQRCodeActivity extends AppCompatActivity {
                     public void run() {
                         Toast.makeText(ScanQRCodeActivity.this, result.getText(), Toast.LENGTH_SHORT).show();
 
-                        final QRCode qrCode = new QRCode(result.getText());
+                        final QRCode qrCode = new QRCode(result.getText(),0,0,"");
 
                         try{
 
                             dataManager.addCode(qrCode, new CallBack() {
                                 @Override
                                 public void onCall(User user) {
-                                    Log.d("TAG", "Delete QR Code"+ qrCode.getCode());
+                                    Log.d("TAG", "ADD QR Code"+ qrCode.getCode());
 
                                     Context context = getApplicationContext();
 
-                                    Intent intent =new Intent(context, MainMenu.class);
+                                    Intent intent =new Intent(context, ScanConfirmationPage.class);
                                     intent.putExtra("User",user);
+                                    intent.putExtra("QRCode",qrCode);
                                     startActivity(intent);
                                 }
                             });

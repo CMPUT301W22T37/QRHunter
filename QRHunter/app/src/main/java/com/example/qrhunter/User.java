@@ -1,5 +1,7 @@
 package com.example.qrhunter;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,6 +23,8 @@ public class User implements Serializable{
      *      the username for the user
      * @param email
      *      the email for the user
+     * @param ID
+     *      the ID of the device signed in
      */
     public User(String username, String email, String ID){
         this.username = username;
@@ -30,8 +34,8 @@ public class User implements Serializable{
         addID(ID);
 
         //Testing Purposes only
-        addCode(new QRCode("BFG5DGW54"));
-        addCode(new QRCode("DCFJFJFJ"));
+        addCode(new QRCode("BFG5DGW54",0,0,""));
+        addCode(new QRCode("DCFJFJFJ",0,0,""));
     }
 
     /**
@@ -49,7 +53,7 @@ public class User implements Serializable{
     private ArrayList<QRCode> hashToQRCode(ArrayList<HashMap> maps){
         ArrayList<QRCode> codes = new ArrayList<>();
         for (HashMap code: maps) {
-            codes.add(new QRCode((String)code.get("code")));
+            codes.add(new QRCode((String)code.get("code"),(double)code.get("latitude"),(double)code.get("longitude"),(String)code.get("image")));
         }
         return codes;
     }
@@ -169,6 +173,17 @@ public class User implements Serializable{
      */
     public int getNumCodes(){
         return this.allCodes.size();
+    }
+
+    /**
+     * updates a code in the user's array of codes
+     * @param i
+     *      the index of the location to be updated
+     * @param qrCode
+     *      the new QR code
+     */
+    public void updateCode(int i,QRCode qrCode){
+        this.allCodes.set(i,qrCode);
     }
 
 }

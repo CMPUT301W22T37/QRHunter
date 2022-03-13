@@ -17,19 +17,46 @@
         android:background="#FF2234"
         android:onClick="onDelete"
         android:text="Delete Code"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/code_name_text"
-        android:layout_width="wrap_content"
+        android:layout_width="246dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="172dp"
-        android:text="TextView"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="112dp"
+        android:text="identifier"
         android:textColor="@color/black"
         android:textSize="20dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/button"
-        app:layout_constraintEnd_toStartOf="@+id/button" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/delete_button"
+        app:layout_constraintEnd_toStartOf="@+id/delete_button"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/image_location"
+        android:layout_width="125dp"
+        android:layout_height="117dp"
+        android:layout_marginStart="266dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/delete_button"
+        app:srcCompat="@drawable/ic_code_scanner_auto_focus_off" />
+
+    <TextView
+        android:id="@+id/score_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="score"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/code_name_text" />
 </androidx.constraintlayout.widget.ConstraintLayout>

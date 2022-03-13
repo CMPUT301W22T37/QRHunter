@@ -1,13 +1,20 @@
 package com.example.qrhunter;
 
+import android.graphics.Bitmap;
+import android.util.Base64;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -44,7 +51,7 @@ public class DataManagement  {
         final CallBack myCallFinal = myCall;
         db.collection("Users")
                 .whereEqualTo("User Name", user.getUsername())
-                .whereArrayContains("QRCodes",qrCode)
+                .whereArrayContains("QRIdentifiers",qrCode.getCode())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -52,7 +59,7 @@ public class DataManagement  {
 //                        Context context = getApplicationContext();
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("TAG", "Delete QR Code"+ qrCodeFinal.getCode());
+                                Log.d("TAG", "Delete QR Code "+ qrCodeFinal.getCode());
                                 user.removeQRCode(qrCodeFinal);
                                 Log.d("TAG", "In data management: length is "+ user.getAllCodes().size());
                                 updateData();
@@ -60,7 +67,11 @@ public class DataManagement  {
                                 return;
                             }
                             Log.d("TAG", "Failed: QR not present");
-                            myCallFinal.onCall(null); //if DNE
+                            ArrayList<String> allcodes = user.getCodesStrings();
+                            for(int i = 0;i<allcodes.size();i++){
+                                Log.d("TAG", "QRCode: "+ allcodes.get(i));
+                            }
+//                            myCallFinal.onCall(null); //if DNE
 
                         }
                     }
@@ -79,7 +90,7 @@ public class DataManagement  {
         final CallBack myCallFinal = myCall;
         db.collection("Users")
                 .whereEqualTo("User Name", user.getUsername())
-                .whereArrayContains("QRCodes",qrCode)
+                .whereArrayContains("QRIdentifiers",qrCode.getCode())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -100,6 +111,7 @@ public class DataManagement  {
                 });
     }
 
+
     /**
      * updates the user on the database
      */
@@ -108,6 +120,7 @@ public class DataManagement  {
         data.put("User Name", user.getUsername());
         data.put("Email", user.getEmail());
         data.put("QRCodes", user.getAllCodes());
+        data.put("QRIdentifiers",user.getCodesStrings());
         data.put("ID's" ,user.getIDs());
         userRef
                 .document(user.getUsername())
