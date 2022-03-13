@@ -13,6 +13,9 @@ public class QRCode implements Serializable{
     private Integer score;
     private Integer ID;
     private String hash;
+    private String image;
+    private Integer lat;
+    private Integer lon;
 
     /**
      * Constructor for QRCode object
@@ -25,6 +28,9 @@ public class QRCode implements Serializable{
         this.ID = ID;
         this.hash = getHash(code);
         this.score = calculateScore(this.hash);
+        this.lat = 0;
+        this.lon = 0;
+        this.image = "";
     }
 
     /**
@@ -34,10 +40,40 @@ public class QRCode implements Serializable{
      * @param ID
      *      Unique ID of the QRCode
      */
-    public QRCode(Integer score, Integer ID, String hash){
+    public QRCode(Integer score, Integer ID, String hash, Integer lat, Integer lon, String image){
         this.hash = hash;
         this.score = score;
         this.ID = ID;
+        this.lat = lat;
+        this.lon = lon;
+        this.image = image;
+    }
+
+    /**
+     * Gets the latitude of the QRCode
+     * @return
+     *      Integer representing the latitude of the QRCode
+     */
+    public Integer getLat(){
+        return lat;
+    }
+
+    /**
+     * Get the longitude of the QRCode
+     * @return
+     *      Integer representing the longitude of the QRCode
+     */
+    public Integer getLon(){
+        return lon;
+    }
+
+    /**
+     * Get the image of the QRCode
+     * @return
+     *      String representing the QRCode's image
+     */
+    public String getImage(){
+        return image;
     }
 
     /**

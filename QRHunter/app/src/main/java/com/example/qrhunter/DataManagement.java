@@ -82,7 +82,7 @@ public class DataManagement  {
         final CallBack myCallFinal = myCall;
         db.collection("Users")
                 .whereEqualTo("User Name", user.getUsername())
-//                .whereArrayContains("QRCodes",qrCode)
+                .whereArrayContains("QRIdentifiers",qrCode.getUniqueHash())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -130,6 +130,7 @@ public class DataManagement  {
         data.put("User Name", user.getUsername());
         data.put("Email", user.getEmail());
         data.put("QRCodes", user.getAllCodes());
+        data.put("QRIdentifiers", user.getAllHashes());
         userRef
                 .document(user.getUsername())
                 .set(data);

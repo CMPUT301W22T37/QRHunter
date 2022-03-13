@@ -53,7 +53,11 @@ public class User implements Serializable{
         for (HashMap code: maps) {
             String ID = (String)code.get("id");
             Long longScore = (Long)code.get("score");
-            codes.add(new QRCode(longScore.intValue(), Integer.parseInt(ID), (String)code.get("hash")));
+            String image = (String)code.get("image");
+            Long lat = (Long)code.get("lat");
+            Long lon = (Long)code.get("lon");
+            codes.add(new QRCode(longScore.intValue(), Integer.parseInt(ID), (String)code.get("hash"),
+                lat.intValue(), lon.intValue(), image));
         }
         return codes;
     }
