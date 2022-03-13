@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private Button createAccountBtn;
     private Button btn;
     private String deviceID;
-    private String userName = "Test";
 
     /**
      * Called when created
