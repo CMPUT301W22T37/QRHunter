@@ -34,8 +34,8 @@ public class User implements Serializable{
         addID(ID);
 
         //Testing Purposes only
-        addCode(new QRCode("BFG5DGW54"));
-        addCode(new QRCode("DCFJFJFJ"));
+        addCode(new QRCode("BFG5DGW54",0,0,""));
+        addCode(new QRCode("DCFJFJFJ",0,0,""));
     }
 
     /**
@@ -53,7 +53,7 @@ public class User implements Serializable{
     private ArrayList<QRCode> hashToQRCode(ArrayList<HashMap> maps){
         ArrayList<QRCode> codes = new ArrayList<>();
         for (HashMap code: maps) {
-            codes.add(new QRCode((String)code.get("code")));
+            codes.add(new QRCode((String)code.get("code"),(double)code.get("latitude"),(double)code.get("longitude"),(String)code.get("image")));
         }
         return codes;
     }

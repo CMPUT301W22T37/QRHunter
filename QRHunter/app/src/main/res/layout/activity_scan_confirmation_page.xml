@@ -35,7 +35,7 @@
             android:layout_gravity="center|start"
             android:checked="true"
             android:switchMinWidth="56dp"
-            android:text="Record Location:"
+            android:text="    Record Location:"
             android:textOff="OFF"
             android:textOn="ON"
             android:textSize="16dp"
@@ -59,16 +59,32 @@
         </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text = "CONFIRM"
-        android:onClick="OnConfirm"
-        android:id="@+id/confirm_qr_button"
-        android:layout_marginTop="75dp"
-        android:layout_marginBottom="20dp"
-        >
 
-    </Button>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp">
+
+        <Button
+            android:id="@+id/confirm_qr_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="180dp"
+            android:onClick="OnConfirm"
+            android:text="CONFIRM">
+
+        </Button>
+
+        <Button
+            android:id="@+id/cancel_qr_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:onClick="onCancel"
+            android:text="CANCEL">
+
+        </Button>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </LinearLayout>

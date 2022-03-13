@@ -23,6 +23,7 @@ public class QrCodePage extends AppCompatActivity {
     private User user;
     private DataManagement dataManager;
     private TextView codeName;
+    private TextView scoreText;
     private ImageView locationImage;
 
 
@@ -44,11 +45,15 @@ public class QrCodePage extends AppCompatActivity {
 
         codeName = findViewById(R.id.code_name_text);
         codeName.setText(qrCode.getCode());
+        scoreText = findViewById(R.id.score_text);
+        scoreText.setText("Score: "+qrCode.getScore());
 
         locationImage = findViewById(R.id.image_location);
-
+        Log.d("DEBUG","Image: "+qrCode.getImage());
+        Log.d("DEBUG","Lat: "+qrCode.getLatitude()+" Lon: "+ qrCode.getLongitude());
         Bitmap bitmap = LocationImage.decodeImage(qrCode.getImage());
         if(bitmap==null){
+            Log.d("DEBUG","No image recorded");
             locationImage.setImageResource(android.R.color.transparent);
         }else{
             locationImage.setImageBitmap(bitmap);

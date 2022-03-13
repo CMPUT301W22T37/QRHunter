@@ -15,11 +15,12 @@ public class QRCode implements Serializable{
     private double longitude;
     private String image;
 
-    public QRCode(String code){
+    public QRCode(String code,double latitude,double longitude,String image){
         this.code = code;
         this.score = calculateScore(code);
-        this.latitude = 0;
-        this.longitude = 0;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.image = image;
 
     }
 

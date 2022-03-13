@@ -50,6 +50,7 @@ public class CameraFragment extends Fragment {
 
             } else if (resultCode == RESULT_CANCELED) {
                 Log.d("CAMERA", "cancelled");
+                ((ScanConfirmationPage)getActivity()).setBitmap(null);
 //                Toast.makeText(CameraFragment.this, "cancelled", Toast.LENGTH_SHORT).show();
             }
         }

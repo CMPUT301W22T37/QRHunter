@@ -164,6 +164,15 @@ public class ScanConfirmationPage extends AppCompatActivity {
         intent.putExtra("User",user);
         startActivity(intent);
     }
+    public void onCancel(View view){
+        user.removeQRCode(qrCode);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DataManagement dataManager = new DataManagement(user,db);
+        dataManager.updateData();
+        Intent intent =new Intent(this, MainMenu.class);
+        intent.putExtra("User",user);
+        startActivity(intent);
+    }
 
 
 

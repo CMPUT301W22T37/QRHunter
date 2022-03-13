@@ -41,7 +41,8 @@ public class LocationImage {
      *      the bitmap
      */
     public static Bitmap decodeImage(String imageB64){
-        if(imageB64==null){
+        if(imageB64==null || imageB64.equals("")){
+            Log.d("DEBUG","Image is null");
             return null;
         }
         Log.d("DEBUG","image: "+imageB64);
