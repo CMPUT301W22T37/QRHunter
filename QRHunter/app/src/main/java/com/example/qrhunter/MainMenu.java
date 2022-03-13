@@ -35,6 +35,7 @@ public class MainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
+        new PermissionChecker(MainMenu.this);
         //Getting user
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("User");
@@ -61,6 +62,7 @@ public class MainMenu extends AppCompatActivity {
                 intent.putExtra("QRCode",qrCode);
                 intent.putExtra("User",user);
                 startActivity(intent);
+
             }
         });
     }

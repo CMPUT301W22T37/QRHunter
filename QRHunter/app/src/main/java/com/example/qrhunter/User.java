@@ -1,5 +1,7 @@
 package com.example.qrhunter;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,8 +21,9 @@ public class User implements Serializable{
      *      the username for the user
      * @param email
      *      the email for the user
+
      */
-    public User(String username, String email){//Take out ID
+    public User(String username, String email){
         this.username = username;
         this.email = email;
         this.allCodes = new ArrayList<>();
@@ -28,6 +31,7 @@ public class User implements Serializable{
         //Testing Purposes only
         addCode(new QRCode("BFG5DGW54",getNextID()));
         addCode(new QRCode("DCFJFJFJ", getNextID()));
+
     }
 
     /**
@@ -51,13 +55,11 @@ public class User implements Serializable{
     private ArrayList<QRCode> hashToQRCode(ArrayList<HashMap> maps){
         ArrayList<QRCode> codes = new ArrayList<>();
         for (HashMap code: maps) {
+
             String ID = (String)code.get("id");
-            Long longScore = (Long)code.get("score");
-            String image = (String)code.get("image");
-            Long lat = (Long)code.get("lat");
-            Long lon = (Long)code.get("lon");
-            codes.add(new QRCode(longScore.intValue(), Integer.parseInt(ID), (String)code.get("hash"),
-                lat.intValue(), lon.intValue(), image));
+
+            codes.add(new QRCode(Integer.parseInt(ID),(String)code.get("uniqueHash"),(double)code.get("latitude"),(double)code.get("longitude"),(String)code.get("image")));
+
         }
         return codes;
     }
@@ -224,10 +226,15 @@ public class User implements Serializable{
      * @return
      *      Integer representing the score of the lowest scoring QRCode
      */
-    public Integer getLowest(){
+    public Integer getLowest() {
         int size = getAllCodes().size();
         QRCode lowest = getAllCodes().get(0);//First QRCode is the lowest
         return lowest.getScore();
+    }
+
+    public void updateCode(int i,QRCode qrCode){
+        this.allCodes.set(i,qrCode);
+
     }
 
 }

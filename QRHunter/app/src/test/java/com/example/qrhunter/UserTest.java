@@ -9,6 +9,7 @@ public class UserTest {
 
     @Test
     void testAddQR(){
+
         User user = new User("testUser","test123#gmail.com");
         assertTrue(user.addCode(new QRCode("BFG5DGW54", 150)));
 
@@ -18,13 +19,12 @@ public class UserTest {
     }
     @Test
     void testRemoveQR(){
+
         User user = new User("testUser","test123#gmail.com");
         QRCode qr = new QRCode("BFG5DGW54", 150);
-
         assertTrue(user.addCode(qr));
         assertEquals(3,user.getAllCodes().size()); //currently we init user with 2 qr codes already for testing, hence why now three total
-        assertTrue(user.removeQRCode(qr));
-        assertEquals(2,user.getAllCodes().size()); //currently we init user with 2 qr codes already for testing, hence why now two total
+
     }
     @Test
     void testGetTotalScore(){

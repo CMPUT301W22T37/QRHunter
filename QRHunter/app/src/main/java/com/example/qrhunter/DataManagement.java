@@ -3,13 +3,13 @@ package com.example.qrhunter;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
+
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -47,7 +47,7 @@ public class DataManagement  {
         final CallBack myCallFinal = myCall;
         db.collection("Users")
                 .whereEqualTo("User Name", user.getUsername())
-                .whereArrayContains("QRCodes",qrCode)
+                .whereArrayContains("QRIdentifiers",qrCode.getUniqueHash())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -55,7 +55,9 @@ public class DataManagement  {
 //                        Context context = getApplicationContext();
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
+
                                 Log.d("TAG", "Delete QR Code"+ qrCodeFinal.getID());
+
                                 user.removeQRCode(qrCodeFinal);
                                 Log.d("TAG", "In data management: length is "+ user.getAllCodes().size());
                                 updateData();
@@ -63,7 +65,11 @@ public class DataManagement  {
                                 return;
                             }
                             Log.d("TAG", "Failed: QR not present");
-                            myCallFinal.onCall(null); //if DNE
+                            ArrayList<String> allcodes = user.getCodesStrings();
+                            for(int i = 0;i<allcodes.size();i++){
+                                Log.d("TAG", "QRCode: "+ allcodes.get(i));
+                            }
+//                            myCallFinal.onCall(null); //if DNE
 
                         }
                     }
@@ -83,6 +89,7 @@ public class DataManagement  {
         db.collection("Users")
                 .whereEqualTo("User Name", user.getUsername())
                 .whereArrayContains("QRIdentifiers",qrCode.getUniqueHash())
+
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -103,6 +110,7 @@ public class DataManagement  {
                     }
                 });
     }
+
 
     /**
      * Returns whether the given codeMaps contains a hash that is also present with the user
@@ -131,6 +139,7 @@ public class DataManagement  {
         data.put("Email", user.getEmail());
         data.put("QRCodes", user.getAllCodes());
         data.put("QRIdentifiers", user.getAllHashes());
+
         userRef
                 .document(user.getUsername())
                 .set(data);

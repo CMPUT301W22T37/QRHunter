@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +23,10 @@ public class QrCodePage extends AppCompatActivity {
     private User user;
     private DataManagement dataManager;
     private TextView codeName;
+    private TextView scoreText;
+    private ImageView locationImage;
+
+
 
     /**
      * called when activity created
@@ -37,7 +44,22 @@ public class QrCodePage extends AppCompatActivity {
         dataManager = new DataManagement(user,db);
 
         codeName = findViewById(R.id.code_name_text);
+
         codeName.setText("QR Code#" + qrCode.getID());
+
+        scoreText = findViewById(R.id.score_text);
+        scoreText.setText("Score: "+qrCode.getScore());
+
+        locationImage = findViewById(R.id.image_location);
+
+        Bitmap bitmap = LocationImage.decodeImage(qrCode.getImage());
+        if(bitmap==null){
+            Log.d("DEBUG","No image recorded");
+            locationImage.setImageResource(android.R.color.transparent);
+        }else{
+            locationImage.setImageBitmap(bitmap);
+        }
+
     }
 
     /**
@@ -47,7 +69,7 @@ public class QrCodePage extends AppCompatActivity {
      */
     public void onDelete(View view){
         try{
-
+            final User oldUser = this.user;
             dataManager.removeCode(qrCode, new CallBack() {
                 @Override
                 public void onCall(User user) {
@@ -58,6 +80,10 @@ public class QrCodePage extends AppCompatActivity {
 
                     Toast toast = Toast.makeText(context,"length of qr = "+Integer.toString(user.getCodesStrings().size()),duration);
                     toast.show();
+                    if(user==null){
+                        Log.d("DEBUG","user is null in QrCodePage");
+                        user = oldUser;
+                    }
                     Intent intent =new Intent(context, MainMenu.class);
                     intent.putExtra("User",user);
                     startActivity(intent);

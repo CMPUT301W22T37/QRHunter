@@ -1,5 +1,7 @@
 package com.example.qrhunter;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -10,12 +12,13 @@ import java.security.NoSuchAlgorithmException;
  */
 
 public class QRCode implements Serializable{
+
     private Integer score;
     private Integer ID;
     private String hash;
     private String image;
-    private Integer lat;
-    private Integer lon;
+    private double lat;
+    private double lon;
 
     /**
      * Constructor for QRCode object
@@ -34,15 +37,22 @@ public class QRCode implements Serializable{
     }
 
     /**
-     * Alternate constructor used to pass the score directly in from hashmap reconstruction
-     * @param score
-     *      score of the QRCode
+     * constructor including lat,lon, and image
+
      * @param ID
-     *      Unique ID of the QRCode
+     *      the ID of the code
+     * @param hash
+     *      the hash code to be passed
+     * @param lat
+     *      the latitude of the QRCode
+     * @param lon
+     *      the longitude of the QRCode
+     * @param image
+     *      the string representation of the image
      */
-    public QRCode(Integer score, Integer ID, String hash, Integer lat, Integer lon, String image){
+    public QRCode(Integer ID, String hash, double lat, double lon, String image){
         this.hash = hash;
-        this.score = score;
+        this.score = calculateScore(this.hash);
         this.ID = ID;
         this.lat = lat;
         this.lon = lon;
@@ -50,37 +60,12 @@ public class QRCode implements Serializable{
     }
 
     /**
-     * Gets the latitude of the QRCode
-     * @return
-     *      Integer representing the latitude of the QRCode
-     */
-    public Integer getLat(){
-        return lat;
-    }
-
-    /**
-     * Get the longitude of the QRCode
-     * @return
-     *      Integer representing the longitude of the QRCode
-     */
-    public Integer getLon(){
-        return lon;
-    }
-
-    /**
-     * Get the image of the QRCode
-     * @return
-     *      String representing the QRCode's image
-     */
-    public String getImage(){
-        return image;
-    }
-
-    /**
      * Gets the score of a particular QRCode
      * @return
      *      Score of the particular QRCode
      */
+
+
     public int getScore(){
         return score;
     }
@@ -140,6 +125,18 @@ public class QRCode implements Serializable{
         return score;
     }
 
+
+    public void setGeolocation(double latitude, double longitude){
+        this.lat = latitude;
+        this.lon = longitude;
+    }
+    public double getLatitude(){
+        return this.lat;
+    }
+    public double getLongitude(){
+        return this.lon;
+    }
+
     /**
      * Mathematical function to calculate exponents, used for score
      * @param base
@@ -175,4 +172,16 @@ public class QRCode implements Serializable{
     public String getUniqueHash(){
         return this.hash;
     }
+    /**
+     * Get the image of the QRCode
+     * @return
+     *      String representing the QRCode's image
+     */
+    public String getImage(){
+        return this.image;
+    }
+    public void setImage(String image){
+        this.image = image;
+    }
+
 }

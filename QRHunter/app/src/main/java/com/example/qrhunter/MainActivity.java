@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btn=(Button)findViewById(R.id.btnQRScanner);
@@ -59,11 +60,13 @@ public class MainActivity extends AppCompatActivity {
         //Username is not accurately set here
     }
 
+
     /**
      * Called when Create Account button is selected
      * @param view
      *      View given from the button press
      */
+
     public void onCreateAccount(View view){
         startActivity(new Intent(MainActivity.this,CreateAccount.class));
     }
