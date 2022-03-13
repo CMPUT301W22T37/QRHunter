@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.qrhunter">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-
+            android:name=".CreateQRCode"
+            android:exported="false" />
+        <activity
             android:name=".ScanLoginCodeActivity"
             android:exported="false" />
         <activity
@@ -27,7 +31,6 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -38,10 +41,7 @@
         </activity>
         <activity
             android:name=".ScanQRCodeActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
     </application>
-
-    <uses-permission android:name="android.permission.CAMERA"/>
 
 </manifest>
