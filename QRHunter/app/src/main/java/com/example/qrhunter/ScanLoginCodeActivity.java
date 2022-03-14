@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Toast;
 import com.budiyev.android.codescanner.CodeScanner;
@@ -73,6 +74,15 @@ public class ScanLoginCodeActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 //Get all Elements of the user
                                 found = true;
+                                String deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+                                //Adding the ID into ID's
+                                HashMap<String, String> ID = new HashMap<>();
+                                ID.put("User Name", userName);
+                                ID.put("ID", deviceID);
+
+                                db.collection("ID's").document(deviceID)
+                                        .set(ID);//No onSuccess or onFailure Listeners
+                                
                                 HashMap<String, Object> data = (HashMap<String, Object>) document.getData();
                                 User user = new User(data);
                                 //Start Activity with User

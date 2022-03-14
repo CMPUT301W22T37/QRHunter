@@ -40,16 +40,22 @@
 
     </LinearLayout>
 
-    <Button
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="200dp"
-        android:onClick="onClickGenerate"
-        android:text="Generate QR Code"
+        android:layout_marginTop="20dp"
+        android:text="Account QR Code"
         android:textSize="30dp">
 
 
-    </Button>
+    </TextView>
+
+    <ImageView
+        android:id="@+id/account_qr_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        />
 
 </LinearLayout>

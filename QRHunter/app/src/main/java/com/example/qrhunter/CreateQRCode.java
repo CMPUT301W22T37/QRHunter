@@ -20,8 +20,8 @@ public class CreateQRCode extends AppCompatActivity {
     Button button;
     EditText editText;
     String EditTextValue ;
-    Thread thread ;
-    public final static int QRCodeSize = 500 ;
+    Thread thread;
+    public final static int QRCodeSize = 500;
     Bitmap bitmap ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public class CreateQRCode extends AppCompatActivity {
     }
 
 
-    Bitmap TextToImageEncode(String Value) throws WriterException {
+    public Bitmap TextToImageEncode(String Value) throws WriterException {
         BitMatrix bitMatrix;
         try {
             bitMatrix = new MultiFormatWriter().encode(
