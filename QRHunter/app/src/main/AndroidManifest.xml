@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
 
-
     <!-- Always include this permission -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
@@ -30,8 +29,12 @@
             android:exported="false" />
         <activity
             android:name=".ScanConfirmationPage"
-
             android:exported="false" />
+
+        <activity
+            android:name=".CreateQRCode"
+            android:exported="false" />
+
         <activity
             android:name=".ScanLoginCodeActivity"
             android:exported="false" />
@@ -57,11 +60,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ScanQRCodeActivity"
 
-            android:exported="true"></activity>
+            android:exported="true">
 
+
+        </activity>
     </application>
 
 </manifest>

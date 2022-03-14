@@ -8,12 +8,12 @@ public class QRCodeTest {
     void testScore() {
 
         QRCode code=new QRCode("BFG5DGW54", 150);
-        assertEquals(111,code.calculateScore("BFG5DGW54"));
+        assertEquals(111,code.getScore());
 
         QRCode code1=new QRCode("DCFJFJFJ", 151);
 
 
-        assertEquals(134,code1.calculateScore("DCFJFJFJ"));
+        assertEquals(134,code1.getScore());
     }
 
     @Test
