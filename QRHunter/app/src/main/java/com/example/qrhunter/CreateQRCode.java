@@ -51,7 +51,9 @@ public class CreateQRCode extends AppCompatActivity {
         });
     }
 
-
+    // Source: https://www.android-examples.com/generate-qr-code-in-android-using-zxing-library-in-android-studio/
+    // Author: Juned Mughal
+    // Usage: Used the link above as well as the package documentation to create the generator function
     public Bitmap TextToImageEncode(String Value) throws WriterException {
         BitMatrix bitMatrix;
         try {
