@@ -46,7 +46,6 @@ public class CreateQRCode extends AppCompatActivity {
                 } catch (WriterException e) {
                     e.printStackTrace();
                 }
-
             }
         });
     }
