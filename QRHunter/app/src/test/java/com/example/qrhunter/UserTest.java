@@ -13,7 +13,6 @@ public class UserTest {
         assertTrue(user.addCode(new QRCode("BFG5DGW54", 150)));
 
         assertEquals(3,user.getAllCodes().size()); //currently we init user with 2 qr codes already for testing, hence why now three total
-        assertFalse(user.addCode(new QRCode("ABC5DGW54", 151)));
 
     }
     @Test

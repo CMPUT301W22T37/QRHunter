@@ -20,8 +20,8 @@ public class CreateQRCode extends AppCompatActivity {
     Button button;
     EditText editText;
     String EditTextValue ;
-    Thread thread ;
-    public final static int QRCodeSize = 500 ;
+    Thread thread;
+    public final static int QRCodeSize = 500;
     Bitmap bitmap ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class CreateQRCode extends AppCompatActivity {
     // Source: https://www.android-examples.com/generate-qr-code-in-android-using-zxing-library-in-android-studio/
     // Author: Juned Mughal
     // Usage: Used the link above as well as the package documentation to create the generator function
-    Bitmap TextToImageEncode(String Value) throws WriterException {
+    public Bitmap TextToImageEncode(String Value) throws WriterException {
         BitMatrix bitMatrix;
         try {
             bitMatrix = new MultiFormatWriter().encode(
