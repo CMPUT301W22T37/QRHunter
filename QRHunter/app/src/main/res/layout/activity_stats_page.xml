@@ -11,10 +11,13 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20sp"
         android:layout_gravity="center_horizontal"
-        android:text="High Scores"
-        android:textSize="30dp">
+        android:text="Leader Board"
+        android:textSize="40dp"
+        android:textStyle="bold|italic"
+        android:textColor="@color/black"
+        >
     </TextView>
 
     <ListView
@@ -25,13 +28,64 @@
         >
     </ListView>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20sp"
+        >
+
+        <Button
+            android:layout_marginLeft="40sp"
+            android:id="@+id/high_score_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:onClick="onHighScoresClick"
+            android:text="Quality"
+            android:textSize="15dp">
+
+
+        </Button>
+
+        <Button
+            android:layout_marginLeft="20sp"
+            android:id="@+id/total_scanned_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onTotalScannedClick"
+            android:text="Quantity"
+            android:textSize="15dp">
+
+
+        </Button>
+
+        <Button
+            android:id="@+id/total_score_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20sp"
+            android:onClick="onTotalSumClick"
+            android:text="Overall"
+            android:textSize="15dp">
+
+
+        </Button>
+
+
+
+    </LinearLayout>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20sp"
         android:layout_gravity="center_horizontal"
         android:text="Personal Ranking"
-        android:textSize="40dp">
+        android:textSize="40dp"
+        android:textStyle="bold|italic"
+        android:textColor="@color/black"
+        >
     </TextView>
 
     <TextView

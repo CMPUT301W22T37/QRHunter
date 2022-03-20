@@ -1,5 +1,6 @@
 package com.example.qrhunter;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -10,8 +11,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * The main menu activity. This is page the user sees first when they are signed in
  */
@@ -102,9 +111,46 @@ public class MainMenu extends AppCompatActivity {
      *      View for the button clicked
      */
     public void onStatsCLick(View view){
-        Intent intent = new Intent(this, StatsPage.class);
-        intent.putExtra("User", user);
-        startActivity(intent);
+        onGeneralClick(true);
+    }
+
+    public void onPlayersClick(View view){
+        onGeneralClick(false);
+    }
+
+    /**
+     * Generalized method that takes the user to either the stats page or player page
+     * @param stats
+     *      boolean variable of whether to go to stats or profile
+     */
+    public void onGeneralClick(final boolean stats){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final ArrayList<User> allUsersTemp = new ArrayList<>();
+        db.collection("Users")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                User user = new User((HashMap<String, Object>) document.getData());
+                                allUsersTemp.add(user);
+                            }
+                            if (stats){
+                                Intent intent = new Intent(getApplicationContext(), StatsPage.class);
+                                intent.putExtra("User", user);
+                                intent.putExtra("AllUsers", allUsersTemp);
+                                startActivity(intent);
+                            }
+                            else {
+                                Intent intent = new Intent(getApplicationContext(), StatsPage.class);
+                                intent.putExtra("User", user);
+                                intent.putExtra("AllUsers", allUsersTemp);
+                                startActivity(intent);
+                            }
+                        }
+                    }
+                });
     }
 
     /**
