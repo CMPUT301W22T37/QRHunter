@@ -89,7 +89,6 @@ public class DataManagement  {
         db.collection("Users")
                 .whereEqualTo("User Name", user.getUsername())
                 .whereArrayContains("QRIdentifiers",qrCode.getUniqueHash())
-
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -110,7 +109,6 @@ public class DataManagement  {
                     }
                 });
     }
-
 
     /**
      * Returns whether the given codeMaps contains a hash that is also present with the user

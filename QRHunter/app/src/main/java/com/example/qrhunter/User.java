@@ -63,8 +63,8 @@ public class User implements Serializable{
 
             String ID = (String)code.get("id");
 
-            codes.add(new QRCode(Integer.parseInt(ID),(String)code.get("uniqueHash"),(double)code.get("latitude"),(double)code.get("longitude"),(String)code.get("image")));
-
+            codes.add(new QRCode(Integer.parseInt(ID),(String)code.get("uniqueHash"),
+                    (double)code.get("latitude"),(double)code.get("longitude"),(String)code.get("image")));
         }
         return codes;
     }
