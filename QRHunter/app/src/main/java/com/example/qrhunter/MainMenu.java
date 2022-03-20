@@ -163,4 +163,10 @@ public class MainMenu extends AppCompatActivity {
         intent.putExtra("User", user);
         startActivity(intent);
     }
+
+    public void onMapClick(View view){
+        Intent intent = new Intent(this, MapsActivity.class);
+        intent.putExtra("User", user);
+        startActivity(intent);
+    }
 }

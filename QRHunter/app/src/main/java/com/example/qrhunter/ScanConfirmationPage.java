@@ -150,6 +150,7 @@ public class ScanConfirmationPage extends AppCompatActivity {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             DataManagement dataManager = new DataManagement(user,db);
             dataManager.updateData();
+            dataManager.updateQR(qrCode); //only update if location has actually changed
             Log.d("DEBUG","checked");
         }else{
 

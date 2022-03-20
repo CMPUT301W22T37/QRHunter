@@ -12,6 +12,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * This class is the interface between the database and the app
@@ -86,6 +87,24 @@ public class DataManagement  {
     public void addCode(QRCode qrCode, CallBack myCall){
         final QRCode qrCodeFinal = qrCode;
         final CallBack myCallFinal = myCall;
+        db.collection("QRCodes")
+                .whereEqualTo("Hash",qrCode.getUniqueHash())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            boolean found = false;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                               found = true;
+                               break;
+                            }
+                            if(!found){
+                                updateQR(qrCodeFinal); //only add if it does not already exist
+                            }
+                        }
+                    }
+                });
         db.collection("Users")
                 .whereEqualTo("User Name", user.getUsername())
                 .whereArrayContains("QRIdentifiers",qrCode.getUniqueHash())
@@ -141,6 +160,45 @@ public class DataManagement  {
         userRef
                 .document(user.getUsername())
                 .set(data);
+    }
+
+    /**
+     * updates the QR code in the QRCodes collection
+     * @param qrCode
+     *      the QR code to be updated
+     */
+    public void updateQR(QRCode qrCode){
+        qrCode.setImage(""); //never save a group image
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("Hash", qrCode.getUniqueHash());
+        data.put("code",qrCode);
+        db.collection("QRCodes")
+                .document(qrCode.getUniqueHash())
+                .set(data);
+
+    }
+
+    public void getCodes(CodeCall myCall){
+        db.collection("QRCodes")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            ArrayList<QRCode> qrCodes= new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                HashMap<String, Object> data = (HashMap<String, Object>) document.getData();
+                                HashMap codeMap = (HashMap)data.get("code");
+                                Log.d("DEBUG","code: "+(String)codeMap.get("uniqueHash"));
+                                QRCode qrCode = new QRCode(Integer.parseInt((String)codeMap.get("id")), (String)codeMap.get("uniqueHash"),
+                                        (double)codeMap.get("latitude"), (double)codeMap.get("longitude"), (String)codeMap.get("image"));
+////                                QRCode qrCode = (QRCode)data.get("code");
+                                qrCodes.add(qrCode);
+                            }
+                            myCall.onCall(qrCodes);
+                        }
+                    }
+                });
     }
 
 
