@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20sp"
+        android:layout_marginTop="10sp"
         android:layout_gravity="center_horizontal"
         android:text="Leader Board"
         android:textSize="40dp"
@@ -25,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
         >
     </ListView>
 
@@ -32,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20sp"
+        android:layout_marginTop="10sp"
         >
 
         <Button
@@ -44,7 +45,6 @@
             android:onClick="onHighScoresClick"
             android:text="Quality"
             android:textSize="15dp">
-
 
         </Button>
 
@@ -79,13 +79,13 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20sp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15sp"
         android:text="Personal Ranking"
-        android:textSize="40dp"
-        android:textStyle="bold|italic"
         android:textColor="@color/black"
-        >
+        android:textSize="30dp"
+        android:textStyle="bold|italic">
+
     </TextView>
 
     <TextView
@@ -102,10 +102,21 @@
         android:id="@+id/lowest_score_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
         android:text="Lowest Ranking Individual Score"
-        android:textSize="20dp">
+        android:textSize="20dp"></TextView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15sp"
+        android:text="Global Stats"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        android:textStyle="bold|italic">
+
     </TextView>
 
     <TextView

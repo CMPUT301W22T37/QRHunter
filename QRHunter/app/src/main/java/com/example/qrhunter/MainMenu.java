@@ -57,7 +57,7 @@ public class MainMenu extends AppCompatActivity {
         totalScanned.setText("Codes Scanned: " + Integer.toString(user.getAllCodes().size()));
         totalScore.setText("Total Score: "+ Integer.toString(user.getTotalScore()));
 
-        //Creating Listview for rolls
+        //Creating Listview for QRCodes
         codesDisplay = user.getCodesStrings();
         codesAdapter = new ArrayAdapter<String>(this, R.layout.qr_list, codesDisplay);
         codesListView.setAdapter(codesAdapter);
@@ -143,8 +143,7 @@ public class MainMenu extends AppCompatActivity {
                                 startActivity(intent);
                             }
                             else {
-                                Intent intent = new Intent(getApplicationContext(), StatsPage.class);
-                                intent.putExtra("User", user);
+                                Intent intent = new Intent(getApplicationContext(), PlayersPage.class);
                                 intent.putExtra("AllUsers", allUsersTemp);
                                 startActivity(intent);
                             }
