@@ -25,6 +25,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
@@ -39,6 +40,8 @@ public class QrCodePage extends AppCompatActivity implements OnMapReadyCallback 
     private ImageView locationImage;
     private MapView mapView;
     private GoogleMap mMap;
+    private double latitude;
+    private double longitude;
 
 
 
@@ -61,6 +64,8 @@ public class QrCodePage extends AppCompatActivity implements OnMapReadyCallback 
 
         codeName.setText("QR Code#" + qrCode.getID());
 
+
+
         scoreText = findViewById(R.id.score_text);
         scoreText.setText("Score: "+qrCode.getScore());
 
@@ -72,28 +77,18 @@ public class QrCodePage extends AppCompatActivity implements OnMapReadyCallback 
         }else{
             locationImage.setImageBitmap(bitmap);
         }
-
+        latitude = qrCode.getLatitude();
+        longitude = qrCode.getLongitude();
         mapView = findViewById(R.id.locationMap);
-        mapView.onCreate(savedInstanceState);
-        mapView.onResume();
+        if(latitude!=0 && longitude!=0){
+            mapView.onCreate(savedInstanceState);
+            mapView.onResume();
 
-        mapView.getMapAsync(this);
-        if(mMap!=null){
-            Log.d("GPS","map found");
-            mMap.getUiSettings().setMyLocationButtonEnabled(false);
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                new PermissionChecker(QrCodePage.this);
-            }
-            mMap.setMyLocationEnabled(true);
+            mapView.getMapAsync(this);
 
-            MapsInitializer.initialize(this);
-            // Updates the location and zoom of the MapView
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(43.1, -87.9), 10);
-            mMap.animateCamera(cameraUpdate);
-
-        }else{
-            Log.d("GPS","map is null");
         }
+
+
 
     }
 
@@ -125,8 +120,31 @@ public class QrCodePage extends AppCompatActivity implements OnMapReadyCallback 
         }
     }
 
+    /**
+     * sets the position of the map
+     * @param googleMap
+     *      the map we are using
+     */
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
-        mMap = googleMap;
+        if(googleMap==null){
+            Log.d("GPS","google map is null");
+            return;
+        }else{
+            Log.d("GPS","google not null");
+        }
+        this.mMap = googleMap;
+        Log.d("GPS","map found");
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            new PermissionChecker(QrCodePage.this);
+        }
+        LatLng position = new LatLng(this.latitude, this.longitude);
+        mMap.addMarker(new MarkerOptions().position(position));
+
+        MapsInitializer.initialize(this);
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(position, 15);
+        mMap.animateCamera(cameraUpdate);
     }
 }
