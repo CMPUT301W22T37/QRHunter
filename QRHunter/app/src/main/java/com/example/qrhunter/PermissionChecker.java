@@ -29,9 +29,9 @@ public class PermissionChecker extends AppCompatActivity {
     public PermissionChecker(Context context){
         this.context = context;
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            checkLocationPermission(Manifest.permission.ACCESS_COARSE_LOCATION, LOCATION_COURSE_CODE);
             checkLocationPermission(Manifest.permission.ACCESS_FINE_LOCATION, LOCATION_FINE_CODE);
+            checkLocationPermission(Manifest.permission.ACCESS_COARSE_LOCATION, LOCATION_COURSE_CODE);
+
             Log.d("DEBUG", "PERMISSION PROBLEMS");
 
         }
