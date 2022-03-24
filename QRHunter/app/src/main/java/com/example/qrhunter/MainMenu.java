@@ -169,4 +169,10 @@ public class MainMenu extends AppCompatActivity {
         intent.putExtra("User", user);
         startActivity(intent);
     }
+
+    public void onSearch(View view){
+        Intent intent = new Intent(this, SearchQRPage.class);
+        intent.putExtra("User", user);
+        startActivity(intent);
+    }
 }

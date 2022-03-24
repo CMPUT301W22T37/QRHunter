@@ -130,6 +130,25 @@
             android:layout_height="match_parent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/search_qr_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="onSearch"
+            app:backgroundTint="#2196F3"
+
+            app:srcCompat="@android:drawable/ic_menu_search"
+            tools:layout_editor_absoluteY="0dp">
+
+        </com.google.android.material.floatingactionbutton.FloatingActionButton>
+        <Space
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/add_qr_button"
             android:onClick="onScan"
             android:layout_width="wrap_content"
