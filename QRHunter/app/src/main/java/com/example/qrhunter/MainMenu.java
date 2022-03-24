@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -23,7 +24,7 @@ public class MainMenu extends AppCompatActivity {
     private ArrayList<String> codesDisplay;
     private TextView totalScore;
     private TextView totalScanned;
-
+    private Button playersbutton;
 
     /**
      * called when creating the activity
@@ -63,6 +64,16 @@ public class MainMenu extends AppCompatActivity {
                 intent.putExtra("User",user);
                 startActivity(intent);
 
+            }
+        });
+
+        Button playersbutton = (Button) findViewById(R.id.players_button);
+
+        playersbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainMenu.this,searchPlayer.class);
+                startActivity(intent);
             }
         });
     }

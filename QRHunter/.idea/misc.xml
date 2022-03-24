@@ -4,6 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/cshar/OneDrive/Desktop/QRHunter/QRHunter/app/src/main/res/layout/activity_main.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/cshar/OneDrive/Desktop/QRHunter/QRHunter/app/src/main/res/layout/activity_main_menu.xml" value="0.1" />
+        <entry key="..\:/Users/cshar/OneDrive/Desktop/QRHunter/QRHunter/app/src/main/res/layout/activity_profile_page.xml" value="0.10520833333333333" />
+        <entry key="..\:/Users/cshar/OneDrive/Desktop/QRHunter/QRHunter/app/src/main/res/layout/activity_search_player.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/cshar/OneDrive/Desktop/QRHunter/QRHunter/app/src/main/res/layout/activity_search_user_name.xml" value="0.4088541666666667" />
         <entry key="..\:/Users/erics/Desktop/Game Dev/QRHunter/QRHunter/app/src/main/res/layout/activity_create_qrcode.xml" value="0.33" />
         <entry key="..\:/Users/erics/Desktop/Game Dev/QRHunter/QRHunter/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/erics/Desktop/Game Dev/QRHunter/QRHunter/app/src/main/res/layout/activity_scan_barcode.xml" value="0.33" />
