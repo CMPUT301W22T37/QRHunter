@@ -9,12 +9,13 @@
     tools:context=".MainMenu">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight=".08"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:context=".PlayScreen">
+        >
 
         <Button
             android:id="@+id/profile_button"
@@ -59,7 +60,8 @@
         android:id="@+id/QRCode_List_View"
         android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="490dp"
+        android:layout_height="0dp"
+        android:layout_weight=".6"
         android:layout_marginLeft="10dp"
         >
 
@@ -68,7 +70,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight=".08"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -77,23 +80,24 @@
         <TextView
             android:id="@+id/num_scanned_text"
             android:layout_width="0dp"
-            android:layout_weight = "1"
+            android:layout_weight = "0.5"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="15dp"
             android:textSize="20dp"
             android:textColor="@color/black"
 
             android:text="TotalScanned" />
+
         <TextView
             android:id="@+id/total_score_text"
             android:layout_width="0dp"
-            android:layout_weight = "1"
+            android:layout_weight = "0.5"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="10dp"
             android:textSize="20dp"
             android:textColor="@color/black"
             android:text="totalScore" />
@@ -101,42 +105,63 @@
 
     </LinearLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/map_button"
+            android:onClick="onMapClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="250dp"
+
             android:clickable="true"
             android:focusable="true"
             app:backgroundTint="#2196F3"
-            app:layout_constraintEnd_toStartOf="@+id/add_qr_button"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
+
             app:srcCompat="@android:drawable/ic_dialog_map"
             tools:layout_editor_absoluteY="0dp">
 
         </com.google.android.material.floatingactionbutton.FloatingActionButton>
+        <Space
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/search_qr_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="onSearch"
+            app:backgroundTint="#2196F3"
+
+            app:srcCompat="@android:drawable/ic_menu_search"
+            tools:layout_editor_absoluteY="0dp">
+
+        </com.google.android.material.floatingactionbutton.FloatingActionButton>
+        <Space
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/add_qr_button"
             android:onClick="onScan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
             android:layout_marginEnd="16dp"
             android:clickable="true"
             android:focusable="true"
             app:backgroundTint="#2196F3"
-            app:layout_constraintEnd_toEndOf="parent"
+
             app:srcCompat="@drawable/ic_code_scanner_auto_focus_on"
             tools:layout_editor_absoluteY="0dp">
 
         </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </LinearLayout>

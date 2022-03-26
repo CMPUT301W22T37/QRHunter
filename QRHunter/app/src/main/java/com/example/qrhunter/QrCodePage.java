@@ -1,9 +1,13 @@
 package com.example.qrhunter;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.os.Bundle;
@@ -13,18 +17,31 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * the activity called when a QR code on the user page is selected
  */
-public class QrCodePage extends AppCompatActivity {
+public class QrCodePage extends AppCompatActivity implements OnMapReadyCallback {
     private QRCode qrCode;
     private User user;
     private DataManagement dataManager;
     private TextView codeName;
     private TextView scoreText;
     private ImageView locationImage;
+    private MapView mapView;
+    private GoogleMap mMap;
+    private double latitude;
+    private double longitude;
 
 
 
@@ -47,6 +64,8 @@ public class QrCodePage extends AppCompatActivity {
 
         codeName.setText("QR Code#" + qrCode.getID());
 
+
+
         scoreText = findViewById(R.id.score_text);
         scoreText.setText("Score: "+qrCode.getScore());
 
@@ -58,6 +77,18 @@ public class QrCodePage extends AppCompatActivity {
         }else{
             locationImage.setImageBitmap(bitmap);
         }
+        latitude = qrCode.getLatitude();
+        longitude = qrCode.getLongitude();
+        mapView = findViewById(R.id.locationMap);
+        if(latitude!=0 && longitude!=0){
+            mapView.onCreate(savedInstanceState);
+            mapView.onResume();
+
+            mapView.getMapAsync(this);
+
+        }
+
+
 
     }
 
@@ -87,5 +118,33 @@ public class QrCodePage extends AppCompatActivity {
         } catch(Exception e){
             Log.d("TAG", "QR DNE");
         }
+    }
+
+    /**
+     * sets the position of the map
+     * @param googleMap
+     *      the map we are using
+     */
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        if(googleMap==null){
+            Log.d("GPS","google map is null");
+            return;
+        }else{
+            Log.d("GPS","google not null");
+        }
+        this.mMap = googleMap;
+        Log.d("GPS","map found");
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            new PermissionChecker(QrCodePage.this);
+        }
+        LatLng position = new LatLng(this.latitude, this.longitude);
+        mMap.addMarker(new MarkerOptions().position(position));
+
+        MapsInitializer.initialize(this);
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(position, 15);
+        mMap.animateCamera(cameraUpdate);
     }
 }

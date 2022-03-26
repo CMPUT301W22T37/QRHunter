@@ -6,12 +6,15 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 
 import android.location.Location;
 
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -23,6 +26,10 @@ import android.widget.TextView;
 import com.google.android.gms.location.FusedLocationProviderClient;
 
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -48,8 +55,6 @@ public class ScanConfirmationPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_confirmation_page);
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("User");
         qrCode = (QRCode) intent.getSerializableExtra("QRCode");
@@ -60,24 +65,25 @@ public class ScanConfirmationPage extends AppCompatActivity {
         scoreText.setText("Score: " + score);
 
 
-        //check permissions
+    }
+
+    public void getLocation(){
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             new PermissionChecker(ScanConfirmationPage.this);
         }
-
-        fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                // Got last known location
-                if (location != null) {
-                    Log.d("DEBUG", "location is not null");
-                    geolocation = location;
-                } else {
-                    Log.d("DEBUG", "location is null");
-                }
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        LocationListener locationListener = new FineLocationListener();
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+        Log.d("GPS", "GPS Enabled");
+        Location location;
+        if (locationManager != null) {
+            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (location != null) {
+                Log.d("GPS", "Location found");
+                Log.d("GPS", "Lat: "+location.getLatitude()+" lon: "+location.getLongitude());
+                geolocation = location;
             }
-        });
-
+        }
     }
 
     /**
@@ -133,24 +139,26 @@ public class ScanConfirmationPage extends AppCompatActivity {
      */
     public void OnConfirm(View view){
         boolean isChecked = false;
-
-        if(geolocation!=null) { //if this is null the phone needs to acknowledge some kind of gps at some point like opening maps
-            Log.d("DEBUG", "Latitude:" + geolocation.getLatitude() + ", Longitude:" + geolocation.getLongitude());
-            Switch geoLocationSwitch = (Switch) findViewById(R.id.recordGeolocation);
-
-            if (geoLocationSwitch != null) {
-                isChecked = geoLocationSwitch.isChecked();
-            }
+        Switch geoLocationSwitch = (Switch) findViewById(R.id.recordGeolocation);
+        if (geoLocationSwitch != null) {
+            isChecked = geoLocationSwitch.isChecked();
         }
+
         if(isChecked){
-            int index = user.getAllHashes().indexOf(qrCode.getUniqueHash());
-            qrCode.setGeolocation(geolocation.getLatitude(),geolocation.getLongitude());
-            user.updateCode(index,qrCode);
-            Log.d("DEBUG","lat: "+ user.getCode(index).getLatitude() + " lon: " + user.getCode(index).getLongitude());
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            DataManagement dataManager = new DataManagement(user,db);
-            dataManager.updateData();
-            Log.d("DEBUG","checked");
+            getLocation();
+            if(geolocation!=null) { //if this is null the phone needs to acknowledge some kind of gps at some point like opening maps
+                Log.d("DEBUG", "Latitude:" + geolocation.getLatitude() + ", Longitude:" + geolocation.getLongitude());
+                int index = user.getAllHashes().indexOf(qrCode.getUniqueHash());
+                qrCode.setGeolocation(geolocation.getLatitude(),geolocation.getLongitude());
+                user.updateCode(index,qrCode);
+                Log.d("DEBUG","lat: "+ user.getCode(index).getLatitude() + " lon: " + user.getCode(index).getLongitude());
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                DataManagement dataManager = new DataManagement(user,db);
+                dataManager.updateData();
+                dataManager.updateQR(qrCode); //only update if location has actually changed
+                Log.d("DEBUG","checked");
+            }
+
         }else{
 
             Log.d("DEBUG","not checked");
