@@ -60,7 +60,7 @@ public class PlayersPage extends AppCompatActivity {
         searchedHighestScoring = findViewById(R.id.display_highest_QR_textview);
         searchedTotalNumberRanking = findViewById(R.id.display_total_ranking_textview);
         searchedTotalScoreRanking = findViewById(R.id.display_ranking_score_textview);
-        rankingTitle=findViewById(R.id.ranking_title);
+        rankingTitle = findViewById(R.id.ranking_title);
         allQRCodesListView = findViewById(R.id.qr_code_listview);
 
     }
