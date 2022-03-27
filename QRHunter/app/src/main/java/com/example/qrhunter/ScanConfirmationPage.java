@@ -175,6 +175,7 @@ public class ScanConfirmationPage extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DataManagement dataManager = new DataManagement(user,db);
         dataManager.updateData();
+        dataManager.removeFromQRDoc(qrCode);
         Intent intent =new Intent(this, MainMenu.class);
         intent.putExtra("User",user);
         startActivity(intent);

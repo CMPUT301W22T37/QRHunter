@@ -147,4 +147,10 @@ public class QrCodePage extends AppCompatActivity implements OnMapReadyCallback 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(position, 15);
         mMap.animateCamera(cameraUpdate);
     }
+    public void onSocialClick(View view){
+        Intent intent =new Intent(this, QRSocialPage.class);
+        intent.putExtra("User",user);
+        intent.putExtra("QRCode",qrCode);
+        startActivity(intent);
+    }
 }

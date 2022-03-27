@@ -19,6 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".QRSocialPage"
+            android:exported="false" />
+        <activity
             android:name=".SearchQRPage"
             android:exported="false" />
         <!--
@@ -76,7 +79,7 @@
         </activity>
         <activity
             android:name=".ScanQRCodeActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>
