@@ -29,7 +29,6 @@ public class User implements Serializable{
         //Testing Purposes only
         addCode(new QRCode("BFG5DGW54",getNextID()));
         addCode(new QRCode("DCFJFJFJ", getNextID()));
-
     }
 
     /**

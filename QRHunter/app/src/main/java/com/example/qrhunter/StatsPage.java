@@ -81,8 +81,8 @@ public class StatsPage extends AppCompatActivity {
         Collections.sort(allUsers, new UserComparatorTotalScanned());
         int highestScanned = allUsers.get(0).getNumCodes();
 
-        highestGlobalScore.setText("Highest Global Score: " + highestScore);
-        highestGlobalNumber.setText("Highest Global Number: " + highestScanned);
+        highestGlobalScore.setText("Highest Total Sum: " + highestScore);
+        highestGlobalNumber.setText("Highest Number Scanned: " + highestScanned);
     }
 
     /**
