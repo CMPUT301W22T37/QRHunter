@@ -68,4 +68,5 @@ public class StatsPageTest {
     public void tearDown() throws Exception{
         solo.finishOpenedActivities();
     }
+
 }
