@@ -72,7 +72,7 @@ public class QRCode implements Serializable{
      * @return
      *      String representing the SHA-256 hash of the code
      */
-    public String getHash(String code){
+    public static String getHash(String code){
         code = code + "\n";
         //For getting a SHA-256 hash of QRCode contents
         //Website:https://www.baeldung.com/sha-256-hashing-java
