@@ -15,9 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-
             android:name=".PlayersPage"
-            android:exported="false" />
+            android:exported="false"/>
+        <activity
+            android:name=".QRSocialPage"
+            android:exported="false"/>
+
         <activity
             android:name=".SearchQRPage"
             android:exported="false" />
@@ -25,6 +28,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <activity
             android:name=".MapsActivity"
@@ -70,7 +76,7 @@
         </activity>
         <activity
             android:name=".ScanQRCodeActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>

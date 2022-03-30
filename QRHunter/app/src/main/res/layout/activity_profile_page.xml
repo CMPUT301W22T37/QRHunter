@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:text="Account QR Code"
+        android:text="Game Stats QR Code"
         android:textSize="30dp">
 
 
@@ -57,5 +57,36 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         />
+
+    <Button
+        android:layout_marginTop="20sp"
+        android:id="@+id/btnCreateAccount"
+        android:layout_gravity="center"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:onClick="onCreateAccount"
+        android:text="Create Account"
+        />
+
+    <Button
+        android:layout_marginTop="20sp"
+        android:layout_gravity="center"
+        android:id="@+id/btnQRScanner"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Sign In With QR Code"
+        />
+
+    <Button
+        android:layout_marginTop="20sp"
+        android:layout_gravity="center"
+        android:id="@+id/GenerateAccountQR"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Account QR Code"
+        />
+
+
 
 </LinearLayout>

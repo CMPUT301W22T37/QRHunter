@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,11 +19,14 @@ import com.google.zxing.common.BitMatrix;
  * Class to represent a user's profile
  */
 public class ProfilePage extends AppCompatActivity {
+    private Button SignInQRCodeBtn;
+    private Button createAccountBtn;
     private User user;
     private TextView userNameTextView;
     private TextView emailTextView;
     private ImageView imageView;
     private final static int QRCodeSize = 500;
+    private String username;
 
     /**
      * Called when the page is created
@@ -37,16 +41,26 @@ public class ProfilePage extends AppCompatActivity {
         //Getting intent from MainMenu
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("User");
+        username = user.getUsername();
 
         //Finding Views and creating needed creator
+        SignInQRCodeBtn = findViewById(R.id.btnQRScanner);
+        createAccountBtn = findViewById(R.id.btnCreateAccount);
         userNameTextView = findViewById(R.id.username_textview);
         emailTextView = findViewById(R.id.email_textview);
         imageView = findViewById(R.id.account_qr_code);
         setText();
 
+        SignInQRCodeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),ScanLoginCodeActivity.class));
+            }
+        });
+
         //Creating the account QR Code
         try {
-            imageView.setImageBitmap(TextToImageEncode(user.getUsername()));
+            imageView.setImageBitmap(TextToImageEncode(username));
         } catch (WriterException e) {
             e.printStackTrace();
         }
@@ -101,5 +115,9 @@ public class ProfilePage extends AppCompatActivity {
 
         bitmap.setPixels(pixels, 0, 500, 0, 0, bitMatrixWidth, bitMatrixHeight);
         return bitmap;
+    }
+
+    public void onCreateAccount(View view){
+        startActivity(new Intent(getApplicationContext(),CreateAccount.class));
     }
 }
