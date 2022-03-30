@@ -66,10 +66,11 @@ public class MainActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 //Device ID is found
                                 findUserAndSignIn(document.getString("User Name"));
+                                return;
                             }
 //                          //No Device ID Found If Here, Create New Account
                             signInDummyAccount();
-
+                            return;
                         }
                     }
                 });
@@ -97,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
                                 Toast toast = Toast.makeText(context,"Username is not valid, please select another",duration);
                                 toast.show();
                                 signInDummyAccount();
+                                return;
                             }
 
                             User user = new User(userName, "");
@@ -116,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
                             Intent intent = new Intent(getApplicationContext(), MainMenu.class);
                             intent.putExtra("User",user);
                             startActivity(intent);
+                            return;
                         }
                     }
                 });

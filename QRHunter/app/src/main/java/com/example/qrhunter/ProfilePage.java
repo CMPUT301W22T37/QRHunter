@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import com.google.zxing.common.BitMatrix;
  * Class to represent a user's profile
  */
 public class ProfilePage extends AppCompatActivity {
+    private Button createAccountBtn;
     private User user;
     private TextView userNameTextView;
     private TextView emailTextView;
@@ -39,6 +41,7 @@ public class ProfilePage extends AppCompatActivity {
         user = (User) intent.getSerializableExtra("User");
 
         //Finding Views and creating needed creator
+        createAccountBtn = findViewById(R.id.btnCreateAccount);
         userNameTextView = findViewById(R.id.username_textview);
         emailTextView = findViewById(R.id.email_textview);
         imageView = findViewById(R.id.account_qr_code);
@@ -101,5 +104,9 @@ public class ProfilePage extends AppCompatActivity {
 
         bitmap.setPixels(pixels, 0, 500, 0, 0, bitMatrixWidth, bitMatrixHeight);
         return bitmap;
+    }
+
+    public void onCreateAccount(View view){
+        startActivity(new Intent(getApplicationContext(),CreateAccount.class));
     }
 }
