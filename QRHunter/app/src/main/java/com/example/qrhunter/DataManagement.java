@@ -6,12 +6,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * This class is the interface between the database and the app
@@ -52,23 +55,22 @@ public class DataManagement  {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        Context context = getApplicationContext();
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
                                 Log.d("TAG", "Delete QR Code"+ qrCodeFinal.getID());
 
                                 user.removeQRCode(qrCodeFinal);
-                                Log.d("TAG", "In data management: length is "+ user.getAllCodes().size());
+                                removeFromQRDoc(qrCodeFinal);
                                 updateData();
                                 myCallFinal.onCall(user);
                                 return;
                             }
                             Log.d("TAG", "Failed: QR not present");
-                            ArrayList<String> allcodes = user.getCodesStrings();
-                            for(int i = 0;i<allcodes.size();i++){
-                                Log.d("TAG", "QRCode: "+ allcodes.get(i));
-                            }
+//                            ArrayList<String> allcodes = user.getCodesStrings();
+//                            for(int i = 0;i<allcodes.size();i++){
+//                                Log.d("TAG", "QRCode: "+ allcodes.get(i));
+//                            }
 //                            myCallFinal.onCall(null); //if DNE
 
                         }
@@ -96,8 +98,10 @@ public class DataManagement  {
                             boolean found = false;
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                found = true;
+
                                break;
                             }
+                            addToQRDoc(qrCode);
                             if(!found){
                                 updateQR(qrCodeFinal); //only add if it does not already exist
                             }
@@ -173,8 +177,48 @@ public class DataManagement  {
         data.put("code",qrCode);
         db.collection("QRCodes")
                 .document(qrCode.getUniqueHash())
-                .set(data);
+                .update(data);
 
+    }
+
+    /**
+     * removes a user from the QR document
+     * @param qrCode
+     *      the qrCode to remove the user from
+     */
+    public void removeFromQRDoc(QRCode qrCode){
+        DocumentReference qrRef = db.collection("QRCodes").document(qrCode.getUniqueHash());
+        qrRef.update("users", FieldValue.arrayRemove(user.getUsername()));
+    }
+
+    /**
+     * adds a user to the QR document
+     * @param qrCode
+     *      the QR code to add the user to
+     */
+    public void addToQRDoc(QRCode qrCode){
+        DocumentReference qrRef = db.collection("QRCodes").document(qrCode.getUniqueHash());
+        qrRef.update("users", FieldValue.arrayUnion(user.getUsername()));
+    }
+
+    public void retrievePeople(QRCode qrCode, UserCall myCall){
+
+        db.collection("QRCodes")
+                .whereEqualTo("Hash",qrCode.getUniqueHash())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<String> users = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                users = (List<String>)document.get("users");
+
+                            }
+                            myCall.onCall(users);
+                        }
+                    }
+                });
     }
 
     public void getCodes(CodeCall myCall){
