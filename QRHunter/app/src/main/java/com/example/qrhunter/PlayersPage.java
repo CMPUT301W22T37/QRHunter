@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -31,6 +32,8 @@ public class PlayersPage extends AppCompatActivity {
     private ListView allQRCodesListView;
     private ArrayList<String> QRCodes;
     private ArrayAdapter<String> codesAdapter;
+
+    private final int SCAN_PROFILE_CODE = 1;
 
     /**
      * Function called when the activity is created
@@ -135,6 +138,29 @@ public class PlayersPage extends AppCompatActivity {
         ranking = allUsers.indexOf(user);
         searchedTotalScoreRanking.setText(user.getUsername() + "'s Ranking For Sum: " +
                 ranking);
+    }
+
+    public void onScan(View view){
+        Intent intent = new Intent(this, ScanGameCodeActivity.class);
+        startActivityForResult(intent,SCAN_PROFILE_CODE);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==SCAN_PROFILE_CODE) {
+            if (resultCode == ScanGameCodeActivity.RESULT_OK) {
+                String username = data.getStringExtra("username");
+                Log.d("DEBUG","username is: "+username);
+                User currentUser = searchAllUsers(username);
+                if(currentUser!=null){
+                    setViews(currentUser);
+                    setRankings(currentUser);
+                }else{
+                    Toast.makeText(getApplicationContext(), "User Does Not Exist", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
     }
 
 

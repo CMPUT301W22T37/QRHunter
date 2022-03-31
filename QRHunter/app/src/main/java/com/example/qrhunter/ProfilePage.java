@@ -58,7 +58,7 @@ public class ProfilePage extends AppCompatActivity {
             }
         });
 
-        //Creating the account QR Code
+        //Creating the Game QR Code
         try {
             imageView.setImageBitmap(TextToImageEncode(username));
         } catch (WriterException e) {
