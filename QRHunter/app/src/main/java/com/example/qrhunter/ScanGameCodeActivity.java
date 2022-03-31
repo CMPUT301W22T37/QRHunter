@@ -19,10 +19,14 @@ import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.zxing.Result;
 
+/**
+ * The activity to scan a user's game code and pull up their profile. It returns a string to the PlayersPage
+ */
 public class ScanGameCodeActivity extends AppCompatActivity {
 
     private CodeScanner mCodeScanner;
-    private String username;
+    private String userhash;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +42,10 @@ public class ScanGameCodeActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        username = result.getText();
-                        Log.d("DEBUG","in scanner, username is "+username);
-                        Intent resultIntent = new Intent();
-                        resultIntent.putExtra("username", username);
-                        setResult(PlayersPage.RESULT_OK, resultIntent);
+                        userhash = result.getText();
+                        Intent intent = new Intent();
+                        intent.putExtra("userhash", userhash);
+                        setResult(PlayersPage.RESULT_OK, intent);
                         finish();
 
                     }

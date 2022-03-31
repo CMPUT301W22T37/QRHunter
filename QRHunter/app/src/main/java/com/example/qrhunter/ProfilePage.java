@@ -18,7 +18,7 @@ import com.google.zxing.common.BitMatrix;
 /**
  * Class to represent a user's profile
  */
-public class ProfilePage extends AppCompatActivity {
+public class ProfilePage extends AppCompatActivity  {
     private Button SignInQRCodeBtn;
     private Button createAccountBtn;
     private User user;
@@ -48,7 +48,7 @@ public class ProfilePage extends AppCompatActivity {
         createAccountBtn = findViewById(R.id.btnCreateAccount);
         userNameTextView = findViewById(R.id.username_textview);
         emailTextView = findViewById(R.id.email_textview);
-        imageView = findViewById(R.id.account_qr_code);
+        imageView = findViewById(R.id.game_qr_code);
         setText();
 
         SignInQRCodeBtn.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +60,7 @@ public class ProfilePage extends AppCompatActivity {
 
         //Creating the Game QR Code
         try {
-            imageView.setImageBitmap(TextToImageEncode(username));
+            imageView.setImageBitmap(TextToImageEncode(QRCode.getHash(username)));
         } catch (WriterException e) {
             e.printStackTrace();
         }
@@ -117,7 +117,28 @@ public class ProfilePage extends AppCompatActivity {
         return bitmap;
     }
 
+    /**
+     * called when the account is created
+     * @param view
+     *      the current view
+     */
     public void onCreateAccount(View view){
         startActivity(new Intent(getApplicationContext(),CreateAccount.class));
     }
+
+    /**
+     * called when the accountQR fragment is needed
+     * @param view
+     *      the current view
+     */
+    public void onAccountQR(View view){
+        Bitmap accountQR;
+        try {
+            accountQR = TextToImageEncode(username);
+        } catch (WriterException e) {
+            return;
+        }
+        new QRAccountFragment(user,accountQR).show(getSupportFragmentManager(), "ACCOUNT_QR");
+    }
+
 }

@@ -127,6 +127,23 @@ public class PlayersPage extends AppCompatActivity {
         return null;
     }
 
+    /**
+     * searches players by comparing the username to the hash of the username
+     * @param userhash
+     *      the hash of the username we are looking for
+     * @return
+     *      the user (null if not found)
+     */
+    public User searchAllUsersByHash(String userhash){
+        for (User user:allUsers) {
+            if (QRCode.getHash(user.getUsername()).equals(userhash)){
+                return user;
+            }
+        }
+        return null;
+    }
+
+
     public void setRankings(User user){
         int ranking;
         Collections.sort(allUsers, new UserComparatorTotalScanned());
@@ -140,19 +157,33 @@ public class PlayersPage extends AppCompatActivity {
                 ranking);
     }
 
+    /**
+     * called when scanning a QR code to find a player is desirable
+     * @param view
+     *      the current view
+     */
     public void onScan(View view){
         Intent intent = new Intent(this, ScanGameCodeActivity.class);
         startActivityForResult(intent,SCAN_PROFILE_CODE);
     }
+
+    /**
+     * gets result from the scanning activity
+     * @param requestCode
+     *      the code for the activity we are seeking the result from
+     * @param resultCode
+     *      the success code
+     * @param data
+     *      the data we are passing back
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode==SCAN_PROFILE_CODE) {
             if (resultCode == ScanGameCodeActivity.RESULT_OK) {
-                String username = data.getStringExtra("username");
-                Log.d("DEBUG","username is: "+username);
-                User currentUser = searchAllUsers(username);
+                String userhash = data.getStringExtra("userhash");
+                User currentUser = searchAllUsersByHash(userhash);
                 if(currentUser!=null){
                     setViews(currentUser);
                     setRankings(currentUser);
@@ -162,6 +193,7 @@ public class PlayersPage extends AppCompatActivity {
             }
         }
     }
+
 
 
 }
