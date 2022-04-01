@@ -97,7 +97,7 @@
 
         android:focusable="true"
         android:onClick="onSocialClick"
-        app:backgroundTint="#2196F3"
+        app:backgroundTint="@color/colorPrimary"
 
         app:srcCompat="@android:drawable/ic_menu_myplaces"
         tools:layout_editor_absoluteY="0dp">
