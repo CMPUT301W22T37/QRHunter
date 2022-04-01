@@ -70,6 +70,7 @@ public class MainMenu extends AppCompatActivity {
                 Intent intent =new Intent(context, QrCodePage.class);
                 intent.putExtra("QRCode",qrCode);
                 intent.putExtra("User",user);
+                intent.putExtra("currentUser", user);
                 startActivity(intent);
 
             }
@@ -144,6 +145,7 @@ public class MainMenu extends AppCompatActivity {
                             }
                             else {
                                 Intent intent = new Intent(getApplicationContext(), PlayersPage.class);
+                                intent.putExtra("currentUser", user);
                                 intent.putExtra("AllUsers", allUsersTemp);
                                 startActivity(intent);
                             }

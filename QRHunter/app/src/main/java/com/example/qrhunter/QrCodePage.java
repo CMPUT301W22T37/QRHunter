@@ -13,7 +13,11 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +31,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * the activity called when a QR code on the user page is selected
@@ -42,6 +49,10 @@ public class QrCodePage extends AppCompatActivity implements OnMapReadyCallback 
     private GoogleMap mMap;
     private double latitude;
     private double longitude;
+    private ArrayAdapter<String> commentsAdapter;
+    private ListView commentsListView;
+    private EditText addCommentEditText;
+    private User currentUser;
 
 
 
@@ -57,17 +68,20 @@ public class QrCodePage extends AppCompatActivity implements OnMapReadyCallback 
         Intent intent = getIntent();
         qrCode = (QRCode) intent.getSerializableExtra("QRCode");
         user = (User) intent.getSerializableExtra("User");
+        currentUser = (User) intent.getSerializableExtra("currentUser");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         dataManager = new DataManagement(user,db);
 
         codeName = findViewById(R.id.code_name_text);
-
         codeName.setText("QR Code#" + qrCode.getID());
 
-
-
         scoreText = findViewById(R.id.score_text);
-        scoreText.setText("Score: "+qrCode.getScore());
+        scoreText.setText("Score: " + qrCode.getScore());
+
+        //Setting Up The ListView and comment EditText
+        addCommentEditText = findViewById(R.id.comment_edit_text);
+        commentsListView = findViewById(R.id.comments_listview);
+        getComments();
 
         locationImage = findViewById(R.id.image_location);
 
@@ -87,9 +101,36 @@ public class QrCodePage extends AppCompatActivity implements OnMapReadyCallback 
             mapView.getMapAsync(this);
 
         }
+    }
 
+    public void getComments(){
+        Context context = getApplicationContext();
+        dataManager.retrieveComments(qrCode ,new CommentCall() {
+            @Override
+            public void onCall(List<String> comments) {
+                if (comments == null){
+                    comments = new ArrayList<>();
+                }
+                commentsAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.comment_list,comments);
+                commentsListView.setAdapter(commentsAdapter);
+            }
+        });
+    }
 
+    /**
+     * Called when the add comment button is clicked, only adds if there is nothing else there
+     * @param view
+     *      View for the add comment button
+     */
+    public void addComment(View view){
+        if (addCommentEditText.getText().toString() != ""){
+            //Gets and builds comment, then clears EditText
+            String comment = currentUser.getUsername() + ": " + addCommentEditText.getText().toString();
+            addCommentEditText.getText().clear();
 
+            dataManager.updateCodeComment(qrCode, comment);
+            getComments();
+        }
     }
 
     /**

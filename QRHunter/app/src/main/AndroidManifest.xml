@@ -16,11 +16,10 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".PlayersPage"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".QRSocialPage"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".SearchQRPage"
             android:exported="false" />
@@ -36,7 +35,6 @@
             android:name=".MapsActivity"
             android:exported="false"
             android:label="@string/title_activity_maps" />
-
         <activity
             android:name=".ProfilePage"
             android:exported="false" />
