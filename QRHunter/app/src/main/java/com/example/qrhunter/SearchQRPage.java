@@ -1,5 +1,6 @@
 package com.example.qrhunter;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -12,6 +13,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -35,6 +37,9 @@ public class SearchQRPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_qrpage);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("QRHunter");
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("User");
@@ -109,6 +114,17 @@ public class SearchQRPage extends AppCompatActivity {
             }
         }
         return codeStrings;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(getApplicationContext(), MainMenu.class);
+                intent.putExtra("User",user);
+                startActivity(intent);
+                return true;
+        }
+        return true;
     }
 
 

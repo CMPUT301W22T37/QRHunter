@@ -14,13 +14,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!--android:theme="@style/Theme.AppCompat.Light.NoActionBar">-->
+        <!--android:theme="@style/AppTheme"-->
+
+        <activity
+            android:name=".QRAccountFragment"
+            android:exported="false" />
+        <activity
+            android:name=".ScanGameCodeActivity"
+            android:exported="false" />
         <activity
             android:name=".PlayersPage"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".QRSocialPage"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".SearchQRPage"
             android:exported="false" />
@@ -36,7 +45,6 @@
             android:name=".MapsActivity"
             android:exported="false"
             android:label="@string/title_activity_maps" />
-
         <activity
             android:name=".ProfilePage"
             android:exported="false" />
@@ -60,11 +68,8 @@
             android:exported="false" />
         <activity
             android:name=".CreateAccount"
-            android:parentActivityName=".MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
+            android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

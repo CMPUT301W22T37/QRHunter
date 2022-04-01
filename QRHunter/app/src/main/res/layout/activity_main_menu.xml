@@ -1,63 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainMenu">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".08"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        >
 
-        <Button
-            android:id="@+id/profile_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
 
-            android:layout_weight="1"
-            android:onClick="onProfileClick"
-            android:text="PROFILE"
-
-            android:layout_marginLeft="20dp"
-
-            android:textColor="@color/black"
-            android:textSize="16dp" />
-
-        <Button
-            android:id="@+id/stats_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_weight="1"
-            android:onClick="onStatsCLick"
-            android:text="STATS"
-            android:textColor="@color/black"
-            android:textSize="16dp" />
-
-        <Button
-            android:id="@+id/players_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_weight="1"
-            android:onClick="onPlayersClick"
-            android:text="PLAYERS"
-            android:textColor="@color/black"
-            android:textSize="16dp" />
-
-    </LinearLayout>
     <ListView
         android:id="@+id/QRCode_List_View"
         android:layout_gravity="center"
@@ -65,6 +18,7 @@
         android:layout_height="0dp"
         android:layout_weight=".6"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="16dp"
         >
 
     </ListView>
@@ -120,8 +74,8 @@
 
             android:clickable="true"
             android:focusable="true"
-            app:backgroundTint="#2196F3"
-
+            app:backgroundTint="@color/colorPrimary"
+            android:layout_marginBottom="10dp"
             app:srcCompat="@android:drawable/ic_dialog_map"
             tools:layout_editor_absoluteY="0dp">
 
@@ -139,8 +93,8 @@
             android:clickable="true"
             android:focusable="true"
             android:onClick="onSearch"
-            app:backgroundTint="#2196F3"
-
+            app:backgroundTint="@color/colorPrimary"
+            android:layout_marginBottom="10dp"
             app:srcCompat="@android:drawable/ic_menu_search"
             tools:layout_editor_absoluteY="0dp">
 
@@ -158,8 +112,8 @@
             android:layout_marginEnd="16dp"
             android:clickable="true"
             android:focusable="true"
-            app:backgroundTint="#2196F3"
-
+            app:backgroundTint="@color/colorPrimary"
+            android:layout_marginBottom="10dp"
             app:srcCompat="@drawable/ic_code_scanner_auto_focus_on"
             tools:layout_editor_absoluteY="0dp">
 
