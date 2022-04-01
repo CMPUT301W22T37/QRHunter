@@ -1,9 +1,11 @@
 package com.example.qrhunter;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 /**
  * Class to represent QR Codes as objects, using the hash as the unique identifier for QRCodes
@@ -55,6 +57,7 @@ public class QRCode implements Serializable{
         this.lon = lon;
         this.image = image;
     }
+
 
     /**
      * Gets the score of a particular QRCode

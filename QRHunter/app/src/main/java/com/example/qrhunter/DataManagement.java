@@ -169,6 +169,33 @@ public class DataManagement  {
     }
 
     /**
+     *
+     */
+    public void updateCodeComment(QRCode code, String comment){ ;
+        DocumentReference qrRef = db.collection("QRCodes").document(code.getUniqueHash());
+        qrRef.update("comments", FieldValue.arrayUnion(comment));
+    }
+
+    public void retrieveComments(QRCode code, CommentCall call){
+        db.collection("QRCodes")
+                .whereEqualTo("Hash",code.getUniqueHash())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<String> comments = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                comments = (List<String>)document.get("comments");
+
+                            }
+                            call.onCall(comments);
+                        }
+                    }
+                });
+    }
+
+    /**
      * updates the QR code in the QRCodes collection
      * @param qrCode
      *      the QR code to be updated

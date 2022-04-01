@@ -4,17 +4,21 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,8 +29,6 @@ import java.util.Collections;
 public class PlayersPage extends AppCompatActivity {
     private ArrayList<User> allUsers;
     private EditText searchUsers;
-    private Button searchButton;
-    private Button scanButton;
     private TextView searchedHighestScoring;
     private TextView searchedTotalNumberRanking;
     private TextView searchedTotalScoreRanking;
@@ -34,6 +36,9 @@ public class PlayersPage extends AppCompatActivity {
     private ListView allQRCodesListView;
     private ArrayList<String> QRCodes;
     private ArrayAdapter<String> codesAdapter;
+
+    private User searchedUser;
+
     private User user;
 
     private final int SCAN_PROFILE_CODE = 1;
@@ -53,12 +58,31 @@ public class PlayersPage extends AppCompatActivity {
 
         Intent intent = getIntent();
         allUsers = (ArrayList<User>) intent.getSerializableExtra("AllUsers");
+
         user = (User) intent.getSerializableExtra("User");
 
 
         //Find and set all views
         findViews();
         setViews(null);
+
+        //OnClick Listener for comments ListView
+        allQRCodesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> myAdapter, View myView, int i, long l) {
+                String selected =(String) (allQRCodesListView.getItemAtPosition(i));
+                if (searchedUser != null){
+                    QRCode qrCode = searchedUser.getCode(searchedUser.getCodesStrings().indexOf(selected));
+                    Context context = getApplicationContext();
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                    Intent intent =new Intent(context, QrCodePage.class);
+                    intent.putExtra("QRCode",qrCode);
+                    intent.putExtra("User",searchedUser);
+                    intent.putExtra("currentUser", user);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     /**
@@ -66,8 +90,6 @@ public class PlayersPage extends AppCompatActivity {
      */
     public void findViews(){
         searchUsers = findViewById(R.id.search_edit_text);
-        searchButton = findViewById(R.id.search_button);
-        scanButton = findViewById(R.id.scan_button);
         searchedHighestScoring = findViewById(R.id.display_highest_QR_textview);
         searchedTotalNumberRanking = findViewById(R.id.display_total_ranking_textview);
         searchedTotalScoreRanking = findViewById(R.id.display_ranking_score_textview);
@@ -78,6 +100,8 @@ public class PlayersPage extends AppCompatActivity {
 
     /**
      * Sets views to user's details, or blank if user is null
+     * @param user
+     *      User to be found from the arrayList, if null the views are set to blank
      */
     public void setViews(@Nullable User user){
         if (user == null){
@@ -87,6 +111,7 @@ public class PlayersPage extends AppCompatActivity {
             rankingTitle.setText("");
         }
         else {
+            searchedUser = user;
             searchedHighestScoring.setText("Highest Scoring Code: " + user.getHighest());
             rankingTitle.setText(user.getUsername() + "'s Ranking");
 
@@ -155,12 +180,12 @@ public class PlayersPage extends AppCompatActivity {
     public void setRankings(User user){
         int ranking;
         Collections.sort(allUsers, new UserComparatorTotalScanned());
-        ranking = allUsers.indexOf(user);
-        searchedTotalNumberRanking.setText(user.getUsername() + "'s Total Ranking for number Scanned: "
+        ranking = allUsers.indexOf(user) + 1;
+        searchedTotalNumberRanking.setText(user.getUsername() + "'s Ranking for Number: "
                 + ranking);
 
         Collections.sort(allUsers, new UserComparatorTotalSum());
-        ranking = allUsers.indexOf(user);
+        ranking = allUsers.indexOf(user) + 1;
         searchedTotalScoreRanking.setText(user.getUsername() + "'s Ranking For Sum: " +
                 ranking);
     }
