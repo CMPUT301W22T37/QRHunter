@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private Button btn;
     private String deviceID;
+    private boolean userIsOwner;
 
     /**
      * Called when created
