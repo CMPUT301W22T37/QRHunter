@@ -183,6 +183,13 @@ public class DataManagement  {
                 .update(data);
 
     }
+
+    /**
+     * add the QR code to the QRCodes collection for the first time
+     * @param qrCode
+     *      the QR code to be added
+     *
+     */
     public void addQR(QRCode qrCode){
         qrCode.setImage(""); //never save a group image
         HashMap<String, Object> data = new HashMap<>();

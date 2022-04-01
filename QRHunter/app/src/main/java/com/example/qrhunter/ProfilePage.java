@@ -1,10 +1,13 @@
 package com.example.qrhunter;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -37,7 +40,9 @@ public class ProfilePage extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
-
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("QRHunter");
+        actionBar.setDisplayHomeAsUpEnabled(true);
         //Getting intent from MainMenu
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("User");
@@ -54,7 +59,9 @@ public class ProfilePage extends AppCompatActivity  {
         SignInQRCodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),ScanLoginCodeActivity.class));
+                Intent intent = new Intent(getApplicationContext(), ScanLoginCodeActivity.class);
+                intent.putExtra("User",user);
+                startActivity(intent);
             }
         });
 
@@ -123,7 +130,9 @@ public class ProfilePage extends AppCompatActivity  {
      *      the current view
      */
     public void onCreateAccount(View view){
-        startActivity(new Intent(getApplicationContext(),CreateAccount.class));
+        Intent intent = new Intent(getApplicationContext(), CreateAccount.class);
+        intent.putExtra("User",user);
+        startActivity(intent);
     }
 
     /**
@@ -139,6 +148,19 @@ public class ProfilePage extends AppCompatActivity  {
             return;
         }
         new QRAccountFragment(user,accountQR).show(getSupportFragmentManager(), "ACCOUNT_QR");
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(getApplicationContext(), MainMenu.class);
+                intent.putExtra("User",user);
+                startActivity(intent);
+                return true;
+        }
+        return true;
     }
 
 }

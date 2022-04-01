@@ -1,11 +1,13 @@
 package com.example.qrhunter;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -32,6 +34,7 @@ public class PlayersPage extends AppCompatActivity {
     private ListView allQRCodesListView;
     private ArrayList<String> QRCodes;
     private ArrayAdapter<String> codesAdapter;
+    private User user;
 
     private final int SCAN_PROFILE_CODE = 1;
 
@@ -44,9 +47,14 @@ public class PlayersPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_players_page);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("QRHunter");
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
         allUsers = (ArrayList<User>) intent.getSerializableExtra("AllUsers");
+        user = (User) intent.getSerializableExtra("User");
+
 
         //Find and set all views
         findViews();
@@ -192,6 +200,17 @@ public class PlayersPage extends AppCompatActivity {
                 }
             }
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(getApplicationContext(), MainMenu.class);
+                intent.putExtra("User",user);
+                startActivity(intent);
+                return true;
+        }
+        return true;
     }
 
 

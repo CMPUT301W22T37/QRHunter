@@ -1,12 +1,14 @@
 package com.example.qrhunter;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -29,6 +31,7 @@ public class CreateAccount extends AppCompatActivity{
     private String givenEmail;
     final String ERROR_MESSAGE = "Must Enter Email and Username";
     private String deviceID;
+    private User user;
 
     /**
      * called when created
@@ -39,6 +42,11 @@ public class CreateAccount extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("QRHunter");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        Intent intent = getIntent();
+        user = (User) intent.getSerializableExtra("User");
 
         //Getting device ID and both Edit_text fields
         //For Getting Specific Android ID
@@ -114,6 +122,17 @@ public class CreateAccount extends AppCompatActivity{
                         }
                     }
                 });
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(getApplicationContext(), ProfilePage.class);
+                intent.putExtra("User",user);
+                startActivity(intent);
+                return true;
+        }
+        return true;
     }
 
 

@@ -160,6 +160,7 @@ public class MainMenu extends AppCompatActivity {
                             else {
                                 Intent intent = new Intent(getApplicationContext(), PlayersPage.class);
                                 intent.putExtra("AllUsers", allUsersTemp);
+                                intent.putExtra("User", user);
                                 startActivity(intent);
                             }
                         }
