@@ -95,16 +95,19 @@ public class DataManagement  {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            Log.d("DEBUG","found hash "+qrCode.getUniqueHash());
                             boolean found = false;
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                found = true;
-
+                                Log.d("DEBUG","hash exists ");
                                break;
                             }
-                            addToQRDoc(qrCode);
+//                            addToQRDoc(qrCode);
                             if(!found){
-                                updateQR(qrCodeFinal); //only add if it does not already exist
+                                Log.d("DEBUG","hash does not exist ");
+                                addQR(qrCodeFinal); //only add if it does not already exist
                             }
+                            addToQRDoc(qrCode);
                         }
                     }
                 });
@@ -178,6 +181,16 @@ public class DataManagement  {
         db.collection("QRCodes")
                 .document(qrCode.getUniqueHash())
                 .update(data);
+
+    }
+    public void addQR(QRCode qrCode){
+        qrCode.setImage(""); //never save a group image
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("Hash", qrCode.getUniqueHash());
+        data.put("code",qrCode);
+        db.collection("QRCodes")
+                .document(qrCode.getUniqueHash())
+                .set(data);
 
     }
 
