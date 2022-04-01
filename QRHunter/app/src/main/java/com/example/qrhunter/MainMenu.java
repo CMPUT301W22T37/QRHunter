@@ -1,11 +1,16 @@
 package com.example.qrhunter;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -43,6 +48,10 @@ public class MainMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("QRHunter");
+
+
 
         new PermissionChecker(MainMenu.this);
         //Getting user
@@ -74,6 +83,12 @@ public class MainMenu extends AppCompatActivity {
 
             }
         });
+    }
+    @Override
+    public boolean onCreateOptionsMenu( Menu menu ) {
+
+        getMenuInflater().inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     /**
@@ -173,5 +188,35 @@ public class MainMenu extends AppCompatActivity {
         Intent intent = new Intent(this, SearchQRPage.class);
         intent.putExtra("User", user);
         startActivity(intent);
+    }
+
+    /**
+     * https://developer.android.com/training/appbar/actions
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.profile_icon:
+                Intent intent = new Intent(this, ProfilePage.class);
+                intent.putExtra("User", user);
+                startActivity(intent);
+                return true;
+
+            case R.id.stats_icon:
+                onGeneralClick(true);
+                return true;
+
+            case R.id.search_person:
+                onGeneralClick(false);
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 }
