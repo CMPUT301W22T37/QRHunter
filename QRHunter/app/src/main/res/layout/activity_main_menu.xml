@@ -74,8 +74,8 @@
 
             android:clickable="true"
             android:focusable="true"
-            app:backgroundTint="#2196F3"
-
+            app:backgroundTint="@color/colorPrimary"
+            android:layout_marginBottom="10dp"
             app:srcCompat="@android:drawable/ic_dialog_map"
             tools:layout_editor_absoluteY="0dp">
 
@@ -93,8 +93,8 @@
             android:clickable="true"
             android:focusable="true"
             android:onClick="onSearch"
-            app:backgroundTint="#2196F3"
-
+            app:backgroundTint="@color/colorPrimary"
+            android:layout_marginBottom="10dp"
             app:srcCompat="@android:drawable/ic_menu_search"
             tools:layout_editor_absoluteY="0dp">
 
@@ -112,8 +112,8 @@
             android:layout_marginEnd="16dp"
             android:clickable="true"
             android:focusable="true"
-            app:backgroundTint="#2196F3"
-
+            app:backgroundTint="@color/colorPrimary"
+            android:layout_marginBottom="10dp"
             app:srcCompat="@drawable/ic_code_scanner_auto_focus_on"
             tools:layout_editor_absoluteY="0dp">
 
