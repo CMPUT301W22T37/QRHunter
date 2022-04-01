@@ -1,11 +1,13 @@
 package com.example.qrhunter;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -49,6 +51,9 @@ public class StatsPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats_page);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("QRHunter");
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         context = getApplicationContext();
         db = FirebaseFirestore.getInstance();
@@ -150,5 +155,17 @@ public class StatsPage extends AppCompatActivity {
      */
     public void onTotalSumClick(View view){
         setLeaderBoard(false, true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(getApplicationContext(), MainMenu.class);
+                intent.putExtra("User",user);
+                startActivity(intent);
+                return true;
+        }
+        return true;
     }
 }
