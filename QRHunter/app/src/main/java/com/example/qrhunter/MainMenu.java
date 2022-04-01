@@ -14,15 +14,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.security.acl.Owner;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -37,6 +40,8 @@ public class MainMenu extends AppCompatActivity {
     private ArrayList<String> codesDisplay;
     private TextView totalScore;
     private TextView totalScanned;
+    private FloatingActionButton owner_button;
+    private boolean userIsOwner;
 
 
     /**
@@ -51,7 +56,16 @@ public class MainMenu extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("QRHunter");
 
+        userIsOwner = true;
 
+        owner_button = (FloatingActionButton) findViewById(R.id.owner_button);
+
+
+
+        if (userIsOwner)
+        {
+            owner_button.setVisibility(View.VISIBLE);
+        }
 
         new PermissionChecker(MainMenu.this);
         //Getting user
@@ -117,6 +131,11 @@ public class MainMenu extends AppCompatActivity {
     public void onScan(View view){
         Intent intent = new Intent(this, ScanQRCodeActivity.class);
         intent.putExtra("User", user);
+        startActivity(intent);
+    }
+
+    public void onOwner(View view){
+        Intent intent = new Intent(this, OwnerActivity.class);
         startActivity(intent);
     }
 

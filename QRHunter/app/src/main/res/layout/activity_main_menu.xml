@@ -106,7 +106,22 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/add_qr_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="10dp"
+            android:clickable="true"
+            android:focusable="true"
             android:onClick="onScan"
+            app:backgroundTint="@color/colorPrimary"
+            app:srcCompat="@drawable/ic_code_scanner_auto_focus_on"
+            tools:layout_editor_absoluteY="0dp">
+
+        </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/owner_button"
+            android:onClick="onOwner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -114,8 +129,9 @@
             android:focusable="true"
             app:backgroundTint="@color/colorPrimary"
             android:layout_marginBottom="10dp"
-            app:srcCompat="@drawable/ic_code_scanner_auto_focus_on"
-            tools:layout_editor_absoluteY="0dp">
+            app:srcCompat="@drawable/account_circle"
+            tools:layout_editor_absoluteY="0dp"
+            android:visibility="invisible">
 
         </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
