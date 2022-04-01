@@ -72,6 +72,8 @@
 
             android:layout_marginTop="16dp"
             android:layout_marginEnd="20dp"
+            android:clickable="true"
+            android:focusable="true"
 
             app:srcCompat="@drawable/ic_code_scanner_auto_focus_off" />
     </LinearLayout>
@@ -99,7 +101,7 @@
         android:onClick="onSocialClick"
         app:backgroundTint="@color/colorPrimary"
 
-        app:srcCompat="@android:drawable/ic_menu_myplaces"
+        app:srcCompat="@drawable/social_button_white"
         tools:layout_editor_absoluteY="0dp">
 
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
@@ -137,12 +139,15 @@
         android:layout_height="wrap_content"
         android:text="Comments"
         android:textSize="20sp"
+        android:layout_marginBottom="10dp"
         />
 
     <ListView
         android:id="@+id/comments_listview"
         android:layout_width="match_parent"
-        android:layout_height="150sp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
         >
 
     </ListView>

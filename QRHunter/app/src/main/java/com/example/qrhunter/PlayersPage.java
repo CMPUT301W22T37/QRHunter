@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -117,7 +118,7 @@ public class PlayersPage extends AppCompatActivity {
 
             //Creating Listview for user's QRCodes
             QRCodes = user.getCodesStrings();
-            codesAdapter = new ArrayAdapter<String>(this, R.layout.qr_list, QRCodes);
+            codesAdapter = new ArrayAdapter<String>(this, R.layout.distance_list, QRCodes);
             allQRCodesListView.setAdapter(codesAdapter);
         }
     }
@@ -128,6 +129,7 @@ public class PlayersPage extends AppCompatActivity {
      *      View for the clicked button
      */
     public void onSearchClick(View view){
+        hideKeyboard(view);
         String searchedName = searchUsers.getText().toString();
         if (!searchedName.equals("")){//If there is something actually entered in search field
             User searchedUser = searchAllUsers(searchedName);
@@ -236,6 +238,10 @@ public class PlayersPage extends AppCompatActivity {
                 return true;
         }
         return true;
+    }
+    private void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getApplicationWindowToken(),0);
     }
 
 
