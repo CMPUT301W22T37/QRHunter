@@ -27,7 +27,11 @@ public class ScanGameCodeActivity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
     private String userhash;
 
-
+    /**
+     * called when activity created
+     * @param savedInstanceState
+     *      the instance bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

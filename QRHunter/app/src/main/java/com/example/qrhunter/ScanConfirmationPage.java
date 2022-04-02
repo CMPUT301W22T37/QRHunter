@@ -67,6 +67,9 @@ public class ScanConfirmationPage extends AppCompatActivity {
 
     }
 
+    /**
+     * obtains the location of the QR code
+     */
     public void getLocation(){
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             new PermissionChecker(ScanConfirmationPage.this);
@@ -170,6 +173,12 @@ public class ScanConfirmationPage extends AppCompatActivity {
         intent.putExtra("User",user);
         startActivity(intent);
     }
+
+    /**
+     * allows a scan to be canceled
+     * @param view
+     *      the current view
+     */
     public void onCancel(View view){
         user.removeQRCode(qrCode);
         FirebaseFirestore db = FirebaseFirestore.getInstance();

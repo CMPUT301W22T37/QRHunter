@@ -196,12 +196,24 @@ public class QrCodePage extends AppCompatActivity implements OnMapReadyCallback 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(position, 15);
         mMap.animateCamera(cameraUpdate);
     }
+
+    /**
+     * go to the social page of the QR code
+     * @param view
+     *      the current view
+     */
     public void onSocialClick(View view){
         Intent intent =new Intent(this, QRSocialPage.class);
         intent.putExtra("User",user);
         intent.putExtra("QRCode",qrCode);
         startActivity(intent);
     }
+
+    /**
+     * hides the keyboard after input received
+     * @param view
+     *      the current view
+     */
     private void hideKeyboard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getApplicationWindowToken(),0);

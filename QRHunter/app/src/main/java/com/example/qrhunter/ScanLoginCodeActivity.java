@@ -23,11 +23,19 @@ import com.google.zxing.Result;
 
 import java.util.HashMap;
 
+/**
+ * the activity to scan the login code
+ */
 public class ScanLoginCodeActivity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
     private FirebaseFirestore db;
     private User user;
 
+    /**
+     * called when activity created
+     * @param savedInstanceState
+     *      the instance bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         db = FirebaseFirestore.getInstance();

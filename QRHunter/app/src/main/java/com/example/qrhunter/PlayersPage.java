@@ -230,6 +230,14 @@ public class PlayersPage extends AppCompatActivity {
             }
         }
     }
+
+    /**
+     * allows the user to utilize the back button
+     * @param item
+     *      the button pressed on the action bar
+     * @return
+     *      if it is successful
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -242,6 +250,11 @@ public class PlayersPage extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * hides the keyboard after input received
+     * @param view
+     *      the current view
+     */
     private void hideKeyboard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getApplicationWindowToken(),0);

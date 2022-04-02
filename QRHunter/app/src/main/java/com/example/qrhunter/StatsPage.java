@@ -157,6 +157,13 @@ public class StatsPage extends AppCompatActivity {
         setLeaderBoard(false, true);
     }
 
+    /**
+     * allows users to go back to the main menu
+     * @param item
+     *      the item on the action bar
+     * @return
+     *      success
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

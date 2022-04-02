@@ -17,6 +17,9 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * the page that shows the other users that have scanned the same QR code
+ */
 public class QRSocialPage extends AppCompatActivity {
     private QRCode qrCode;
     private User user;
@@ -26,6 +29,11 @@ public class QRSocialPage extends AppCompatActivity {
     private ArrayAdapter<String> usersAdapter;
 
     private DataManagement dataManager;
+    /**
+     * called when activity created
+     * @param savedInstanceState
+     *      the instance bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +52,10 @@ public class QRSocialPage extends AppCompatActivity {
 
 
     }
+
+    /**
+     * obtains the users that have scanned the same QR code
+     */
     public void getUsers(){
         Context context = getApplicationContext();
         dataManager.retrievePeople(qrCode ,new UserCall() {

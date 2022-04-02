@@ -99,6 +99,14 @@ public class MainMenu extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * allows the action bar to be properly visible
+     * @param menu
+     *      the menu bar
+     * @return
+     *      success
+     */
     @Override
     public boolean onCreateOptionsMenu( Menu menu ) {
 
@@ -135,6 +143,10 @@ public class MainMenu extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Go to owner page
+     * @param view
+     */
     public void onOwner(View view){
         Intent intent = new Intent(this, OwnerActivity.class);
         startActivity(intent);
@@ -240,4 +252,5 @@ public class MainMenu extends AppCompatActivity {
 
         }
     }
+
 }

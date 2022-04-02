@@ -29,9 +29,6 @@ public class User implements Serializable{
         this.allCodes = new ArrayList<>();
         this.isOwner = false;
 
-        //Testing Purposes only
-        addCode(new QRCode("BFG5DGW54",getNextID()));
-        addCode(new QRCode("DCFJFJFJ", getNextID()));
     }
 
     /**
@@ -274,13 +271,31 @@ public class User implements Serializable{
         this.allCodes.set(i,qrCode);
     }
 
+    /**
+     * returns the owner status of the user
+     * @return
+     *      boolean, whether or not the user is an owner
+     */
     public boolean getOwner(){
         return this.isOwner;
     }
+
+    /**
+     * sets the owner status of the user
+     * @param owner
+     *      the new owner status
+     */
     public void setOwner(boolean owner){
         this.isOwner = owner;
     }
 
+    /**
+     * returns a specific QR code given its hash value
+     * @param hash
+     *      the hash string
+     * @return
+     *      the QRCode
+     */
     public QRCode getCodeFromHash(String hash){
         for(QRCode code: this.allCodes){
             if(code.getUniqueHash().equals(hash)){
