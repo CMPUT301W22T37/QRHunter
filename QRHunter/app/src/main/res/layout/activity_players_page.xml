@@ -12,12 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginTop="10dp"
         >
 
         <EditText
             android:id="@+id/search_edit_text"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="0.6"
             android:hint="Search All Players"
             android:textSize="20sp"
             android:layout_marginLeft="10sp"
@@ -28,9 +30,12 @@
             android:id="@+id/search_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20sp"
+            android:layout_marginLeft="10sp"
             android:onClick="onSearchClick"
-            android:text="Search"></Button>
+            android:text="Search">
+
+        </Button>
+
 
         <Button
             android:id="@+id/scan_button"
@@ -38,7 +43,9 @@
             android:layout_height="wrap_content"
             android:text="Scan"
             android:onClick="onScan"
-            android:layout_marginLeft="20sp"
+
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             >
         </Button>
 
@@ -50,7 +57,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Person's Ranking"
-        android:textSize="40sp"
+        android:textSize="35sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20sp"
         android:textStyle="bold|italic"
@@ -67,6 +76,8 @@
         android:textSize="20sp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20sp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
         >
 
     </TextView>
@@ -79,6 +90,8 @@
         android:textSize="20sp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20sp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
         >
 
     </TextView>
@@ -91,6 +104,8 @@
         android:textSize="20sp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20sp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
         >
 
     </TextView>
@@ -98,8 +113,11 @@
     <ListView
         android:id="@+id/qr_code_listview"
         android:layout_width="match_parent"
-        android:layout_height="400sp"
+        android:layout_height="0dp"
+        android:layout_weight=".6"
         android:layout_marginTop="15sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
         >
 
     </ListView>

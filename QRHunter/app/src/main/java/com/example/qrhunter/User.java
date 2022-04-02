@@ -1,6 +1,7 @@
 package com.example.qrhunter;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -64,11 +65,27 @@ public class User implements Serializable{
         for (HashMap code: maps) {
 
             String ID = (String)code.get("id");
-
             codes.add(new QRCode(Integer.parseInt(ID),(String)code.get("uniqueHash"),
-                    (double)code.get("latitude"),(double)code.get("longitude"),(String)code.get("image")));
+                    (double)code.get("latitude"), (double)code.get("longitude"),
+                    (String)code.get("image")));
         }
         return codes;
+    }
+
+    /**
+     * Updates a QRCode to include new comments
+     * @param code
+     *      QRCode to be updated
+     */
+    public void updateCodeComments(QRCode code){
+        QRCode current;
+        for (int i = 0; i < allCodes.size(); i++) {
+            current = allCodes.get(i);
+            if (current.getUniqueHash() == code.getUniqueHash()){
+                allCodes.remove(current);
+            }
+        }
+        allCodes.add(code);
     }
 
     /**

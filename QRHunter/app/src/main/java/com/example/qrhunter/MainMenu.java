@@ -55,6 +55,9 @@ public class MainMenu extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("QRHunter");
+
+        new PermissionChecker(MainMenu.this);
+
         //Getting user
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("User");
@@ -90,6 +93,7 @@ public class MainMenu extends AppCompatActivity {
                 Intent intent =new Intent(context, QrCodePage.class);
                 intent.putExtra("QRCode",qrCode);
                 intent.putExtra("User",user);
+                intent.putExtra("currentUser", user);
                 startActivity(intent);
 
             }

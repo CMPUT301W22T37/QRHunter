@@ -23,9 +23,11 @@
     <ListView
         android:id="@+id/all_highscores_listview"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         >
     </ListView>
 
@@ -37,7 +39,7 @@
         >
 
         <Button
-            android:layout_marginLeft="40sp"
+            android:layout_marginLeft="20sp"
             android:id="@+id/high_score_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,9 +49,12 @@
             android:textSize="15dp">
 
         </Button>
+        <Space
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
 
         <Button
-            android:layout_marginLeft="20sp"
             android:id="@+id/total_scanned_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -59,12 +64,16 @@
 
 
         </Button>
+        <Space
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
 
         <Button
             android:id="@+id/total_score_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20sp"
+            android:layout_marginRight="20dp"
             android:onClick="onTotalSumClick"
             android:text="Overall"
             android:textSize="15dp">
@@ -80,7 +89,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15sp"
+        android:layout_marginTop="15dp"
         android:text="Personal Ranking"
         android:textColor="@color/black"
         android:textSize="30dp"
@@ -92,7 +101,7 @@
         android:id="@+id/highest_score_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal"
         android:text="Highest Ranking Individual Score"
         android:textSize="20dp">
@@ -103,7 +112,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="Lowest Ranking Individual Score"
         android:textSize="20dp"></TextView>
 
@@ -123,7 +132,7 @@
         android:id="@+id/total_ranking_number_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal"
         android:text="Ranking For Total Number"
         android:textSize="20dp">
@@ -133,7 +142,8 @@
         android:id="@+id/total_ranking_score_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_gravity="center_horizontal"
         android:text="Ranking For Total Score"
         android:textSize="20dp">

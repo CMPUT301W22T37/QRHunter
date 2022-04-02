@@ -72,6 +72,8 @@
 
             android:layout_marginTop="16dp"
             android:layout_marginEnd="20dp"
+            android:clickable="true"
+            android:focusable="true"
 
             app:srcCompat="@drawable/ic_code_scanner_auto_focus_off" />
     </LinearLayout>
@@ -97,10 +99,57 @@
 
         android:focusable="true"
         android:onClick="onSocialClick"
-        app:backgroundTint="#2196F3"
+        app:backgroundTint="@color/colorPrimary"
 
-        app:srcCompat="@android:drawable/ic_menu_myplaces"
+        app:srcCompat="@drawable/social_button_white"
         tools:layout_editor_absoluteY="0dp">
 
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20sp"
+        >
+
+        <EditText
+            android:id="@+id/comment_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Add A Comment!"
+            android:textSize="20sp"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10sp"
+            android:onClick="addComment"
+            android:text="Add"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginTop="30sp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Comments"
+        android:textSize="20sp"
+        android:layout_marginBottom="10dp"
+        />
+
+    <ListView
+        android:id="@+id/comments_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        >
+
+    </ListView>
+
 </LinearLayout>

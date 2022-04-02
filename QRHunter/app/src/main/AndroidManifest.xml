@@ -24,9 +24,11 @@
         <activity
             android:name=".ScanGameCodeActivity"
             android:exported="false" />
+
         <activity
             android:name=".OwnerActivity"
             android:exported="false" />
+
         <activity
             android:name=".PlayersPage"
             android:exported="false" />
