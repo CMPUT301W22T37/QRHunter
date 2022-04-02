@@ -37,12 +37,12 @@ public class PlayersPage extends AppCompatActivity {
     private ListView allQRCodesListView;
     private ArrayList<String> QRCodes;
     private ArrayAdapter<String> codesAdapter;
-
-    private User searchedUser;
-
     private User user;
 
     private final int SCAN_PROFILE_CODE = 1;
+
+    private User searchedUser;
+
 
     /**
      * Function called when the activity is created
@@ -59,6 +59,8 @@ public class PlayersPage extends AppCompatActivity {
 
         Intent intent = getIntent();
         allUsers = (ArrayList<User>) intent.getSerializableExtra("AllUsers");
+        user = (User) intent.getSerializableExtra("User");
+
 
         user = (User) intent.getSerializableExtra("User");
 
@@ -239,11 +241,10 @@ public class PlayersPage extends AppCompatActivity {
         }
         return true;
     }
+
     private void hideKeyboard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getApplicationWindowToken(),0);
     }
-
-
 
 }

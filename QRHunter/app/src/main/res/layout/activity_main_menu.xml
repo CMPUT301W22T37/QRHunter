@@ -119,5 +119,21 @@
 
         </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/owner_button"
+            android:onClick="onOwner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:backgroundTint="@color/colorPrimary"
+            android:layout_marginBottom="10dp"
+            app:srcCompat="@drawable/account_circle"
+            tools:layout_editor_absoluteY="0dp"
+            android:visibility="gone">
+
+        </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
     </LinearLayout>
 </LinearLayout>

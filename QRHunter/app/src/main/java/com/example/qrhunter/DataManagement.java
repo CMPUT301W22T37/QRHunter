@@ -67,11 +67,7 @@ public class DataManagement  {
                                 return;
                             }
                             Log.d("TAG", "Failed: QR not present");
-//                            ArrayList<String> allcodes = user.getCodesStrings();
-//                            for(int i = 0;i<allcodes.size();i++){
-//                                Log.d("TAG", "QRCode: "+ allcodes.get(i));
-//                            }
-//                            myCallFinal.onCall(null); //if DNE
+
 
                         }
                     }
@@ -160,6 +156,7 @@ public class DataManagement  {
         HashMap<String, Object> data = new HashMap<>();
         data.put("User Name", user.getUsername());
         data.put("Email", user.getEmail());
+        data.put("owner",user.getOwner());
         data.put("QRCodes", user.getAllCodes());
         data.put("QRIdentifiers", user.getAllHashes());
 

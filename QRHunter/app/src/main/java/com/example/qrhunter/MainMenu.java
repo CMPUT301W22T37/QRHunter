@@ -14,15 +14,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.security.acl.Owner;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -37,6 +40,8 @@ public class MainMenu extends AppCompatActivity {
     private ArrayList<String> codesDisplay;
     private TextView totalScore;
     private TextView totalScanned;
+    private FloatingActionButton owner_button;
+    private boolean userIsOwner;
 
 
     /**
@@ -51,14 +56,23 @@ public class MainMenu extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("QRHunter");
 
-
-
         new PermissionChecker(MainMenu.this);
+
         //Getting user
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("User");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         dataManager = new DataManagement(user,db);
+
+        userIsOwner = user.getOwner();
+        owner_button = (FloatingActionButton) findViewById(R.id.owner_button);
+        Log.d("DEBUG","Owner: "+user.getOwner());
+        if (userIsOwner) {
+            owner_button.setVisibility(View.VISIBLE);
+        }
+
+        new PermissionChecker(MainMenu.this);
+
 
         codesListView = findViewById(R.id.QRCode_List_View);
         totalScanned = findViewById(R.id.num_scanned_text);
@@ -118,6 +132,11 @@ public class MainMenu extends AppCompatActivity {
     public void onScan(View view){
         Intent intent = new Intent(this, ScanQRCodeActivity.class);
         intent.putExtra("User", user);
+        startActivity(intent);
+    }
+
+    public void onOwner(View view){
+        Intent intent = new Intent(this, OwnerActivity.class);
         startActivity(intent);
     }
 
