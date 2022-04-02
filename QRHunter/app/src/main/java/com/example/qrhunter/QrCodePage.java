@@ -13,6 +13,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -90,6 +91,12 @@ public class QrCodePage extends AppCompatActivity implements OnMapReadyCallback 
             locationImage.setImageResource(android.R.color.transparent);
         }else{
             locationImage.setImageBitmap(bitmap);
+            locationImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new ImageDialogFragment(bitmap).show(getSupportFragmentManager(), "image");
+                }
+            });
         }
         latitude = qrCode.getLatitude();
         longitude = qrCode.getLongitude();
@@ -123,6 +130,7 @@ public class QrCodePage extends AppCompatActivity implements OnMapReadyCallback 
      *      View for the add comment button
      */
     public void addComment(View view){
+        hideKeyboard(view);
         if (addCommentEditText.getText().toString() != ""){
             //Gets and builds comment, then clears EditText
             String comment = currentUser.getUsername() + ": " + addCommentEditText.getText().toString();
@@ -193,5 +201,9 @@ public class QrCodePage extends AppCompatActivity implements OnMapReadyCallback 
         intent.putExtra("User",user);
         intent.putExtra("QRCode",qrCode);
         startActivity(intent);
+    }
+    private void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getApplicationWindowToken(),0);
     }
 }

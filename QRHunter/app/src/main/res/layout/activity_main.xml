@@ -34,7 +34,7 @@
         app:layout_constraintEnd_toStartOf="@+id/hunter_pic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:srcCompat="@drawable/ic_code_scanner_auto_focus_on" />
+        app:srcCompat="@drawable/black_ic_qr_code" />
 
     <ImageView
         android:id="@+id/hunter_pic"
