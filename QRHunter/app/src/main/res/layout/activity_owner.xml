@@ -14,7 +14,6 @@
         android:layout_marginTop="1dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
     </ListView>
 
     <ListView
@@ -61,5 +60,18 @@
         app:srcCompat="@drawable/ic_code_scanner_auto_focus_on">
 
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+    <Button
+        android:id="@+id/delete_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:text="Delete Selected"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="deleteSelected"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

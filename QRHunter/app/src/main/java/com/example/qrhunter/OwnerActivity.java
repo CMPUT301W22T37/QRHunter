@@ -1,5 +1,6 @@
 package com.example.qrhunter;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -10,10 +11,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -35,6 +41,7 @@ public class OwnerActivity extends AppCompatActivity {
     private ArrayAdapter<String> codeListAdapter;
     private ArrayAdapter<String> userListAdapter;
     private String state = "Codes";
+    private String selection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,11 +84,32 @@ public class OwnerActivity extends AppCompatActivity {
             }
         });
 
+        codeListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
+            {
+                selection = adapterView.getItemAtPosition(position).toString();
+                Toast.makeText(getApplicationContext(), selection, Toast.LENGTH_LONG).show();
+            }
+
+        });
+
+        userListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
+            {
+                selection = adapterView.getItemAtPosition(position).toString();
+                Toast.makeText(getApplicationContext(), selection, Toast.LENGTH_LONG).show();
+            }
+
+        });
+
     }
 
     public void showUsers(View view)
     {
         state = "Users";
+        selection = null;
         codeListView.setVisibility(View.GONE);
         userListView.setVisibility(View.VISIBLE);
     }
@@ -89,8 +117,32 @@ public class OwnerActivity extends AppCompatActivity {
     public void showCodes(View view)
     {
         state = "Codes";
+        selection = null;
         userListView.setVisibility(View.GONE);
         codeListView.setVisibility(View.VISIBLE);
+    }
+
+    public void deleteSelected(View view)
+    {
+        if (state == "Users")
+        {
+            db.collection("Users").document(selection).delete();
+        }
+        else if (state == "Codes")
+        {
+            db.collection("QRCodes").document(selection).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(Task<DocumentSnapshot> task) {
+                    List<String> users = (List<String>)task.getResult().get("users");
+                    for (int i = 0; i < users.size(); i++)
+                    {
+                        // Remove the selected qr code from all users using .update()
+                        //db.collection("Users").document(users[i]);
+                    }
+                }
+            });
+
+        }
     }
 
 }
