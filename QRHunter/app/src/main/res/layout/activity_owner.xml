@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".OwnerActivity">
 
-    <ListView
+    <com.baoyz.swipemenulistview.SwipeMenuListView
         android:id="@+id/code_list_view"
         android:layout_width="409dp"
         android:layout_height="729dp"
@@ -14,9 +14,9 @@
         android:layout_marginTop="1dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-    </ListView>
+    </com.baoyz.swipemenulistview.SwipeMenuListView>
 
-    <ListView
+    <com.baoyz.swipemenulistview.SwipeMenuListView
         android:id="@+id/user_list_view"
         android:layout_width="409dp"
         android:layout_height="729dp"
@@ -25,7 +25,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:visibility="gone">
-    </ListView>
+    </com.baoyz.swipemenulistview.SwipeMenuListView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/users_button"
@@ -61,17 +61,6 @@
 
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
-    <Button
-        android:id="@+id/delete_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:text="Delete Selected"
-        android:clickable="true"
-        android:focusable="true"
-        android:onClick="deleteSelected"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -55,24 +55,21 @@ public class MainMenu extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("QRHunter");
-
-        userIsOwner = true;
-
-        owner_button = (FloatingActionButton) findViewById(R.id.owner_button);
-
-
-
-        if (userIsOwner)
-        {
-            owner_button.setVisibility(View.VISIBLE);
-        }
-
-        new PermissionChecker(MainMenu.this);
         //Getting user
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("User");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         dataManager = new DataManagement(user,db);
+
+        userIsOwner = user.getOwner();
+        owner_button = (FloatingActionButton) findViewById(R.id.owner_button);
+        Log.d("DEBUG","Owner: "+user.getOwner());
+        if (userIsOwner) {
+            owner_button.setVisibility(View.VISIBLE);
+        }
+
+        new PermissionChecker(MainMenu.this);
+
 
         codesListView = findViewById(R.id.QRCode_List_View);
         totalScanned = findViewById(R.id.num_scanned_text);
