@@ -131,7 +131,7 @@
             android:layout_marginBottom="10dp"
             app:srcCompat="@drawable/account_circle"
             tools:layout_editor_absoluteY="0dp"
-            android:visibility="invisible">
+            android:visibility="gone">
 
         </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
