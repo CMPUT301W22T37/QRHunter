@@ -123,6 +123,14 @@ public class CreateAccount extends AppCompatActivity{
                     }
                 });
     }
+
+    /**
+     * allows back button to be pressed
+     * @param item
+     *      the item pressed on the action bar
+     * @return
+     *      if it was successful
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

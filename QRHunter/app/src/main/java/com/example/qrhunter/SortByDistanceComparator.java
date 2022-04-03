@@ -5,6 +5,9 @@ import android.util.Log;
 
 import java.util.Comparator;
 
+/**
+ * a comparator to sort QR codes by their distance to the current location of the user
+ */
 public class SortByDistanceComparator implements Comparator<QRCode> {
     private Location currentLocation;
     public SortByDistanceComparator(Location location){

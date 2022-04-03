@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private Button btn;
     private String deviceID;
+    public static Context context;
 
     /**
      * Called when created
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        context = getApplicationContext();
         //Getting Device ID
         deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         //Querying if that ID already exists
@@ -152,5 +153,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+    public static Context getContext(){
+        return context;
     }
 }

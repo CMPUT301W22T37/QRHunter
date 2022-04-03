@@ -22,6 +22,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * search for nearby QR codes by geolocation
+ */
 public class SearchQRPage extends AppCompatActivity {
     private User user;
     private DataManagement dataManager;
@@ -29,10 +32,14 @@ public class SearchQRPage extends AppCompatActivity {
     private ListView nearbyList;
     private ArrayList<String> codesDisplay;
     private ArrayAdapter<String> codesAdapter;
-
-
     public static double MAX_DISTANCE = 20000;
     private ArrayList<QRCode> qrCodeLocations = new ArrayList<>();
+
+    /**
+     * called when activity created
+     * @param savedInstanceState
+     *      the instance bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +58,9 @@ public class SearchQRPage extends AppCompatActivity {
 
     }
 
+    /**
+     * obtains the current location of the user
+     */
     public void getCurrentLocation(){
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             new PermissionChecker(SearchQRPage.this);
@@ -72,6 +82,9 @@ public class SearchQRPage extends AppCompatActivity {
         }
     }
 
+    /**
+     * obtains all qrCodes that have been scanned
+     */
     private void getQRCodes(){
 
         dataManager.getCodes(new CodeCall() {
@@ -92,14 +105,25 @@ public class SearchQRPage extends AppCompatActivity {
 
             }
         });
-
     }
+
+    /**
+     * sets up the list view
+     */
     public void setupListView(){
         codesDisplay = getDistStrings(qrCodeLocations);
         nearbyList = findViewById(R.id.Nearby_List_View);
         codesAdapter = new ArrayAdapter<String>(this, R.layout.distance_list, codesDisplay);
         nearbyList.setAdapter(codesAdapter);
     }
+
+    /**
+     * gets the string representation of all distances within a 20km radius
+     * @param sortedQR
+     *      the QR codes sorted by distance
+     * @return
+     *      the list of strings containing the distance and score of nearby qr codes
+     */
     private ArrayList<String> getDistStrings(ArrayList<QRCode> sortedQR){
         double dist;
         ArrayList<String> codeStrings = new ArrayList<>();
@@ -115,6 +139,14 @@ public class SearchQRPage extends AppCompatActivity {
         }
         return codeStrings;
     }
+
+    /**
+     * allows users to go back to the main menu
+     * @param item
+     *      the item on the action bar
+     * @return
+     *      success
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

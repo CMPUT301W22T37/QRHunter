@@ -20,11 +20,18 @@ import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.zxing.Result;
 
+/**
+ * activity to scan a QR code
+ */
 public class ScanQRCodeActivity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
     private User user;
     private DataManagement dataManager;
-
+    /**
+     * called when activity created
+     * @param savedInstanceState
+     *      the instance bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +105,14 @@ public class ScanQRCodeActivity extends AppCompatActivity {
         mCodeScanner.releaseResources();
         super.onPause();
     }
+
+    /**
+     * allows users to go back to the main menu
+     * @param item
+     *      the item on the action bar
+     * @return
+     *      success
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

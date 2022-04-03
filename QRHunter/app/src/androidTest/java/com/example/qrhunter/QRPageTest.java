@@ -2,7 +2,6 @@ package com.example.qrhunter;
 
 import static org.junit.Assert.assertTrue;
 
-import android.app.Activity;
 import android.widget.EditText;
 
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -17,9 +16,10 @@ import org.junit.Test;
 
 import java.util.Random;
 
-public class ProfilePageTest {
+public class QRPageTest {
     private Solo solo;
     private String username;
+
     @Rule
     public ActivityTestRule<MainActivity> rule =
             new ActivityTestRule<>(MainActivity.class,true,true);
@@ -30,24 +30,32 @@ public class ProfilePageTest {
         int random_user = rand.nextInt(upperbound);
         username = "TestUser"+random_user;
         User user = new TestUser(username, username+"@gmail.com");
+
         solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
     }
 
-
     @Test
-    public void profilePageTest(){
-
+    public void clickSocial(){
         solo.assertCurrentActivity("Wrong Activity",MainMenu.class);
-
-        solo.clickOnView(solo.getView(R.id.profile_icon));
-        solo.assertCurrentActivity("Wrong Activity",ProfilePage.class);
-        assertTrue(solo.waitForText(username));
-        assertTrue(solo.waitForText("Game Stats QR Code"));
-        solo.clickOnView(solo.getView(R.id.GenerateAccountQR));
+        // currently, we are initializing user with two qr codes
+        String text = solo.clickInList(0).get(0).getText().toString();
+        solo.assertCurrentActivity("Wrong Activity",QrCodePage.class);
+        assertTrue(solo.waitForText(text));
+        solo.clickOnView(solo.getView(R.id.social_button));
+        solo.assertCurrentActivity("Wrong Activity",QRSocialPage.class);
         assertTrue(solo.waitForText(username));
 
     }
-
+    @Test
+    public void commentTest(){
+        solo.assertCurrentActivity("Wrong Activity",MainMenu.class);
+        // currently, we are initializing user with two qr codes
+        String text = solo.clickInList(0).get(0).getText().toString();
+        solo.assertCurrentActivity("Wrong Activity",QrCodePage.class);
+        solo.enterText((EditText) solo.getView(R.id.comment_edit_text),username+" Comment");
+        solo.clickOnButton("Add");
+        assertTrue(solo.waitForText(username+ " Comment"));
+    }
 
     @After
     public void tearDown() throws Exception{

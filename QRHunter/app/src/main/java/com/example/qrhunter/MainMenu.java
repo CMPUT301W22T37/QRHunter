@@ -3,10 +3,11 @@ package com.example.qrhunter;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,10 +15,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -25,7 +28,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.security.acl.Owner;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -34,7 +36,7 @@ import java.util.HashMap;
  */
 public class MainMenu extends AppCompatActivity {
     private ArrayAdapter<String> codesAdapter;
-    private ListView codesListView;
+    private SwipeMenuListView codesListView;
     private User user;
     private DataManagement dataManager;
     private ArrayList<String> codesDisplay;
@@ -58,12 +60,13 @@ public class MainMenu extends AppCompatActivity {
 
         new PermissionChecker(MainMenu.this);
 
-        //Getting user
+        //Getting user and firebase reference
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("User");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         dataManager = new DataManagement(user,db);
 
+        //Finding Views from Layout
         userIsOwner = user.getOwner();
         owner_button = (FloatingActionButton) findViewById(R.id.owner_button);
         Log.d("DEBUG","Owner: "+user.getOwner());
@@ -73,18 +76,17 @@ public class MainMenu extends AppCompatActivity {
 
         new PermissionChecker(MainMenu.this);
 
-
         codesListView = findViewById(R.id.QRCode_List_View);
         totalScanned = findViewById(R.id.num_scanned_text);
         totalScore = findViewById(R.id.total_score_text);
-        totalScanned.setText("Codes Scanned: " + Integer.toString(user.getAllCodes().size()));
-        totalScore.setText("Total Score: "+ Integer.toString(user.getTotalScore()));
+        setTexts();
 
-        //Creating Listview for QRCodes
+        //Creating and Populating QRCodes listview
         codesDisplay = user.getCodesStrings();
         codesAdapter = new ArrayAdapter<String>(this, R.layout.qr_list, codesDisplay);
         codesListView.setAdapter(codesAdapter);
 
+        //On Item Click to open QRCode page
         codesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> myAdapter, View myView, int i, long l) {
                 String selected =(String) (codesListView.getItemAtPosition(i));
@@ -98,7 +100,94 @@ public class MainMenu extends AppCompatActivity {
 
             }
         });
+
+        //Documentation for SwipeMenuListView
+        //Github page: https://github.com/baoyongzhang/SwipeMenuListView
+        //Youtube Video: https://www.youtube.com/watch?v=2aKL0qw4BVg
+        //On Swipe for delete
+        SwipeMenuCreator creator = new SwipeMenuCreator() {
+
+            @Override
+            public void create(SwipeMenu menu) {
+                // create "delete" item
+                SwipeMenuItem deleteItem = new SwipeMenuItem(
+                        getApplicationContext());
+                // set item background
+                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
+                        0x3F, 0x25)));
+                // set item width
+                deleteItem.setWidth(170);
+                // set a icon
+                deleteItem.setIcon(R.drawable.ic_trash_can);
+                // add to menu
+                menu.addMenuItem(deleteItem);
+            }
+        };
+
+        //Set creator
+        codesListView.setMenuCreator(creator);
+
+        codesListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                switch (index) {
+                    case 0:
+                        //When Swipe Delete Button Is Pressed
+                        QRCode code = user.getAllCodes().get(position);//Since both lists of codes should be indexed the same
+                        user.removeQRCode(code);
+
+                        //Deletes from User in firebase
+                        deleteCode(user, code);
+
+                        //Delete code from listview
+                        codesDisplay.remove(position);
+                        codesAdapter.notifyDataSetChanged();
+                        setTexts();
+                        break;
+                }
+                // false : close the menu; true : not close the menu
+                return true;
+            }
+        });
     }
+
+    /**
+     * Sets the total scanned and total score textviews to their current data
+     */
+    public void setTexts(){
+        totalScanned.setText("Codes Scanned: " + Integer.toString(user.getAllCodes().size()));
+        totalScore.setText("Total Score: "+ Integer.toString(user.getTotalScore()));
+    }
+
+    /**
+     * Called when delete button hit, used to delete QR code from user's list
+     * @param user
+     *      User that code is being deleted from
+     * @param qrCode
+     *      Code to delete
+     */
+    public void deleteCode(User user, QRCode qrCode){
+        try{
+            final User oldUser = user;
+            dataManager.removeCode(qrCode, new CallBack() {
+                @Override
+                public void onCall(User user) {
+                    Log.d("TAG", "Delete QR Code"+ qrCode.getID());
+                }
+            });
+
+        } catch(Exception e){
+            Log.d("TAG", "QR DNE");
+        }
+    }
+
+    /**
+     * allows the action bar to be properly visible
+     * @param menu
+     *      the menu bar
+     * @return
+     *      success
+     */
     @Override
     public boolean onCreateOptionsMenu( Menu menu ) {
 
@@ -135,22 +224,13 @@ public class MainMenu extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Go to owner page
+     * @param view
+     */
     public void onOwner(View view){
         Intent intent = new Intent(this, OwnerActivity.class);
         startActivity(intent);
-    }
-
-    /**
-     * Called when stats button is clicked
-     * @param view
-     *      View for the button clicked
-     */
-    public void onStatsCLick(View view){
-        onGeneralClick(true);
-    }
-
-    public void onPlayersClick(View view){
-        onGeneralClick(false);
     }
 
     /**
@@ -189,22 +269,21 @@ public class MainMenu extends AppCompatActivity {
     }
 
     /**
-     * Called when the Profile button is clicked
+     * Goes to the map activity
      * @param view
-     *      View for the button clicked
+     *      View for the button
      */
-    public void onProfileClick(View view){
-        Intent intent = new Intent(this, ProfilePage.class);
-        intent.putExtra("User", user);
-        startActivity(intent);
-    }
-
     public void onMapClick(View view){
         Intent intent = new Intent(this, MapsActivity.class);
         intent.putExtra("User", user);
         startActivity(intent);
     }
 
+    /**
+     * Goes to the the search activity
+     * @param view
+     *      View for the button
+     */
     public void onSearch(View view){
         Intent intent = new Intent(this, SearchQRPage.class);
         intent.putExtra("User", user);
@@ -215,6 +294,7 @@ public class MainMenu extends AppCompatActivity {
      * https://developer.android.com/training/appbar/actions
      * @param item
      * @return
+     *      Boolean for success
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

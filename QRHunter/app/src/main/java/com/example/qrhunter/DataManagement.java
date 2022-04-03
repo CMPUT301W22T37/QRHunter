@@ -107,6 +107,7 @@ public class DataManagement  {
                         }
                     }
                 });
+
         db.collection("Users")
                 .whereEqualTo("User Name", user.getUsername())
                 .whereArrayContains("QRIdentifiers",qrCode.getUniqueHash())
@@ -166,13 +167,24 @@ public class DataManagement  {
     }
 
     /**
-     *
+     * updates a comment for the code
+     * @param code
+     *      the code to be updated
+     * @param comment
+     *      the comment to be added
      */
     public void updateCodeComment(QRCode code, String comment){ ;
         DocumentReference qrRef = db.collection("QRCodes").document(code.getUniqueHash());
         qrRef.update("comments", FieldValue.arrayUnion(comment));
     }
 
+    /**
+     * obtains all comments for a QR code
+     * @param code
+     *      the code being examined
+     * @param call
+     *      the CommentCall helper interface
+     */
     public void retrieveComments(QRCode code, CommentCall call){
         db.collection("QRCodes")
                 .whereEqualTo("Hash",code.getUniqueHash())
@@ -245,6 +257,13 @@ public class DataManagement  {
         qrRef.update("users", FieldValue.arrayUnion(user.getUsername()));
     }
 
+    /**
+     * Obtains all people who have scanned the same QR code
+     * @param qrCode
+     *      the QR code being examined
+     * @param myCall
+     *      the UserCall helper interface
+     */
     public void retrievePeople(QRCode qrCode, UserCall myCall){
 
         db.collection("QRCodes")
