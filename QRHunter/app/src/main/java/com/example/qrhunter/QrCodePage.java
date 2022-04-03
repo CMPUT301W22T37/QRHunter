@@ -68,8 +68,7 @@ public class QrCodePage extends AppCompatActivity implements OnMapReadyCallback 
         setContentView(R.layout.activity_qr_code_page);
         Intent intent = getIntent();
         qrCode = (QRCode) intent.getSerializableExtra("QRCode");
-        user = (User) intent.getSerializableExtra("User");
-        currentUser = (User) intent.getSerializableExtra("currentUser");
+        currentUser = (User) intent.getSerializableExtra("currentUser");//User that would be leaving comments
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         dataManager = new DataManagement(user,db);
 
@@ -142,34 +141,6 @@ public class QrCodePage extends AppCompatActivity implements OnMapReadyCallback 
     }
 
     /**
-     * Called when delete button hit, used to delete QR code from user's list
-     * @param view
-     *      the current view of the page
-     */
-    public void onDelete(View view){
-        try{
-            final User oldUser = this.user;
-            dataManager.removeCode(qrCode, new CallBack() {
-                @Override
-                public void onCall(User user) {
-                    Log.d("TAG", "Delete QR Code"+ qrCode.getID());
-
-                    Context context = getApplicationContext();
-                    if(user==null){
-                        user = oldUser;
-                    }
-                    Intent intent =new Intent(context, MainMenu.class);
-                    intent.putExtra("User",user);
-                    startActivity(intent);
-                }
-            });
-
-        } catch(Exception e){
-            Log.d("TAG", "QR DNE");
-        }
-    }
-
-    /**
      * sets the position of the map
      * @param googleMap
      *      the map we are using
@@ -196,12 +167,14 @@ public class QrCodePage extends AppCompatActivity implements OnMapReadyCallback 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(position, 15);
         mMap.animateCamera(cameraUpdate);
     }
+
     public void onSocialClick(View view){
         Intent intent =new Intent(this, QRSocialPage.class);
-        intent.putExtra("User",user);
+        intent.putExtra("User",currentUser);
         intent.putExtra("QRCode",qrCode);
         startActivity(intent);
     }
+
     private void hideKeyboard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getApplicationWindowToken(),0);

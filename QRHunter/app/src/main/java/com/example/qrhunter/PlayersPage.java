@@ -59,22 +59,21 @@ public class PlayersPage extends AppCompatActivity {
 
         Intent intent = getIntent();
         allUsers = (ArrayList<User>) intent.getSerializableExtra("AllUsers");
-
+        User givenUser = (User) intent.getSerializableExtra("SearchedUser");
         user = (User) intent.getSerializableExtra("User");
 
 
         //Find and set all views
         findViews();
-        setViews(null);
+        setViews(givenUser); //If sent from main, sets to blank, if sent from socials sets to a user
 
-        //OnClick Listener for comments ListView
+        //OnClick Listener for QRCodes ListView
         allQRCodesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> myAdapter, View myView, int i, long l) {
                 String selected =(String) (allQRCodesListView.getItemAtPosition(i));
                 if (searchedUser != null){
                     QRCode qrCode = searchedUser.getCode(searchedUser.getCodesStrings().indexOf(selected));
                     Context context = getApplicationContext();
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                     Intent intent =new Intent(context, QrCodePage.class);
                     intent.putExtra("QRCode",qrCode);

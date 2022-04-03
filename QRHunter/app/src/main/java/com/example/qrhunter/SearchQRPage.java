@@ -14,6 +14,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -92,14 +94,15 @@ public class SearchQRPage extends AppCompatActivity {
 
             }
         });
-
     }
+
     public void setupListView(){
         codesDisplay = getDistStrings(qrCodeLocations);
         nearbyList = findViewById(R.id.Nearby_List_View);
         codesAdapter = new ArrayAdapter<String>(this, R.layout.distance_list, codesDisplay);
         nearbyList.setAdapter(codesAdapter);
     }
+
     private ArrayList<String> getDistStrings(ArrayList<QRCode> sortedQR){
         double dist;
         ArrayList<String> codeStrings = new ArrayList<>();

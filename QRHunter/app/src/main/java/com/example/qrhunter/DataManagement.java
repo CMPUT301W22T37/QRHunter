@@ -111,6 +111,7 @@ public class DataManagement  {
                         }
                     }
                 });
+
         db.collection("Users")
                 .whereEqualTo("User Name", user.getUsername())
                 .whereArrayContains("QRIdentifiers",qrCode.getUniqueHash())
