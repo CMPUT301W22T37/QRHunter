@@ -1,28 +1,25 @@
 package com.example.qrhunter;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,7 +29,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,9 +62,14 @@ public class QrCodePage extends AppCompatActivity implements OnMapReadyCallback 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr_code_page);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("QRHunter");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         Intent intent = getIntent();
         qrCode = (QRCode) intent.getSerializableExtra("QRCode");
         currentUser = (User) intent.getSerializableExtra("currentUser");//User that would be leaving comments
+        user = (User) intent.getSerializableExtra("User");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         dataManager = new DataManagement(user,db);
 
@@ -109,8 +110,10 @@ public class QrCodePage extends AppCompatActivity implements OnMapReadyCallback 
         }
     }
 
+    /**
+     * Gets the comments on a QRCode from firebase and sets the listview
+     */
     public void getComments(){
-        Context context = getApplicationContext();
         dataManager.retrieveComments(qrCode ,new CommentCall() {
             @Override
             public void onCall(List<String> comments) {
@@ -168,6 +171,11 @@ public class QrCodePage extends AppCompatActivity implements OnMapReadyCallback 
         mMap.animateCamera(cameraUpdate);
     }
 
+    /**
+     * go to the social page of the QR code
+     * @param view
+     *      the current view
+     */
     public void onSocialClick(View view){
         Intent intent =new Intent(this, QRSocialPage.class);
         intent.putExtra("User",currentUser);
@@ -175,8 +183,32 @@ public class QrCodePage extends AppCompatActivity implements OnMapReadyCallback 
         startActivity(intent);
     }
 
+    /**
+     * hides the keyboard after input received
+     * @param view
+     *      the current view
+     */
     private void hideKeyboard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getApplicationWindowToken(),0);
+    }
+
+    /**
+     * allows the user to utilize the back button
+     * @param item
+     *      the button pressed on the action bar
+     * @return
+     *      if it is successful
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(getApplicationContext(), MainMenu.class);
+                intent.putExtra("User",currentUser);
+                startActivity(intent);
+                return true;
+        }
+        return true;
     }
 }

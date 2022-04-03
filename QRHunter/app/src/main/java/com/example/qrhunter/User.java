@@ -13,6 +13,7 @@ public class User implements Serializable{
     private String username;
     private String email;
     private ArrayList<QRCode> allCodes;
+    private boolean isOwner;
 
     /**
      * Main constructor for the user class
@@ -26,10 +27,8 @@ public class User implements Serializable{
         this.username = username;
         this.email = email;
         this.allCodes = new ArrayList<>();
+        this.isOwner = false;
 
-        //Testing Purposes only
-        addCode(new QRCode("BFG5DGW54",getNextID()));
-        addCode(new QRCode("DCFJFJFJ", getNextID()));
     }
 
     /**
@@ -41,6 +40,7 @@ public class User implements Serializable{
         this.email = (String)data.get("Email");
         this.username = (String)data.get("User Name");
         this.allCodes = hashToQRCode((ArrayList<HashMap>)data.get("QRCodes"));
+        this.isOwner = (boolean)data.get("owner");
     }
 
     /**
@@ -269,5 +269,39 @@ public class User implements Serializable{
      */
     public void updateCode(int i,QRCode qrCode){
         this.allCodes.set(i,qrCode);
+    }
+
+    /**
+     * returns the owner status of the user
+     * @return
+     *      boolean, whether or not the user is an owner
+     */
+    public boolean getOwner(){
+        return this.isOwner;
+    }
+
+    /**
+     * sets the owner status of the user
+     * @param owner
+     *      the new owner status
+     */
+    public void setOwner(boolean owner){
+        this.isOwner = owner;
+    }
+
+    /**
+     * returns a specific QR code given its hash value
+     * @param hash
+     *      the hash string
+     * @return
+     *      the QRCode
+     */
+    public QRCode getCodeFromHash(String hash){
+        for(QRCode code: this.allCodes){
+            if(code.getUniqueHash().equals(hash)){
+                return code;
+            }
+        }
+        return null;
     }
 }

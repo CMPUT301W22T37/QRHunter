@@ -7,19 +7,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,12 +33,10 @@ public class PlayersPage extends AppCompatActivity {
     private ListView allQRCodesListView;
     private ArrayList<String> QRCodes;
     private ArrayAdapter<String> codesAdapter;
-
+    private User user;
+    private final int SCAN_PROFILE_CODE = 1;
     private User searchedUser;
 
-    private User user;
-
-    private final int SCAN_PROFILE_CODE = 1;
 
     /**
      * Function called when the activity is created
@@ -61,7 +55,6 @@ public class PlayersPage extends AppCompatActivity {
         allUsers = (ArrayList<User>) intent.getSerializableExtra("AllUsers");
         User givenUser = (User) intent.getSerializableExtra("SearchedUser");
         user = (User) intent.getSerializableExtra("User");
-
 
         //Find and set all views
         findViews();
@@ -178,6 +171,11 @@ public class PlayersPage extends AppCompatActivity {
     }
 
 
+    /**
+     * Shows the ranking of the searched player
+     * @param user
+     *      User that was searched
+     */
     public void setRankings(User user){
         int ranking;
         Collections.sort(allUsers, new UserComparatorTotalScanned());
@@ -227,6 +225,14 @@ public class PlayersPage extends AppCompatActivity {
             }
         }
     }
+
+    /**
+     * allows the user to utilize the back button
+     * @param item
+     *      the button pressed on the action bar
+     * @return
+     *      if it is successful
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -238,11 +244,15 @@ public class PlayersPage extends AppCompatActivity {
         }
         return true;
     }
+
+    /**
+     * hides the keyboard after input received
+     * @param view
+     *      the current view
+     */
     private void hideKeyboard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getApplicationWindowToken(),0);
     }
-
-
 
 }

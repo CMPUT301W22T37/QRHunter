@@ -11,21 +11,20 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * the page that shows the other users that have scanned the same QR code
+ */
 public class QRSocialPage extends AppCompatActivity {
     private QRCode qrCode;
     private User user;
@@ -36,6 +35,11 @@ public class QRSocialPage extends AppCompatActivity {
     private User searchedUser;
 
     private DataManagement dataManager;
+    /**
+     * called when activity created
+     * @param savedInstanceState
+     *      the instance bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +88,9 @@ public class QRSocialPage extends AppCompatActivity {
         });
     }
 
+    /**
+     * obtains the users that have scanned the same QR code
+     */
     public void getUsers(){
         Context context = getApplicationContext();
         dataManager.retrievePeople(qrCode ,new UserCall() {

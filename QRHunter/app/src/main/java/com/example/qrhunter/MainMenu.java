@@ -3,7 +3,6 @@ package com.example.qrhunter;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +23,7 @@ import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -42,6 +42,8 @@ public class MainMenu extends AppCompatActivity {
     private ArrayList<String> codesDisplay;
     private TextView totalScore;
     private TextView totalScanned;
+    private FloatingActionButton owner_button;
+    private boolean userIsOwner;
 
 
     /**
@@ -56,8 +58,6 @@ public class MainMenu extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("QRHunter");
 
-
-
         new PermissionChecker(MainMenu.this);
 
         //Getting user and firebase reference
@@ -67,6 +67,15 @@ public class MainMenu extends AppCompatActivity {
         dataManager = new DataManagement(user,db);
 
         //Finding Views from Layout
+        userIsOwner = user.getOwner();
+        owner_button = (FloatingActionButton) findViewById(R.id.owner_button);
+        Log.d("DEBUG","Owner: "+user.getOwner());
+        if (userIsOwner) {
+            owner_button.setVisibility(View.VISIBLE);
+        }
+
+        new PermissionChecker(MainMenu.this);
+
         codesListView = findViewById(R.id.QRCode_List_View);
         totalScanned = findViewById(R.id.num_scanned_text);
         totalScore = findViewById(R.id.total_score_text);
@@ -137,7 +146,7 @@ public class MainMenu extends AppCompatActivity {
                         break;
                 }
                 // false : close the menu; true : not close the menu
-                return false;
+                return true;
             }
         });
     }
@@ -164,11 +173,6 @@ public class MainMenu extends AppCompatActivity {
                 @Override
                 public void onCall(User user) {
                     Log.d("TAG", "Delete QR Code"+ qrCode.getID());
-
-//                    Context context = getApplicationContext();
-//                    if(user==null){
-//                        user = oldUser;
-//                    }
                 }
             });
 
@@ -177,6 +181,13 @@ public class MainMenu extends AppCompatActivity {
         }
     }
 
+    /**
+     * allows the action bar to be properly visible
+     * @param menu
+     *      the menu bar
+     * @return
+     *      success
+     */
     @Override
     public boolean onCreateOptionsMenu( Menu menu ) {
 
@@ -210,6 +221,15 @@ public class MainMenu extends AppCompatActivity {
     public void onScan(View view){
         Intent intent = new Intent(this, ScanQRCodeActivity.class);
         intent.putExtra("User", user);
+        startActivity(intent);
+    }
+
+    /**
+     * Go to owner page
+     * @param view
+     */
+    public void onOwner(View view){
+        Intent intent = new Intent(this, OwnerActivity.class);
         startActivity(intent);
     }
 
@@ -248,12 +268,22 @@ public class MainMenu extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Goes to the map activity
+     * @param view
+     *      View for the button
+     */
     public void onMapClick(View view){
         Intent intent = new Intent(this, MapsActivity.class);
         intent.putExtra("User", user);
         startActivity(intent);
     }
 
+    /**
+     * Goes to the the search activity
+     * @param view
+     *      View for the button
+     */
     public void onSearch(View view){
         Intent intent = new Intent(this, SearchQRPage.class);
         intent.putExtra("User", user);
@@ -264,6 +294,7 @@ public class MainMenu extends AppCompatActivity {
      * https://developer.android.com/training/appbar/actions
      * @param item
      * @return
+     *      Boolean for success
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

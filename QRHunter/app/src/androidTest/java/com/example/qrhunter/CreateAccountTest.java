@@ -45,7 +45,7 @@ public class CreateAccountTest {
     @Test
     public void ensureUnique(){
         solo.assertCurrentActivity("Wrong Activity",CreateAccount.class);
-        solo.enterText((EditText) solo.getView(R.id.Username_EditText),"sarah" );
+        solo.enterText((EditText) solo.getView(R.id.Username_EditText),"OwnerDONOTDELETE" );
         solo.enterText((EditText) solo.getView(R.id.email_EditText),"test@gmail.com");
         solo.clickOnButton("Create Account");
         solo.assertCurrentActivity("Wrong Activity",CreateAccount.class);

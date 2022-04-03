@@ -13,6 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+/**
+ * a fragment for the image of a QR code
+ */
 public class ImageDialogFragment extends DialogFragment {
     Bitmap img;
     public ImageDialogFragment(Bitmap img){
