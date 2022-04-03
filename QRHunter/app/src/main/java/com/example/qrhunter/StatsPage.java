@@ -20,6 +20,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -29,13 +31,13 @@ import java.util.HashMap;
  */
 
 public class StatsPage extends AppCompatActivity {
-    private Button sortByHighScore;
-    private Button sortByTotalScanned;
     private TextView highestIndividualScore;
     private TextView lowestIndividualScore;
     private TextView highestGlobalScore;
     private TextView highestGlobalNumber;
     private ListView LeaderBoard;
+    private TextView personalRanking;
+    ArrayList<String> allUserNames;
 
     private User user;
     private FirebaseFirestore db;
@@ -55,15 +57,15 @@ public class StatsPage extends AppCompatActivity {
         actionBar.setTitle("QRHunter");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        allUserNames = new ArrayList<>();
         context = getApplicationContext();
         db = FirebaseFirestore.getInstance();
-        sortByHighScore = findViewById(R.id.high_score_button);
-        sortByTotalScanned = findViewById(R.id.total_scanned_button);
         highestIndividualScore = findViewById(R.id.highest_score_textview);
         lowestIndividualScore = findViewById(R.id.lowest_score_textview);
         highestGlobalNumber = findViewById(R.id.total_ranking_number_textview);
         highestGlobalScore = findViewById(R.id.total_ranking_score_textview);
         LeaderBoard = findViewById(R.id.all_highscores_listview);
+        personalRanking = findViewById(R.id.PersonalRankingTextView);
 
         Intent intent = getIntent();
         user = (User)intent.getSerializableExtra("User");
@@ -98,13 +100,32 @@ public class StatsPage extends AppCompatActivity {
     public void setLeaderBoard(boolean highScore, boolean overall){
         //Sorting User based on given Attribute
         if (highScore){
+            allUserNames.clear();
             Collections.sort(allUsers, new UserComparatorHighScore());
+            for (User user:allUsers) {
+                allUserNames.add(user.getUsername());
+            }
+            int number = allUserNames.indexOf(user.getUsername()) + 1;
+            personalRanking.setText("Personal Ranking: " + number);
+
         }
         else if(overall){
+            allUserNames.clear();
             Collections.sort(allUsers, new UserComparatorTotalSum());
+            for (User user:allUsers) {
+                allUserNames.add(user.getUsername());
+            }
+            int number = allUserNames.indexOf(user.getUsername()) + 1;
+            personalRanking.setText("Personal Ranking: " + number);
         }
         else {
+            allUserNames.clear();
             Collections.sort(allUsers, new UserComparatorTotalScanned());
+            for (User user:allUsers) {
+                allUserNames.add(user.getUsername());
+            }
+            int number = allUserNames.indexOf(user.getUsername()) + 1;
+            personalRanking.setText("Personal Ranking: " + number);
         }
 
         //Populate and display the listView
