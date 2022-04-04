@@ -7,10 +7,14 @@ import android.util.Log;
 import android.view.Display;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.robotium.solo.Solo;
 
@@ -20,6 +24,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class OwnerPageTest {
 
@@ -41,14 +46,15 @@ public class OwnerPageTest {
         int upperbound = 10000;
         int random_user = rand.nextInt(upperbound);
         username = "TestOwner"+random_user;
-        User user = new TestUser(username, username+"@gmail.com");
-        deleteUser = new TestUser("DeleteThisBoi", "DeleteThisBoi@gmail.com");
+        deleteUser = new TestUser("UserDelete", "DeleteThisBoi@gmail.com",false);
+        User user = new TestUser(username, username+"@gmail.com",true);
+
 
         solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
     }
 
     @Test
-    public void OwnerTest() throws InterruptedException {
+    public void DeleteCode() throws InterruptedException {
         solo.clickOnView(solo.getView(R.id.owner_button));
         solo.assertCurrentActivity("Wrong Activity",OwnerActivity.class);
 
@@ -57,18 +63,52 @@ public class OwnerPageTest {
         assertTrue(solo.getView(R.id.user_list_view).getVisibility() == View.GONE);
 
         String deleteCode = deleteUser.getCode(0).getUniqueHash();
-        swipeLeftToDelete(solo,deleteCode);
-        assertTrue(db.collection("QRCodes").document(deleteCode).get() == null);
+        swipeLeftToDelete(solo,deleteCode,100,30);
+        TimeUnit.SECONDS.sleep(2);
+        db.collection("QRCodes").document(deleteCode)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        assertTrue(false); //test failed
+                    } else {
+                        assertTrue(true); //passed
+                    }
+                }
+            }
+        });
 
+    }
+    @Test
+    public void deleteUser() throws InterruptedException {
+        solo.clickOnView(solo.getView(R.id.owner_button));
+        solo.assertCurrentActivity("Wrong Activity",OwnerActivity.class);
         solo.clickOnView(solo.getView(R.id.users_button));
-        assertTrue(solo.getView(R.id.user_list_view).getVisibility() == View.VISIBLE);
-        assertTrue(solo.getView(R.id.code_list_view).getVisibility() == View.GONE);
 
-        swipeLeftToDelete(solo,"*DeleteThisBoi");
-        assertTrue(db.collection("Users").document("DeleteThisBoi").get() == null);
+
+        swipeLeftToDelete(solo,"UserDelete",200,260);
+        TimeUnit.SECONDS.sleep(2);
+            db.collection("Users").document("UserDelete")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    assertTrue(false); //test failed
+                                } else {
+                                    assertTrue(true); //passed
+                                }
+                            }
+                        }
+                    });
     }
 
-    public void swipeLeftToDelete(Solo solo,String text){
+    public void swipeLeftToDelete(Solo solo,String text,int pullBack, int offset){
         //adapted from https://stackoverflow.com/questions/24664730/writing-a-robotium-test-to-swipe-open-an-item-on-a-swipeable-listview
         // By C0D3LIC1OU5
 
@@ -83,7 +123,7 @@ public class OwnerPageTest {
         if (location.length == 0) {
             assertTrue(false); //failed
         }
-        fromX = location[0] + 100;
+        fromX = location[0] + pullBack;
         fromY = location[1];
 
         toX = location[0];
@@ -98,7 +138,7 @@ public class OwnerPageTest {
             display.getSize(size);
             width = size.x;
         }
-        solo.clickOnScreen(width-10,fromY);
+        solo.clickOnScreen(width-offset,fromY);
     }
 
     @After

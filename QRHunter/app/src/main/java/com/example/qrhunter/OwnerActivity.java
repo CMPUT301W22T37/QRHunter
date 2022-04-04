@@ -3,10 +3,12 @@ package com.example.qrhunter;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -48,11 +50,15 @@ public class OwnerActivity extends AppCompatActivity {
     private String selection;
     CollectionReference qrCodesReference;
     CollectionReference usersReference;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner);
+
+        Intent intent = getIntent();
+        user = (User) intent.getSerializableExtra("User");
 
         codeListView = (SwipeMenuListView) findViewById(R.id.code_list_view);
         userListView = (SwipeMenuListView) findViewById(R.id.user_list_view);
@@ -68,25 +74,6 @@ public class OwnerActivity extends AppCompatActivity {
         getUsersList();
         getQRList();
 
-//        codeListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
-//            {
-//                selection = adapterView.getItemAtPosition(position).toString();
-//                Toast.makeText(getApplicationContext(), selection, Toast.LENGTH_LONG).show();
-//            }
-//
-//        });
-//
-//        userListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
-//            {
-//                selection = adapterView.getItemAtPosition(position).toString();
-//                Toast.makeText(getApplicationContext(), selection, Toast.LENGTH_LONG).show();
-//            }
-//
-//        });
         SwipeMenuCreator creatorUser = new SwipeMenuCreator() {
 
             @Override
@@ -160,6 +147,9 @@ public class OwnerActivity extends AppCompatActivity {
                 switch (index) {
                     case 0:
                         selection = userDisplayList.get(position);
+                        if(selection.contains("*")){
+                            selection = selection.substring(1);
+                        }
                         deleteSelected(selection);
                         break;
 
@@ -257,8 +247,15 @@ public class OwnerActivity extends AppCompatActivity {
 
     public void deleteSelected(String selection){
         if (state == "Users"){
-            db.collection("Users").document(selection).delete();
-            getUsersList();
+
+            if(selection.equals(user.getUsername())){
+                Toast toast = Toast.makeText(this,"ERROR: cannot delete current user",Toast.LENGTH_LONG);
+                toast.show();
+            }else{
+                db.collection("Users").document(selection).delete();
+                getUsersList();
+            }
+
         } else if (state == "Codes"){
             db.collection("QRCodes").document(selection)
                     .get()
@@ -309,6 +306,25 @@ public class OwnerActivity extends AppCompatActivity {
         }
 
 
+
+    }
+    /**
+     * allows the user to utilize the back button
+     * @param item
+     *      the button pressed on the action bar
+     * @return
+     *      if it is successful
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(getApplicationContext(), MainMenu.class);
+                intent.putExtra("User",user);
+                startActivity(intent);
+                return true;
+        }
+        return true;
     }
 
 

@@ -234,6 +234,7 @@ public class MainMenu extends AppCompatActivity {
      */
     public void onOwner(View view){
         Intent intent = new Intent(this, OwnerActivity.class);
+        intent.putExtra("User", user);
         startActivity(intent);
     }
 
