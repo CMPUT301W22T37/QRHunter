@@ -22,6 +22,7 @@ public class OwnerPageTest {
     private Solo solo;
     private String username;
     private FloatingActionButton ownerButton;
+    private User deleteUser;
 
 
 
@@ -35,6 +36,7 @@ public class OwnerPageTest {
         int random_user = rand.nextInt(upperbound);
         username = "TestOwner"+random_user;
         User user = new TestUser(username, username+"@gmail.com");
+        deleteUser = new TestUser("DeleteThisBoi", "DeleteThisBoi@gmail.com");
         user.setOwner(true);
 
         solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
