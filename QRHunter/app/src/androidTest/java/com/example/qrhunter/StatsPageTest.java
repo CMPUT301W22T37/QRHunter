@@ -47,10 +47,7 @@ public class StatsPageTest {
     public void updateStats(){
 
         solo.assertCurrentActivity("Wrong Activity",MainMenu.class);
-        String text = solo.clickInList(0).get(0).getText().toString();
-        solo.assertCurrentActivity("Wrong Activity",QrCodePage.class);
-
-        solo.clickOnButton("Delete Code");
+        MainMenuTest.swipeLeftToDelete(solo,"QR Code #1");
         solo.assertCurrentActivity("Wrong Activity",MainMenu.class);
         solo.clickOnView(solo.getView(R.id.stats_icon));
         solo.assertCurrentActivity("Wrong Activity",StatsPage.class);
