@@ -82,8 +82,8 @@ public class StatsPage extends AppCompatActivity {
         highestIndividualScore.setText("Highest Score: " + user.getHighest().toString());
         lowestIndividualScore.setText("Lowest Score: " + user.getLowest().toString());
 
-        Collections.sort(allUsers, new UserComparatorHighScore());
-        int highestScore = allUsers.get(0).getHighest();
+        Collections.sort(allUsers, new UserComparatorTotalSum());
+        int highestScore = allUsers.get(0).getTotalScore();
 
         Collections.sort(allUsers, new UserComparatorTotalScanned());
         int highestScanned = allUsers.get(0).getNumCodes();
