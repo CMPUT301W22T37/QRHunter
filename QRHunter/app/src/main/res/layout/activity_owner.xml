@@ -1,31 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".OwnerActivity">
 
     <com.baoyz.swipemenulistview.SwipeMenuListView
         android:id="@+id/code_list_view"
-        android:layout_width="409dp"
-        android:layout_height="729dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.9"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
     </com.baoyz.swipemenulistview.SwipeMenuListView>
 
     <com.baoyz.swipemenulistview.SwipeMenuListView
         android:id="@+id/user_list_view"
-        android:layout_width="409dp"
-        android:layout_height="729dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.9"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:visibility="gone">
     </com.baoyz.swipemenulistview.SwipeMenuListView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/users_button"
@@ -44,6 +56,10 @@
             app:srcCompat="@drawable/account_circle">
 
         </com.google.android.material.floatingactionbutton.FloatingActionButton>
+        <Space
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/codes_button"
@@ -57,10 +73,10 @@
         app:backgroundTint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_code_scanner_auto_focus_on">
+        app:srcCompat="@drawable/white_ic_qr_code">
 
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
+    </LinearLayout>
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

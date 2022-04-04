@@ -42,7 +42,6 @@ public class OwnerPageTest {
         username = "TestOwner"+random_user;
         User user = new TestUser(username, username+"@gmail.com");
         deleteUser = new TestUser("DeleteThisBoi", "DeleteThisBoi@gmail.com");
-        user.setOwner(true);
 
         solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
     }
@@ -54,9 +53,11 @@ public class OwnerPageTest {
         solo.clickOnView(solo.getView(R.id.codes_button));
         assertTrue(solo.getView(R.id.code_list_view).getVisibility() == View.VISIBLE);
         assertTrue(solo.getView(R.id.user_list_view).getVisibility() == View.GONE);
+
         solo.clickOnView(solo.getView(R.id.users_button));
         assertTrue(solo.getView(R.id.user_list_view).getVisibility() == View.VISIBLE);
         assertTrue(solo.getView(R.id.code_list_view).getVisibility() == View.GONE);
+
         swipeLeftToDelete(solo,"DeleteThisBoi");
         assertTrue(db.collection("Users").document("DeleteThisBoi").get() == null);
     }

@@ -17,12 +17,13 @@
         <TextView
             android:id="@+id/username_textview"
             android:layout_width="0dp"
-            android:layout_weight="0.4"
+            android:layout_weight="0.5"
             android:layout_height="wrap_content"
             android:text="User Name"
             android:textSize="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             >
 
         </TextView>
@@ -30,7 +31,7 @@
         <TextView
             android:id="@+id/email_textview"
             android:layout_width="0dp"
-            android:layout_weight="0.6"
+            android:layout_weight="0.5"
             android:layout_height="wrap_content"
             android:text="Email Address"
             android:textSize="20dp"

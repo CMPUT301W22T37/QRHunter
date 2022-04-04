@@ -13,6 +13,7 @@ public class TestUser extends User{
     private String deviceID;
     public TestUser(String username, String email) {
         super(username, email);
+        setOwner(true);
 
         //Testing Purposes only
         QRCode code1 = new QRCode("BFG5DGW54",1);
