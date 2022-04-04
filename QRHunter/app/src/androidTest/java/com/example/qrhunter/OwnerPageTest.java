@@ -3,6 +3,7 @@ package com.example.qrhunter;
 import static org.junit.Assert.assertTrue;
 
 import android.graphics.Point;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 
@@ -50,15 +51,20 @@ public class OwnerPageTest {
     public void OwnerTest() throws InterruptedException {
         solo.clickOnView(solo.getView(R.id.owner_button));
         solo.assertCurrentActivity("Wrong Activity",OwnerActivity.class);
+
         solo.clickOnView(solo.getView(R.id.codes_button));
         assertTrue(solo.getView(R.id.code_list_view).getVisibility() == View.VISIBLE);
         assertTrue(solo.getView(R.id.user_list_view).getVisibility() == View.GONE);
+
+        String deleteCode = deleteUser.getCode(0).getUniqueHash();
+        swipeLeftToDelete(solo,deleteCode);
+        assertTrue(db.collection("QRCodes").document(deleteCode).get() == null);
 
         solo.clickOnView(solo.getView(R.id.users_button));
         assertTrue(solo.getView(R.id.user_list_view).getVisibility() == View.VISIBLE);
         assertTrue(solo.getView(R.id.code_list_view).getVisibility() == View.GONE);
 
-        swipeLeftToDelete(solo,"DeleteThisBoi");
+        swipeLeftToDelete(solo,"*DeleteThisBoi");
         assertTrue(db.collection("Users").document("DeleteThisBoi").get() == null);
     }
 
