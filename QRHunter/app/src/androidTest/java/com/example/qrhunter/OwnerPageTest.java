@@ -46,7 +46,7 @@ public class OwnerPageTest {
         int upperbound = 10000;
         int random_user = rand.nextInt(upperbound);
         username = "TestOwner"+random_user;
-        deleteUser = new TestUser("UserDelete", "DeleteThisBoi@gmail.com",false);
+        deleteUser = new TestUser("DeleteThisBoi", "DeleteThisBoi@gmail.com",false);
         User user = new TestUser(username, username+"@gmail.com",true);
 
 
@@ -89,7 +89,7 @@ public class OwnerPageTest {
         solo.clickOnView(solo.getView(R.id.users_button));
 
 
-        swipeLeftToDelete(solo,"UserDelete",200,260);
+        swipeLeftToDelete(solo,"DeleteThisBoi",200,260);
         TimeUnit.SECONDS.sleep(2);
             db.collection("Users").document("UserDelete")
                     .get()
