@@ -1,12 +1,15 @@
 package com.example.qrhunter;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -35,6 +38,9 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+/**
+ * Activity so that users that are considered owners can delete players or QR codes
+ */
 public class OwnerActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
@@ -48,11 +54,23 @@ public class OwnerActivity extends AppCompatActivity {
     private String selection;
     CollectionReference qrCodesReference;
     CollectionReference usersReference;
+    private User currentUser;
 
+    /**
+     * Function called when the activity is created
+     * @param savedInstanceState
+     *      Saved instance state bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("QRHunter");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        Intent intent = getIntent();
+        currentUser = (User) intent.getSerializableExtra("User");
 
         codeListView = (SwipeMenuListView) findViewById(R.id.code_list_view);
         userListView = (SwipeMenuListView) findViewById(R.id.user_list_view);
@@ -68,25 +86,6 @@ public class OwnerActivity extends AppCompatActivity {
         getUsersList();
         getQRList();
 
-//        codeListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
-//            {
-//                selection = adapterView.getItemAtPosition(position).toString();
-//                Toast.makeText(getApplicationContext(), selection, Toast.LENGTH_LONG).show();
-//            }
-//
-//        });
-//
-//        userListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
-//            {
-//                selection = adapterView.getItemAtPosition(position).toString();
-//                Toast.makeText(getApplicationContext(), selection, Toast.LENGTH_LONG).show();
-//            }
-//
-//        });
         SwipeMenuCreator creatorUser = new SwipeMenuCreator() {
 
             @Override
@@ -160,6 +159,9 @@ public class OwnerActivity extends AppCompatActivity {
                 switch (index) {
                     case 0:
                         selection = userDisplayList.get(position);
+                        if(selection.contains("*")){
+                            selection = selection.substring(1);
+                        }
                         deleteSelected(selection);
                         break;
 
@@ -175,6 +177,11 @@ public class OwnerActivity extends AppCompatActivity {
 //
     }
 
+    /**
+     * set a user as an owner
+     * @param username
+     *      the username of the player to become an owner
+     */
     public void setOwner(String username){
         db.collection("Users")
                 .whereEqualTo("User Name",username)
@@ -200,13 +207,22 @@ public class OwnerActivity extends AppCompatActivity {
                     }
                 });
     }
-//
+
+    /**
+     * shows the list of users
+     * @param view
+     *      the current view
+     */
     public void showUsers(View view){
         state = "Users";
         selection = null;
         codeListView.setVisibility(View.GONE);
         userListView.setVisibility(View.VISIBLE);
     }
+
+    /**
+     * obtains the list of users
+     */
     public void getUsersList(){
         userDisplayList.clear();
         usersReference
@@ -231,6 +247,10 @@ public class OwnerActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    /**
+     * obtains the list of QR codes
+     */
     public void getQRList(){
         codeDisplayList.clear();
         qrCodesReference
@@ -248,6 +268,10 @@ public class OwnerActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * show the list of QR codes
+     * @param view
+     */
     public void showCodes(View view){
         state = "Codes";
         selection = null;
@@ -255,11 +279,24 @@ public class OwnerActivity extends AppCompatActivity {
         codeListView.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * delete something
+     * @param selection
+     *      the item string to be deleted
+     */
     public void deleteSelected(String selection){
         if (state == "Users"){
-            db.collection("Users").document(selection).delete();
-            getUsersList();
+
+            if(selection.equals(currentUser.getUsername())){
+                Toast toast = Toast.makeText(this,"ERROR: cannot delete current user",Toast.LENGTH_LONG);
+                toast.show();
+            }else{
+                db.collection("Users").document(selection).delete();
+                getUsersList();
+            }
+
         } else if (state == "Codes"){
+            final String currentUserName = currentUser.getUsername();
             db.collection("QRCodes").document(selection)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -288,7 +325,9 @@ public class OwnerActivity extends AppCompatActivity {
                                                             dataManager.removeCode(code, new CallBack() {
                                                                 @Override
                                                                 public void onCall(User user) {
-                                                                    return;
+                                                                    if(user.getUsername().equals(currentUserName)){
+                                                                        currentUser = user;
+                                                                    }
                                                                 }
                                                             });
                                                         }
@@ -298,17 +337,28 @@ public class OwnerActivity extends AppCompatActivity {
                                             }
                                         });
                             }
-
                         }
-
-
                     });
-//
-
-
         }
 
-
+    }
+    /**
+     * allows the user to utilize the back button
+     * @param item
+     *      the button pressed on the action bar
+     * @return
+     *      if it is successful
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(getApplicationContext(), MainMenu.class);
+                intent.putExtra("User",currentUser);
+                startActivity(intent);
+                return true;
+        }
+        return true;
     }
 
 

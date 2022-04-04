@@ -119,6 +119,13 @@
 
         </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
+        <Space
+            android:id="@+id/owner_space"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/owner_button"
             android:onClick="onOwner"

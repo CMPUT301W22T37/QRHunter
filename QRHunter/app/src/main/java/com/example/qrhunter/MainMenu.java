@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Space;
 import android.widget.TextView;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
@@ -43,6 +44,7 @@ public class MainMenu extends AppCompatActivity {
     private TextView totalScore;
     private TextView totalScanned;
     private FloatingActionButton owner_button;
+    private Space owner_space;
     private boolean userIsOwner;
 
 
@@ -69,9 +71,11 @@ public class MainMenu extends AppCompatActivity {
         //Finding Views from Layout
         userIsOwner = user.getOwner();
         owner_button = (FloatingActionButton) findViewById(R.id.owner_button);
+        owner_space = (Space) findViewById(R.id.owner_space);
         Log.d("DEBUG","Owner: "+user.getOwner());
         if (userIsOwner) {
             owner_button.setVisibility(View.VISIBLE);
+            owner_space.setVisibility(View.VISIBLE);
         }
 
         new PermissionChecker(MainMenu.this);
@@ -230,6 +234,7 @@ public class MainMenu extends AppCompatActivity {
      */
     public void onOwner(View view){
         Intent intent = new Intent(this, OwnerActivity.class);
+        intent.putExtra("User", user);
         startActivity(intent);
     }
 

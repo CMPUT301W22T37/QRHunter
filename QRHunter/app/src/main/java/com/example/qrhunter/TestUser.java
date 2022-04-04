@@ -11,9 +11,18 @@ import java.util.HashMap;
  */
 public class TestUser extends User{
     private String deviceID;
+    public TestUser(String username, String email,boolean owner) {
+        super(username, email);
+        setOwner(owner);
+        setup(username);
+
+
+    }
     public TestUser(String username, String email) {
         super(username, email);
-
+        setup(username);
+    }
+    public void setup(String username){
         //Testing Purposes only
         QRCode code1 = new QRCode("BFG5DGW54",1);
         QRCode code2 = new QRCode("DCFJFJFJ", 2);
@@ -43,5 +52,6 @@ public class TestUser extends User{
         ID.put("ID", deviceID);
         db.collection("ID's").document(deviceID)
                 .set(ID);//No onSuccess or onFailure Listeners
+
     }
 }
